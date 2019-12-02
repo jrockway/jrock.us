@@ -6,16 +6,6 @@ spec:
     replicas: 3
     template:
         spec:
-            affinity:
-                podAntiAffinity:
-                    requiredDuringSchedulingIgnoredDuringExecution:
-                        - labelSelector:
-                              matchExpressions:
-                                  - key: app
-                                    operator: In
-                                    values:
-                                        - public-ingress
-                          topologyKey: "kubernetes.io/hostname"
             containers:
                 - name: envoy
                   image: envoy
