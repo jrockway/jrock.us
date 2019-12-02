@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: envoy
+spec:
+    replicas: 3
+    template:
+        spec:
+            containers:
+                - name: envoy
+                  image: envoy
+                  command:
+                      - "envoy"
+                  args:
+                      - "-c"
+                      - "/etc/envoy/envoy.yaml"
+                  volumeMounts:
+                      - name: envoy-config
+                        mountPath: /etc/envoy
+                  readinessProbe:
+                      httpGet:
+                          path: /server_info
+                          port: 9901
+                  livenessProbe:
+                      httpGet:
+                          path: /server_info
+                          port: 9901
+                  ports:
+                      - name: admin
+                        containerPort: 9901
+                      - name: http
+                        containerPort: 80
+            volumes:
+                - name: envoy-config
+                  configMap:
+                      name: envoy-config

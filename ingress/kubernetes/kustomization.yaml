@@ -1,0 +1,14 @@
+namespace: ingress
+commonLabels:
+    app: public-ingress
+resources:
+    - namespace.yaml
+    - service.yaml
+    - deployment.yaml
+configMapGenerator:
+    - name: envoy-config
+      files: ["envoy.yaml"]
+images:
+    - name: envoy
+      newName: envoyproxy/envoy-alpine
+      newTag: v1.12.0

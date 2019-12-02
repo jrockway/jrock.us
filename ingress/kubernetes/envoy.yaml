@@ -1,0 +1,52 @@
+node:
+    cluster: public-ingress
+admin:
+    access_log_path: /tmp/admin_access.log
+    address:
+        socket_address: { address: 0.0.0.0, port_value: 9901 }
+static_resources:
+    listeners:
+        - name: web_listener
+          address:
+              socket_address: { address: 0.0.0.0, port_value: 80 }
+          listener_filters:
+              # - name: "envoy.listener.proxy_protocol"
+              #   typed_config: {}
+              - name: "envoy.listener.tls_inspector"
+                typed_config: {}
+          filter_chains:
+              - filter_chain_match:
+                #       server_names: ["*.jrock.us", "jrock.us"]
+                # tls_context:
+                #     common_tls_context:
+                #         alpn_protocols: ["h2", "http/1.1"]
+                #         tls_certificates:
+                #             - certificate_chain:
+                #                   filename: "/dev/null"
+                #               private_key:
+                #                   filename: "/dev/null"
+                filters:
+                    - name: envoy.http_connection_manager
+                      config:
+                          codec_type: auto
+                          use_remote_address: true
+                          tracing:
+                              operation_name: ingress
+                          stat_prefix: jrock-us
+                          route_config:
+                              virtual_hosts:
+                                  - name: apex
+                                    domains: ["new.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          direct_response:
+                                              status: 200
+                                              body:
+                                                  inline_string: "It works!"
+                                          response_headers_to_add:
+                                              - header:
+                                                    key: "content-type"
+                                                    value: "text/plain; charset=utf-8"
+                          http_filters:
+                              - name: envoy.router
+    clusters: null
