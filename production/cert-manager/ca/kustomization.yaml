@@ -1,0 +1,5 @@
+namespace: cert-manager
+resources:
+    - self-sign-issuer.yaml
+    - root-cert.yaml
+    - clusterissuer.yaml
