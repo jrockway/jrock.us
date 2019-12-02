@@ -75,4 +75,24 @@ static_resources:
                                                     value: "text/plain; charset=utf-8"
                           http_filters:
                               - name: envoy.router
+              - filters:
+                    # port 443 traffic, but not TLS; redirect to https
+                    - name: envoy.http_connection_manager
+                      config:
+                          codec_type: auto
+                          use_remote_address: true
+                          tracing:
+                              operation_name: ingress
+                          stat_prefix: ingress_https_no_tls
+                          route_config:
+                              virtual_hosts:
+                                  - name: all
+                                    domains: ["*"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          redirect:
+                                              path_redirect: "/"
+                                              https_redirect: true
+                          http_filters:
+                              - name: envoy.router
     clusters: null
