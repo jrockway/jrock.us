@@ -17,6 +17,8 @@ spec:
                   volumeMounts:
                       - name: envoy-config
                         mountPath: /etc/envoy
+                      - name: jrock-us-certs
+                        mountPath: /jrock.us
                   readinessProbe:
                       httpGet:
                           path: /server_info
@@ -30,7 +32,12 @@ spec:
                         containerPort: 9901
                       - name: http
                         containerPort: 80
+                      - name: https
+                        containerPort: 443
             volumes:
                 - name: envoy-config
                   configMap:
                       name: envoy-config
+                - name: jrock-us-certs
+                  secret:
+                      secretName: jrock-us-tls

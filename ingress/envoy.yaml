@@ -6,9 +6,35 @@ admin:
         socket_address: { address: 0.0.0.0, port_value: 9901 }
 static_resources:
     listeners:
-        - name: web_listener
+        - name: http_listener
           address:
               socket_address: { address: 0.0.0.0, port_value: 80 }
+          listener_filters:
+              - name: "envoy.listener.proxy_protocol"
+                typed_config: {}
+          filter_chains:
+              - filters:
+                    - name: envoy.http_connection_manager
+                      config:
+                          codec_type: auto
+                          use_remote_address: true
+                          tracing:
+                              operation_name: ingress
+                          stat_prefix: ingress_http
+                          route_config:
+                              virtual_hosts:
+                                  - name: all
+                                    domains: ["*"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          redirect:
+                                              path_redirect: "/"
+                                              https_redirect: true
+                          http_filters:
+                              - name: envoy.router
+        - name: https_listener
+          address:
+              socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
               - name: "envoy.listener.proxy_protocol"
                 typed_config: {}
@@ -16,15 +42,15 @@ static_resources:
                 typed_config: {}
           filter_chains:
               - filter_chain_match:
-                #       server_names: ["*.jrock.us", "jrock.us"]
-                # tls_context:
-                #     common_tls_context:
-                #         alpn_protocols: ["h2", "http/1.1"]
-                #         tls_certificates:
-                #             - certificate_chain:
-                #                   filename: "/dev/null"
-                #               private_key:
-                #                   filename: "/dev/null"
+                    server_names: ["*.jrock.us", "jrock.us"]
+                tls_context:
+                    common_tls_context:
+                        alpn_protocols: ["h2", "http/1.1"]
+                        tls_certificates:
+                            - certificate_chain:
+                                  filename: "/jrock.us/tls.crt"
+                              private_key:
+                                  filename: "/jrock.us/tls.key"
                 filters:
                     - name: envoy.http_connection_manager
                       config:
@@ -32,11 +58,11 @@ static_resources:
                           use_remote_address: true
                           tracing:
                               operation_name: ingress
-                          stat_prefix: jrock-us
+                          stat_prefix: ingress_jrock-us
                           route_config:
                               virtual_hosts:
-                                  - name: apex
-                                    domains: ["new.jrock.us"]
+                                  - name: all
+                                    domains: ["*"]
                                     routes:
                                         - match: { prefix: "/" }
                                           direct_response:

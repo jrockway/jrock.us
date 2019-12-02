@@ -5,6 +5,7 @@ resources:
     - namespace.yaml
     - service.yaml
     - deployment.yaml
+    - jrock.us-cert.yaml
 configMapGenerator:
     - name: envoy-config
       files: ["envoy.yaml"]

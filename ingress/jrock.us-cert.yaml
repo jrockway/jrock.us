@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+    name: jrock-us
+spec:
+    secretName: jrock-us-tls
+    issuerRef:
+        name: ca-issuer
+        kind: ClusterIssuer
+    commonName: "*.jrock.us"
+    dnsNames:
+        - jrock.us
