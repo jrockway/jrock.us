@@ -34,6 +34,11 @@ spec:
                         containerPort: 80
                       - name: https
                         containerPort: 443
+                  resources:
+                      requests:
+                          memory: "64Mi"
+                      limits:
+                          memory: "64Mi"
             volumes:
                 - name: envoy-config
                   configMap:
