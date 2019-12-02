@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+    name: letsencrypt-issuer
+spec:
+    acme:
+        email: jon@jrock.us
+        server: https://acme-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+            name: letsencrypt-issuer-account-key
+        solvers:
+            - dns01:
+                  digitalocean:
+                      tokenSecretRef:
+                          name: digitalocean-dns-token
+                          key: token

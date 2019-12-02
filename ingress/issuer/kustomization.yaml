@@ -5,5 +5,6 @@ secretGenerator:
           - token=token.secret.txt
 resources:
     - staging-issuer.yaml
+    - production-issuer.yaml
 generatorOptions:
     disableNameSuffixHash: true
