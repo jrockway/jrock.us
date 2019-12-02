@@ -5,8 +5,9 @@ metadata:
 spec:
     secretName: jrock-us-tls
     issuerRef:
-        name: ca-issuer
-        kind: ClusterIssuer
+        name: letsencrypt-staging-issuer
+        kind: Issuer
     commonName: "*.jrock.us"
     dnsNames:
+        - "*.jrock.us"
         - jrock.us
