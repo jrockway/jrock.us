@@ -8,4 +8,4 @@ jobs:
             - name: Build
               run: docker build www --file www/Dockerfile --tag docker.pkg.github.com/jrockway/jrock.us/www:${{ github.sha }}
             - name: Push
-              run: docker push docker.pkg.github.com/jrockway/jrock.us/www:${{ github.sha }}
+              run: docker push docker.pkg.github.com/jrockway/jrock.us/www:${{ github.sha }} -u jrockway -p ${{ secrets.GITHUB_TOKEN }}
