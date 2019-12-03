@@ -94,18 +94,26 @@ static_resources:
                           stat_prefix: ingress_jrock-us
                           route_config:
                               virtual_hosts:
-                                  - name: all
+                                  - name: www.jrock.us
+                                    domains: ["www.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          redirect:
+                                              host_redirect: "jrock.us"
+                                  - name: jrock.us
+                                    domains: ["jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: www-jrock-us
+                                  - name: fallback
                                     domains: ["*"]
                                     routes:
                                         - match: { prefix: "/" }
                                           direct_response:
-                                              status: 200
+                                              status: 404
                                               body:
-                                                  inline_string: "It works!"
-                                          response_headers_to_add:
-                                              - header:
-                                                    key: "content-type"
-                                                    value: "text/plain; charset=utf-8"
+                                                  inline_string: "Not found!\n"
                           http_filters:
                               - name: envoy.router
               - filters:
@@ -129,4 +137,17 @@ static_resources:
                                               https_redirect: true
                           http_filters:
                               - name: envoy.router
-    clusters: null
+    clusters:
+        - name: www-jrock-us
+          type: strict_dns
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: www-jrock-us
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: www-jrock-us.www.svc.cluster.local
+                                      port_value: 80
