@@ -13,4 +13,4 @@ secretGenerator:
 images:
     - name: www
       newName: docker.pkg.github.com/jrockway/jrock.us/www
-      newTag: bbdf5712231e8a3b6ef4e527b667b47314c72526
+      newTag: 61ec8752a932c9aa4949c07a9064345dd85c82b3
