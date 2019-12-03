@@ -94,14 +94,15 @@ static_resources:
                           stat_prefix: ingress_jrock-us
                           route_config:
                               virtual_hosts:
-                                  - name: www.jrock.us
-                                    domains: ["www.jrock.us"]
+                                  - name: jrock.us
+                                    domains: ["jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           redirect:
-                                              host_redirect: "jrock.us"
-                                  - name: jrock.us
-                                    domains: ["jrock.us"]
+                                              host_redirect: "www.jrock.us"
+                                              response_code: TEMPORARY_REDIRECT
+                                  - name: www.jrock.us
+                                    domains: ["www.jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
