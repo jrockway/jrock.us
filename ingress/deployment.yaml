@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: envoy
+    annotations:
+        "sidecar.jaegertracing.io/inject": "jaeger"
 spec:
     replicas: 3
     template:
@@ -46,3 +48,5 @@ spec:
                 - name: jrock-us-certs
                   secret:
                       secretName: jrock-us-tls
+            imagePullSecrets:
+                - name: registry-credentials
