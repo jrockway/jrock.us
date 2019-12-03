@@ -1,9 +1,9 @@
-FROM nginx:1.17-alpine
+FROM nginx:1.17
 
-RUN rm /etc/nginx/conf.d/default.conf && mkdir -p /srv
+RUN rm /etc/nginx/nginx.conf && mkdir -p /srv
+
+WORKDIR /
+COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /srv
 COPY jrock.us .
-
-WORKDIR /
-COPY nginx.conf /etc/nginx/conf.d/default.conf
