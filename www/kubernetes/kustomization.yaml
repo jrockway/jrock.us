@@ -4,6 +4,7 @@ commonLabels:
 resources:
     - namespace.yaml
     - deployment.yaml
+    - service.yaml
 secretGenerator:
     - name: registry-credentials
       files:
