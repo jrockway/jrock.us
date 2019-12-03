@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: www-jrock-us-nginx
+spec:
+    replicas: 1
+    template:
+        spec:
+            containers:
+                - name: nginx
+                  image: www
+                  readinessProbe:
+                      httpGet:
+                          path: /nginx-health-check
+                          port: 80
+                  livenessProbe:
+                      httpGet:
+                          path: /nginx-health-check
+                          port: 80
+                  ports:
+                      - containerPort: 80
+            imagePullSecrets:
+                - name: registry-credentials
