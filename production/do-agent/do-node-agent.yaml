@@ -23,7 +23,7 @@ spec:
                 - args:
                       - --path.procfs=/host/proc
                       - --path.sysfs=/host/sys
-                      - --k8s-metrics-path=http://kube-state-metrics.kube-system.svc.cluster.local:8080/metrics
+                      - --k8s-metrics-path=http://kube-state-metrics.monitoring.svc.cluster.local:8081/metrics
                       - --additional-label=kubernetes_cluster_uuid:d026c70b-9e84-4ee6-8ad7-2f9d01c258c2
                   command:
                       - /bin/do-agent
