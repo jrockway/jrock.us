@@ -1,4 +1,10 @@
 {
+  _config+:: {
+    kubeStateMetricsSelector: error 'must provide selector for kube-state-metrics',
+    namespaceSelector: null,
+    prefixedNamespaceSelector: if self.namespaceSelector != null then self.namespaceSelector + ',' else '',
+  },
+
   prometheusAlerts+:: {
     groups+: [
       {
@@ -14,20 +20,20 @@
             annotations: {
               message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is restarting {{ printf "%.2f" $value }} times / 5 minutes.',
             },
-            'for': '1h',
+            'for': '15m',
             alert: 'KubePodCrashLooping',
           },
           {
             expr: |||
-              sum by (namespace, pod) (kube_pod_status_phase{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, phase=~"Pending|Unknown"}) > 0
+              sum by (namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, phase=~"Pending|Unknown"}) * on(namespace, pod) group_left(owner_kind) max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})) > 0
             ||| % $._config,
             labels: {
               severity: 'critical',
             },
             annotations: {
-              message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than an hour.',
+              message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 15 minutes.',
             },
-            'for': '1h',
+            'for': '15m',
             alert: 'KubePodNotReady',
           },
           {
@@ -55,9 +61,9 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than an hour.',
+              message: 'Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than 15 minutes.',
             },
-            'for': '1h',
+            'for': '15m',
             alert: 'KubeDeploymentReplicasMismatch',
           },
           {
@@ -118,15 +124,28 @@
             expr: |||
               kube_daemonset_status_number_ready{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}
                 /
-              kube_daemonset_status_desired_number_scheduled{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s} * 100 < 100
+              kube_daemonset_status_desired_number_scheduled{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s} < 1.00
             ||| % $._config,
             labels: {
               severity: 'critical',
             },
             annotations: {
-              message: 'Only {{ $value }}% of the desired Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are scheduled and ready.',
+              message: 'Only {{ $value | humanizePercentage }} of the desired Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are scheduled and ready.',
             },
             'for': '15m',
+          },
+          {
+            expr: |||
+              sum by (namespace, pod, container) (kube_pod_container_status_waiting_reason{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}) > 0
+            ||| % $._config,
+            labels: {
+              severity: 'warning',
+            },
+            annotations: {
+              message: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} container {{ $labels.container}} has been in waiting state for longer than 1 hour.',
+            },
+            'for': '1h',
+            alert: 'KubeContainerWaiting',
           },
           {
             alert: 'KubeDaemonSetNotScheduled',
@@ -185,15 +204,47 @@
           {
             alert: 'KubeJobFailed',
             expr: |||
-              kube_job_status_failed{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}  > 0
+              kube_job_failed{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}  > 0
             ||| % $._config,
-            'for': '1h',
+            'for': '15m',
             labels: {
               severity: 'warning',
             },
             annotations: {
               message: 'Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete.',
             },
+          },
+          {
+            expr: |||
+              (kube_hpa_status_desired_replicas{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}
+                !=
+              kube_hpa_status_current_replicas{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s})
+                and
+              changes(kube_hpa_status_current_replicas[15m]) == 0
+            ||| % $._config,
+            labels: {
+              severity: 'warning',
+            },
+            annotations: {
+              message: 'HPA {{ $labels.namespace }}/{{ $labels.hpa }} has not matched the desired number of replicas for longer than 15 minutes.',
+            },
+            'for': '15m',
+            alert: 'KubeHpaReplicasMismatch',
+          },
+          {
+            expr: |||
+              kube_hpa_status_current_replicas{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}
+                ==
+              kube_hpa_spec_max_replicas{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s}
+            ||| % $._config,
+            labels: {
+              severity: 'warning',
+            },
+            annotations: {
+              message: 'HPA {{ $labels.namespace }}/{{ $labels.hpa }} has been running at max replicas for longer than 15 minutes.',
+            },
+            'for': '15m',
+            alert: 'KubeHpaMaxedOut',
           },
         ],
       },

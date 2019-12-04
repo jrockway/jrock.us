@@ -1,4 +1,5 @@
 # Prometheus Monitoring Mixin for Kubernetes
+[![CircleCI](https://circleci.com/gh/kubernetes-monitoring/kubernetes-mixin/tree/master.svg?style=shield)](https://circleci.com/gh/kubernetes-monitoring/kubernetes-mixin)
 
 > NOTE: This project is *pre-release* stage. Flags, configuration, behaviour and design may change significantly in following releases.
 
@@ -6,13 +7,15 @@ A set of Grafana dashboards and Prometheus alerts for Kubernetes.
 
 ## Releases
 
-| Release | Kubernetes Compatibility   |
-| ------- | -------------------------- |
-| master  | Kubernetes 1.14+           |
-| v0.1.x  | Kubernetes 1.13 and before |
+| Release | Kubernetes Compatibility   | Prometheus Compatibility |
+| ------- | -------------------------- | ------------------------ |
+| master  | Kubernetes 1.14+           | Prometheus 2.11.0+       |
+| v0.1.x  | Kubernetes 1.13 and before |                          |
 
-In Kubernetes 1.14 there was a major [metrics overhaul](https://github.com/kubernetes/enhancements/blob/master/keps/sig-instrumentation/0031-kubernetes-metrics-overhaul.md) implemented.
+In Kubernetes 1.14 there was a major [metrics overhaul](https://github.com/kubernetes/enhancements/issues/1206) implemented.
 Therefore v0.1.x of this repository is the last release to support Kubernetes 1.13 and previous version on a best effort basis.
+
+Some alerts now use Prometheus filters made available in Prometheus 2.11.0, which makes this version of Prometheus a dependency.
 
 ## How to use
 
@@ -73,6 +76,13 @@ Steps to configure wmi_exporter
 ```
 3) Update the Prometheus server to scrap the metrics from wmi_exporter endpoint.
 
+## Running the tests
+
+Build the mixins, run the tests:
+
+```
+$ docker run -v $(pwd):/tmp --entrypoint "/bin/promtool" prom/prometheus:latest test rules /tmp/tests.yaml
+```
 
 ## Using with prometheus-ksonnet
 
@@ -159,8 +169,10 @@ kubernetes {
     cadvisorSelector: 'job="kubernetes-cadvisor"',
     nodeExporterSelector: 'job="kubernetes-node-exporter"',
     kubeletSelector: 'job="kubernetes-kubelet"',
-    grafanaK8s.dashboardNamePrefix: 'Mixin / ',
-    grafanaK8s.dashboardTags: ['kubernetes', 'infrastucture'],
+    grafanaK8s+:: {
+      dashboardNamePrefix: 'Mixin / ',
+      dashboardTags: ['kubernetes', 'infrastucture'],
+    },
   },
 }
 ```

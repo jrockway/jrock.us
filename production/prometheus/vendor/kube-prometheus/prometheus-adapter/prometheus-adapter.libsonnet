@@ -1,11 +1,11 @@
-local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
+local k = import 'ksonnet/ksonnet.beta.4/k.libsonnet';
 
 {
   _config+:: {
     namespace: 'default',
 
     versions+:: {
-      prometheusAdapter: 'v0.4.1',
+      prometheusAdapter: 'v0.5.0',
     },
 
     imageRepos+:: {
@@ -19,30 +19,30 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
       config: |||
         resourceRules:
           cpu:
-            containerQuery: sum(rate(container_cpu_usage_seconds_total{<<.LabelMatchers>>,container_name!="POD",container_name!="",pod_name!=""}[1m])) by (<<.GroupBy>>)
-            nodeQuery: sum(1 - rate(node_cpu_seconds_total{mode="idle"}[1m]) * on(namespace, pod) group_left(node) node_namespace_pod:kube_pod_info:{<<.LabelMatchers>>}) by (<<.GroupBy>>)
+            containerQuery: sum(rate(container_cpu_usage_seconds_total{<<.LabelMatchers>>,container!="POD",container!="",pod!=""}[5m])) by (<<.GroupBy>>)
+            nodeQuery: sum(1 - rate(node_cpu_seconds_total{mode="idle"}[5m]) * on(namespace, pod) group_left(node) node_namespace_pod:kube_pod_info:{<<.LabelMatchers>>}) by (<<.GroupBy>>)
             resources:
               overrides:
                 node:
                   resource: node
                 namespace:
                   resource: namespace
-                pod_name:
+                pod:
                   resource: pod
-            containerLabel: container_name
+            containerLabel: container
           memory:
-            containerQuery: sum(container_memory_working_set_bytes{<<.LabelMatchers>>,container_name!="POD",container_name!="",pod_name!=""}) by (<<.GroupBy>>)
-            nodeQuery: sum(node:node_memory_bytes_total:sum{<<.LabelMatchers>>} - node:node_memory_bytes_available:sum{<<.LabelMatchers>>}) by (<<.GroupBy>>)
+            containerQuery: sum(container_memory_working_set_bytes{<<.LabelMatchers>>,container!="POD",container!="",pod!=""}) by (<<.GroupBy>>)
+            nodeQuery: sum(node_memory_MemTotal_bytes{job="node-exporter",<<.LabelMatchers>>} - node_memory_MemAvailable_bytes{job="node-exporter",<<.LabelMatchers>>}) by (<<.GroupBy>>)
             resources:
               overrides:
-                node:
+                instance:
                   resource: node
                 namespace:
                   resource: namespace
-                pod_name:
+                pod:
                   resource: pod
-            containerLabel: container_name
-          window: 1m
+            containerLabel: container
+          window: 5m
       |||,
     },
   },
@@ -87,7 +87,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
       service.mixin.metadata.withLabels($._config.prometheusAdapter.labels),
 
     deployment:
-      local deployment = k.apps.v1beta2.deployment;
+      local deployment = k.apps.v1.deployment;
       local volume = deployment.mixin.spec.template.spec.volumesType;
       local container = deployment.mixin.spec.template.spec.containersType;
       local containerVolumeMount = container.volumeMountsType;
@@ -113,7 +113,7 @@ local k = import 'ksonnet/ksonnet.beta.3/k.libsonnet';
       deployment.mixin.metadata.withNamespace($._config.namespace) +
       deployment.mixin.spec.selector.withMatchLabels($._config.prometheusAdapter.labels) +
       deployment.mixin.spec.template.spec.withServiceAccountName($.prometheusAdapter.serviceAccount.metadata.name) +
-      deployment.mixin.spec.template.spec.withNodeSelector({ 'beta.kubernetes.io/os': 'linux' }) +
+      deployment.mixin.spec.template.spec.withNodeSelector({ 'kubernetes.io/os': 'linux' }) +
       deployment.mixin.spec.strategy.rollingUpdate.withMaxSurge(1) +
       deployment.mixin.spec.strategy.rollingUpdate.withMaxUnavailable(0) +
       deployment.mixin.spec.template.spec.withVolumes([

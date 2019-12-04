@@ -44,8 +44,11 @@ This page collects this repositories alerts and begins the process of describing
 + *Message*: `StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} generation mismatch`
 + *Severity*: critical
 ##### Alert Name: "KubeDaemonSetRolloutStuck"
-+ *Message*: `Only {{$value}}% of desired pods scheduled and ready for daemon set {{$labels.namespace}}/{{$labels.daemonset}}`
++ *Message*: `Only {{$value | humanizePercentage }} of desired pods scheduled and ready for daemon set {{$labels.namespace}}/{{$labels.daemonset}}`
 + *Severity*: critical
+##### Alert Name: "KubeContainerWaiting"
++ *Message*: `{{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is in waiting state.`
++ *Severity*: warning
 ##### Alert Name: "KubeDaemonSetNotScheduled"
 + *Message*: `A number of pods of daemonset {{$labels.namespace}}/{{$labels.daemonset}} are not scheduled.`
 + *Severity*: warning
@@ -83,24 +86,24 @@ This page collects this repositories alerts and begins the process of describing
 + *Message*: `Overcommited Memory resource request quota on Namespaces.`
 + *Severity*: warning
 ##### Alert Name: "KubeQuotaExceeded"
-+ *Message*: `{{ printf \"%0.0f\" $value }}% usage of {{ $labels.resource }} in namespace {{ $labels.namespace }}.`
++ *Message*: `{{ $value | humanizePercentage }} usage of {{ $labels.resource }} in namespace {{ $labels.namespace }}.`
 + *Severity*: warning
 ### Group Name: "kubernetes-storage"
 ##### Alert Name: "KubePersistentVolumeUsageCritical"
-+ *Message*: `The persistent volume claimed by {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} has {{ printf \"%0.0f\" $value }}% free.`
++ *Message*: `The persistent volume claimed by {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} has {{ $value | humanizePercentage }} free.`
 + *Severity*: critical
 ##### Alert Name: "KubePersistentVolumeFullInFourDays"
 + *Message*: `Based on recent sampling, the persistent volume claimed by {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} is expected to fill up within four days.`
 + *Severity*: critical
 ### Group Name: "kubernetes-system"
 ##### Alert Name: "KubeNodeNotReady"
-+ *Message*: `{{ $labels.node }} has been unready for more than an hour"`
++ *Message*: `{{ $labels.node }} has been unready for more than an 15 minutes"`
 + *Severity*: warning
 ##### Alert Name: "KubeVersionMismatch"
 + *Message*: `There are {{ $value }} different versions of Kubernetes components running.`
 + *Severity*: warning
 ##### Alert Name: "KubeClientErrors"
-+ *Message*: `Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance }}' is experiencing {{ printf \"%0.0f\" $value }}% errors.'`
++ *Message*: `Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance }}' is experiencing {{ $value | humanizePercentage }} errors.'`
 + *Severity*: warning
 ##### Alert Name: "KubeClientErrors"
 + *Message*: `Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance }}' is experiencing {{ printf \"%0.0f\" $value }} errors / sec.'`
@@ -115,10 +118,10 @@ This page collects this repositories alerts and begins the process of describing
 + *Message*: `The API server has a 99th percentile latency of {{ $value }} seconds for {{$labels.verb}} {{$labels.resource}}.`
 + *Severity*: critical
 ##### Alert Name: "KubeAPIErrorsHigh"
-+ *Message*: `API server is erroring for {{ $value }}% of requests.`
++ *Message*: `API server is erroring for {{ $value | humanizePercentage }} of requests.`
 + *Severity*: critical
 ##### Alert Name: "KubeAPIErrorsHigh"
-+ *Message*: `API server is erroring for {{ $value }}% of requests.`
++ *Message*: `API server is erroring for {{ $value | humanizePercentage }} of requests.`
 + *Severity*: warning
 ##### Alert Name: "KubeClientCertificateExpiration"
 + *Message*: `A client certificate used to authenticate to the apiserver is expiring in less than 7 days.`

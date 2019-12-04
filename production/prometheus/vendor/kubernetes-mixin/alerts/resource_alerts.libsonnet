@@ -1,4 +1,18 @@
 {
+  _config+:: {
+    kubeStateMetricsSelector: error 'must provide selector for kube-state-metrics',
+    nodeExporterSelector: error 'must provide selector for node-exporter',
+    namespaceSelector: null,
+    prefixedNamespaceSelector: if self.namespaceSelector != null then self.namespaceSelector + ',' else '',
+
+    // We alert when the aggregate (CPU, Memory) quota for all namespaces is
+    // greater than the amount of the resources in the cluster.  We do however
+    // allow you to overcommit if you wish.
+    namespaceOvercommitFactor: 1.5,
+    cpuThrottlingPercent: 25,
+    cpuThrottlingSelector: '',
+  },
+
   prometheusAlerts+:: {
     groups+: [
       {
@@ -7,11 +21,11 @@
           {
             alert: 'KubeCPUOvercommit',
             expr: |||
-              sum(namespace_name:kube_pod_container_resource_requests_cpu_cores:sum)
+              sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum)
                 /
-              sum(node:node_num_cpu:sum)
+              sum(kube_node_status_allocatable_cpu_cores)
                 >
-              (count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)
+              (count(kube_node_status_allocatable_cpu_cores)-1) / count(kube_node_status_allocatable_cpu_cores)
             ||| % $._config,
             labels: {
               severity: 'warning',
@@ -24,13 +38,13 @@
           {
             alert: 'KubeMemOvercommit',
             expr: |||
-              sum(namespace_name:kube_pod_container_resource_requests_memory_bytes:sum)
+              sum(namespace:kube_pod_container_resource_requests_memory_bytes:sum)
                 /
-              sum(node_memory_MemTotal_bytes)
+              sum(kube_node_status_allocatable_memory_bytes)
                 >
-              (count(node:node_num_cpu:sum)-1)
+              (count(kube_node_status_allocatable_memory_bytes)-1)
                 /
-              count(node:node_num_cpu:sum)
+              count(kube_node_status_allocatable_memory_bytes)
             ||| % $._config,
             labels: {
               severity: 'warning',
@@ -45,7 +59,7 @@
             expr: |||
               sum(kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="hard", resource="cpu"})
                 /
-              sum(node:node_num_cpu:sum)
+              sum(kube_node_status_allocatable_cpu_cores)
                 > %(namespaceOvercommitFactor)s
             ||| % $._config,
             labels: {
@@ -61,7 +75,7 @@
             expr: |||
               sum(kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="hard", resource="memory"})
                 /
-              sum(node_memory_MemTotal_bytes{%(nodeExporterSelector)s})
+              sum(kube_node_status_allocatable_memory_bytes{%(nodeExporterSelector)s})
                 > %(namespaceOvercommitFactor)s
             ||| % $._config,
             labels: {
@@ -75,33 +89,33 @@
           {
             alert: 'KubeQuotaExceeded',
             expr: |||
-              100 * kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="used"}
+              kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="used"}
                 / ignoring(instance, job, type)
               (kube_resourcequota{%(prefixedNamespaceSelector)s%(kubeStateMetricsSelector)s, type="hard"} > 0)
-                > 90
+                > 0.90
             ||| % $._config,
             'for': '15m',
             labels: {
               severity: 'warning',
             },
             annotations: {
-              message: 'Namespace {{ $labels.namespace }} is using {{ printf "%0.0f" $value }}% of its {{ $labels.resource }} quota.',
+              message: 'Namespace {{ $labels.namespace }} is using {{ $value | humanizePercentage }} of its {{ $labels.resource }} quota.',
             },
           },
           {
             alert: 'CPUThrottlingHigh',
             expr: |||
-              100 * sum(increase(container_cpu_cfs_throttled_periods_total{container_name!="", %(cpuThrottlingSelector)s}[5m])) by (container_name, pod_name, namespace)
+              sum(increase(container_cpu_cfs_throttled_periods_total{container!="", %(cpuThrottlingSelector)s}[5m])) by (container, pod, namespace)
                 /
-              sum(increase(container_cpu_cfs_periods_total{%(cpuThrottlingSelector)s}[5m])) by (container_name, pod_name, namespace)
-                > %(cpuThrottlingPercent)s 
+              sum(increase(container_cpu_cfs_periods_total{%(cpuThrottlingSelector)s}[5m])) by (container, pod, namespace)
+                > ( %(cpuThrottlingPercent)s / 100 )
             ||| % $._config,
             'for': '15m',
             labels: {
               severity: 'warning',
             },
             annotations: {
-              message: '{{ printf "%0.0f" $value }}% throttling of CPU in namespace {{ $labels.namespace }} for container {{ $labels.container_name }} in pod {{ $labels.pod_name }}.',
+              message: '{{ $value | humanizePercentage }} throttling of CPU in namespace {{ $labels.namespace }} for container {{ $labels.container }} in pod {{ $labels.pod }}.',
             },
           },
         ],
