@@ -169,7 +169,7 @@ local k = import 'ksonnet/ksonnet.beta.4/k.libsonnet';
       local kubeStateMetrics =
         container.new('kube-state-metrics', $._config.imageRepos.kubeStateMetrics + ':' + $._config.versions.kubeStateMetrics) +
         container.withArgs([
-          '--host=127.0.0.1',
+          '--host=0.0.0.0',
           '--port=8081',
           '--telemetry-host=127.0.0.1',
           '--telemetry-port=8082',
