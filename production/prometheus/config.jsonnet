@@ -9,7 +9,7 @@ local kp =
     _config+:: {
       namespace: 'monitoring',
       alertmanager+: {
-          config: importstr 'alertmanager.yaml',
+        config: importstr 'alertmanager.yaml',
       },
     },
   };
