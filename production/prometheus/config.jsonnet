@@ -13,6 +13,10 @@ local kp =
       },
       alertmanager+: {
         config: importstr 'alertmanager.yaml',
+        replicas: 1,
+      },
+      prometheus+: {
+        replicas: 1,
       },
     },
   };
