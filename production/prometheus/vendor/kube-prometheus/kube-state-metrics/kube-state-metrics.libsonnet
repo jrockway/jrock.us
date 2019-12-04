@@ -174,6 +174,7 @@ local k = import 'ksonnet/ksonnet.beta.4/k.libsonnet';
           '--telemetry-host=127.0.0.1',
           '--telemetry-port=8082',
         ] + if $._config.kubeStateMetrics.collectors != '' then ['--collectors=' + $._config.kubeStateMetrics.collectors] else []) +
+        container.withPorts(containerPort.newNamed(8081, 'http-main',)) +
         container.mixin.resources.withRequests({ cpu: $._config.kubeStateMetrics.baseCPU, memory: $._config.kubeStateMetrics.baseMemory }) +
         container.mixin.resources.withLimits({ cpu: $._config.kubeStateMetrics.baseCPU, memory: $._config.kubeStateMetrics.baseMemory });
 
@@ -243,10 +244,11 @@ local k = import 'ksonnet/ksonnet.beta.4/k.libsonnet';
       local service = k.core.v1.service;
       local servicePort = service.mixin.spec.portsType;
 
+      local ksmServicePortInsecureMain = servicePort.newNamed('http-main', 8081, 'http-main');
       local ksmServicePortMain = servicePort.newNamed('https-main', 8443, 'https-main');
       local ksmServicePortSelf = servicePort.newNamed('https-self', 9443, 'https-self');
 
-      service.new('kube-state-metrics', $.kubeStateMetrics.deployment.spec.selector.matchLabels, [ksmServicePortMain, ksmServicePortSelf]) +
+      service.new('kube-state-metrics', $.kubeStateMetrics.deployment.spec.selector.matchLabels, [ksmServicePortMain, ksmServicePortInsecureMain, ksmServicePortSelf]) +
       service.mixin.metadata.withNamespace($._config.namespace) +
       service.mixin.metadata.withLabels({ 'k8s-app': 'kube-state-metrics' }) +
       service.mixin.spec.withClusterIp('None'),
