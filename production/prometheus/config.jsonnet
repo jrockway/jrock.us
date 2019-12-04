@@ -8,6 +8,9 @@ local kp =
   {
     _config+:: {
       namespace: 'monitoring',
+      versions+:: {
+        grafana: '6.5.1',
+      },
       alertmanager+: {
         config: importstr 'alertmanager.yaml',
       },
