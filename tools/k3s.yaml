@@ -1,0 +1,12 @@
+ssh_authorized_keys:
+    - github:jrockway
+k3os:
+    ntp_servers:
+        - 192.168.1.62
+        - 0.us.pool.ntp.org
+        - 1.us.pool.ntp.org
+    k3s_args:
+        - server
+        - "--no-deploy=traefik"
+        - "--write-kubeconfig=/tmp/kube"
+        - "--write-kubeconfig-mode=777"
