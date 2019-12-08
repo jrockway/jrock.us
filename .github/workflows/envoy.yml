@@ -9,5 +9,5 @@ jobs:
               run: docker build third_party/envoy --file third_party/envoy/Dockerfile --tag registry.jrock.us/envoy:${{ github.sha }}
             - name: Push
               run: |
-                  docker login registry.jrock.us -u jrockway -p ${{ secrets.registry }} && \
+                  docker login registry.jrock.us -u jrockway -p '${{ secrets.registry }}' && \
                   docker push registry.jrock.us/envoy:${{ github.sha }}
