@@ -1,0 +1,70 @@
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+metadata:
+    namespace: istio-operator
+    name: default
+spec:
+    profile: default
+    cni:
+        enabled: true
+    gateways:
+        enabled:
+        components:
+            ingressGateway:
+                enabled: true
+                k8s:
+                    resources:
+                        limits:
+                            cpu: 300m
+                            memory: 128Mi
+                        requests:
+                            cpu: 300m
+                            memory: 128Mi
+    security:
+        enabled: true
+        components:
+            nodeAgent:
+                enabled: false
+    telemetry:
+        enabled: true
+        components:
+            telemetry:
+                enabled:
+                k8s:
+                    resources:
+                        requests:
+                            cpu: 300m
+                            memory: 256Mi
+                        limits:
+                            cpu: 300m
+                            memory: 256Mi
+    values:
+        galley:
+            enableAnalysis: true
+        gateways:
+            istio-egressgateway:
+                autoscaleEnabled: false
+            istio-ingressgateway:
+                autoscaleEnabled: false
+                type: NodePort
+        pilot:
+            autoscaleEnabled: false
+            traceSampling: 100.0
+        prometheus:
+            enabled: false
+        sidecarInjectorWebhook:
+            rewriteAppHTTPProbe: true
+        global:
+            proxy:
+                resources:
+                    requests:
+                        cpu: 10m
+                        memory: 32Mi
+                    limits:
+                        cpu: 50m
+                        memory: 32Mi
+                accessLogFile: "/dev/stdout"
+                accessLogEncoding: JSON
+            tracer:
+                zipkin:
+                    address: "jaeger-collector-headless.observability.svc.cluster.local:9411"
