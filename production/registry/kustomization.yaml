@@ -1,0 +1,20 @@
+namespace: docker-registry
+commonLabels:
+    app: docker-registry
+resources:
+    - namespace.yaml
+    - volume.yaml
+    - statefulset.yaml
+    - service.yaml
+secretGenerator:
+    - name: registry-htaccess
+      files:
+          - "htpasswd=htpasswd.secret.txt"
+configMapGenerator:
+    - name: registry-config
+      files:
+          - config.yml
+images:
+    - name: docker-registry
+      newName: docker.io/registry
+      newTag: 2.7.1

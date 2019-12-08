@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: registry
+spec:
+    replicas: 1
+    serviceName: registry
+    volumeClaimTemplates: []
+    template:
+        spec:
+            containers:
+                - name: registry
+                  image: docker-registry
+                  volumeMounts:
+                      - name: registry-config
+                        mountPath: /etc/docker/registry
+                      - name: auth
+                        mountPath: /auth
+                      - name: data
+                        mountPath: /var/lib/registry
+                  readinessProbe:
+                      httpGet:
+                          path: /
+                          port: 80
+                  livenessProbe:
+                      httpGet:
+                          path: /
+                          port: 80
+                  ports:
+                      - name: http2
+                        containerPort: 80
+                      - name: debug
+                        containerPort: 5001
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: "64Mi"
+                      limits:
+                          cpu: 100m
+                          memory: "64Mi"
+            volumes:
+                - name: registry-config
+                  configMap:
+                      name: registry-config
+                - name: auth
+                  secret:
+                      secretName: registry-htaccess
+                - name: data
+                  persistentVolumeClaim:
+                      claimName: registry-volume
