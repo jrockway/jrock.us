@@ -27,6 +27,9 @@ static_resources:
         - name: http_listener
           address:
               socket_address: { address: 0.0.0.0, port_value: 80 }
+          listener_filters:
+              - name: "envoy.listener.proxy_protocol"
+                typed_config: {}
           per_connection_buffer_limit_bytes: 32768
           filter_chains:
               - filters:
@@ -53,6 +56,8 @@ static_resources:
           address:
               socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
+              - name: "envoy.listener.proxy_protocol"
+                typed_config: {}
               - name: "envoy.listener.tls_inspector"
                 typed_config: {}
           per_connection_buffer_limit_bytes: 32768
