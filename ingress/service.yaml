@@ -4,7 +4,7 @@ metadata:
     name: public
     annotations:
         service.beta.kubernetes.io/do-loadbalancer-protocol: "tcp"
-        service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+        service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
 spec:
     type: LoadBalancer
     ports:
