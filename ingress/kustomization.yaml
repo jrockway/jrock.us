@@ -4,6 +4,7 @@ commonLabels:
 resources:
     - namespace.yaml
     - service.yaml
+    - service-noproxy.yaml
     - deployment.yaml
     - jrock.us-cert.yaml
 configMapGenerator:
