@@ -4,67 +4,101 @@ metadata:
     namespace: istio-operator
     name: default
 spec:
-    profile: default
-    cni:
-        enabled: true
     gateways:
-        enabled:
         components:
+            egressGateway:
+                enabled: false
+                k8s:
+                    resources:
+                        requests:
+                            cpu: 10m
+                            memory: 40Mi
             ingressGateway:
                 enabled: true
                 k8s:
                     resources:
-                        limits:
-                            cpu: 300m
-                            memory: 128Mi
                         requests:
-                            cpu: 300m
-                            memory: 128Mi
-    security:
-        enabled: true
+                            cpu: 10m
+                            memory: 40Mi
+    policy:
         components:
-            nodeAgent:
-                enabled: false
-    telemetry:
-        enabled: true
-        components:
-            telemetry:
-                enabled:
+            policy:
                 k8s:
                     resources:
                         requests:
-                            cpu: 300m
-                            memory: 256Mi
-                        limits:
-                            cpu: 300m
-                            memory: 256Mi
+                            cpu: 10m
+                            memory: 100Mi
+    telemetry:
+        components:
+            telemetry:
+                k8s:
+                    resources:
+                        requests:
+                            cpu: 50m
+                            memory: 100Mi
+    trafficManagement:
+        components:
+            pilot:
+                k8s:
+                    env:
+                        - name: POD_NAME
+                          valueFrom:
+                              fieldRef:
+                                  apiVersion: v1
+                                  fieldPath: metadata.name
+                        - name: POD_NAMESPACE
+                          valueFrom:
+                              fieldRef:
+                                  apiVersion: v1
+                                  fieldPath: metadata.namespace
+                        - name: PILOT_TRACE_SAMPLING
+                          value: "100"
+                    resources:
+                        requests:
+                            cpu: 10m
+                            memory: 100Mi
     values:
-        galley:
-            enableAnalysis: true
+        global:
+            disablePolicyChecks: false
+            controlPlaneSecurityEnabled: false
+            proxy:
+                accessLogFile: /dev/stdout
+                accessLogEncoding: JSON
+                resources:
+                    requests:
+                        cpu: 10m
+                        memory: 40Mi
+            tracer:
+                zipkin:
+                    address: "jaeger-collector-headless.observability.svc.cluster.local:9411"
+        pilot:
+            autoscaleEnabled: false
+        mixer:
+            adapters:
+                useAdapterCRDs: false
+                kubernetesenv:
+                    enabled: true
+                prometheus:
+                    enabled: true
+                    metricsExpiryDuration: 10m
+                stackdriver:
+                    enabled: false
+                stdio:
+                    enabled: true
+                    outputAsJson: true
+            policy:
+                autoscaleEnabled: false
+            telemetry:
+                autoscaleEnabled: false
         gateways:
             istio-egressgateway:
                 autoscaleEnabled: false
             istio-ingressgateway:
                 autoscaleEnabled: false
-                type: NodePort
-        pilot:
-            autoscaleEnabled: false
-            traceSampling: 100.0
-        prometheus:
+        grafana:
             enabled: false
-        sidecarInjectorWebhook:
-            rewriteAppHTTPProbe: true
-        global:
-            proxy:
-                resources:
-                    requests:
-                        cpu: 10m
-                        memory: 32Mi
-                    limits:
-                        cpu: 50m
-                        memory: 32Mi
-                accessLogFile: "/dev/stdout"
-                accessLogEncoding: JSON
-            tracer:
-                zipkin:
-                    address: "jaeger-collector-headless.observability.svc.cluster.local:9411"
+        tracing:
+            enabled: false
+        kiali:
+            enabled: false
+            createDemoSecret: false
