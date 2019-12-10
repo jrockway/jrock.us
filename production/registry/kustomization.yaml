@@ -3,17 +3,15 @@ commonLabels:
     app: docker-registry
 resources:
     - namespace.yaml
-    - volume.yaml
-    - statefulset.yaml
+    - deployment.yaml
     - service.yaml
 secretGenerator:
     - name: registry-htaccess
       files:
           - "htpasswd=htpasswd.secret.txt"
-configMapGenerator:
     - name: registry-config
       files:
-          - config.yml
+          - "config.yml=config.secret.yml"
 images:
     - name: docker-registry
       newName: docker.io/registry

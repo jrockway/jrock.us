@@ -1,23 +1,19 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
     name: registry
 spec:
-    replicas: 1
-    serviceName: registry
-    volumeClaimTemplates: []
+    replicas: 2
     template:
         spec:
             containers:
                 - name: registry
                   image: docker-registry
                   volumeMounts:
-                      - name: registry-config
+                      - name: config
                         mountPath: /etc/docker/registry
                       - name: auth
                         mountPath: /auth
-                      - name: data
-                        mountPath: /var/lib/registry
                   readinessProbe:
                       httpGet:
                           path: /
@@ -39,12 +35,9 @@ spec:
                           cpu: 100m
                           memory: "64Mi"
             volumes:
-                - name: registry-config
-                  configMap:
-                      name: registry-config
+                - name: config
+                  secret:
+                      secretName: registry-config
                 - name: auth
                   secret:
                       secretName: registry-htaccess
-                - name: data
-                  persistentVolumeClaim:
-                      claimName: registry-volume
