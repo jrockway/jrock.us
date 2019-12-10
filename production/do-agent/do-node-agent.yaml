@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-    generation: 1
     labels:
         app: do-node-agent
     name: do-node-agent
@@ -15,7 +14,6 @@ spec:
         metadata:
             annotations:
                 clusterlint.digitalocean.com/disabled-checks: hostpath-volume
-            creationTimestamp: null
             labels:
                 app: do-node-agent
         spec:
@@ -32,11 +30,11 @@ spec:
                   name: do-node-agent
                   resources:
                       limits:
-                          cpu: 102m
+                          cpu: 150m
                           memory: 100Mi
                       requests:
-                          cpu: 102m
-                          memory: 80Mi
+                          cpu: 150m
+                          memory: 100Mi
                   terminationMessagePath: /dev/termination-log
                   terminationMessagePolicy: File
                   volumeMounts:
