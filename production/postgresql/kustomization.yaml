@@ -1,0 +1,22 @@
+namespace: postgres
+commonLabels:
+    app: postgres-master
+resources:
+    - namespace.yaml
+    - service.yaml
+    - pvc.yaml
+    - statefulset.yaml
+    - podmonitor.yaml
+secretGenerator:
+    - name: master-config
+      files:
+          - "POSTGRES_PASSWORD=password.secret.txt"
+      literals:
+          - "POSTGRES_INITDB_ARGS=--data-checksums --auth-local=md5 --auth=md5"
+images:
+    - name: postgres
+      newName: docker.io/postgres
+      newTag: "12.1"
+    - name: exporter
+      newName: docker.io/wrouesnel/postgres_exporter
+      newTag: v0.8.0
