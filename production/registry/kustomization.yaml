@@ -5,6 +5,7 @@ resources:
     - namespace.yaml
     - deployment.yaml
     - service.yaml
+    - podmonitor.yaml
 secretGenerator:
     - name: registry-htaccess
       files:
