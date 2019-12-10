@@ -28,6 +28,7 @@ spec:
   baseImage: quay.io/prometheus/prometheus
   nodeSelector:
     kubernetes.io/os: linux
+  podMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   replicas: 1
   resources:
