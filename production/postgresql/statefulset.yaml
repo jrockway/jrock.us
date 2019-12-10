@@ -14,6 +14,9 @@ spec:
                   envFrom:
                       - secretRef:
                             name: master-config
+                  env:
+                      - name: PGDATA
+                        value: /var/lib/postgresql/data/pgdata
                   volumeMounts:
                       - name: data
                         mountPath: /var/lib/postgresql/data
@@ -26,13 +29,13 @@ spec:
                   ports:
                       - name: postgres
                         containerPort: 5432
-                  resources:
-                      requests:
-                          cpu: 500m
-                          memory: "512Mi"
-                      limits:
-                          cpu: 500m
-                          memory: "512Mi"
+                  # resources:
+                  #     requests:
+                  #         cpu: 300m
+                  #         memory: "512Mi"
+                  #     limits:
+                  #         cpu: 300m
+                  #         memory: "512Mi"
                 - name: exporter
                   image: exporter
                   readinessProbe:
