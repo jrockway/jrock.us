@@ -7,6 +7,7 @@ resources:
     - pvc.yaml
     - statefulset.yaml
     - podmonitor.yaml
+    # alerts.yaml needs to be loaded manually due to namespace issues
 secretGenerator:
     - name: master-config
       files:
