@@ -137,6 +137,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
+                                              timeout: 120s
                                               cluster: docker-registry
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
@@ -223,6 +224,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
+                                              timeout: 120s
                                               cluster: docker-registry
                                   - name: fallback
                                     domains: ["*"]
