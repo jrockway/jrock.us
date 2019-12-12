@@ -144,6 +144,9 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: concourse
+                                              upgrade_configs:
+                                                  - upgrade_type: websocket
+                                                    enabled: true
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
