@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: concourse-web
+  name: concourse-web-public
+  namespace: concourse
+spec:
+  ports:
+  - name: atc
+    port: 8080
+    targetPort: atc
+  selector:
+    app: concourse-web
+  type: LoadBalancer
