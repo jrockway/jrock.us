@@ -23,7 +23,7 @@ spec:
                       - web
                   env:
                       - name: CONCOURSE_CLUSTER_NAME
-                        value: "jrock.us"
+                        value: "ci.jrock.us"
                       - name: CONCOURSE_ENABLE_GLOBAL_RESOURCES
                         value: "true"
                       - name: CONCOURSE_ENABLE_REDACT_SECRETS
@@ -46,7 +46,7 @@ spec:
                                 name: concourse-web
                                 key: local-users
                       - name: CONCOURSE_EXTERNAL_URL
-                        value: "http://192.168.1.65:8080"
+                        value: "https://ci.jrock.us"
                       - name: CONCOURSE_DEBUG_BIND_IP
                         value: "0.0.0.0"
                       - name: CONCOURSE_DEBUG_BIND_PORT
