@@ -102,9 +102,9 @@ spec:
                       - name: CONCOURSE_GC_MISSING_GRACE_PERIOD
                         value: "5m"
                       - name: CONCOURSE_COOKIE_SECURE
-                        value: "false"
+                        value: "true"
                       - name: CONCOURSE_AUTH_DURATION
-                        value: "24h"
+                        value: "240h"
                       - name: CONCOURSE_SESSION_SIGNING_KEY
                         value: "/concourse-keys/session_signing_key"
                       - name: CONCOURSE_MAIN_TEAM_LOCAL_USER
