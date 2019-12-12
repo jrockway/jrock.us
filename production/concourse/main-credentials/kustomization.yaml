@@ -1,0 +1,11 @@
+namespace: concourse-main
+resources:
+    - namespace.yaml
+secretGenerator:
+    - name: registry
+      literals:
+          - "username=jrockway"
+      files:
+          - "password=docker-password.secret.txt"
+generatorOptions:
+    disableNameSuffixHash: true # because the exact name of the secret appears in CI configs
