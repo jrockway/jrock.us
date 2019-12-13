@@ -33,12 +33,14 @@ jobs:
       plan:
           - get: jrock-us-git
             trigger: true
+
           - get: www-version
             params:
                 bump: patch
           - put: www-version
             params:
                 file: www-version/version
+
           - task: build
             privileged: true
             config:
@@ -55,6 +57,19 @@ jobs:
                     - name: image
                 run:
                     path: build
+
+          - put: www-image
+            params:
+                image: image/image.tar
+
+          - task: check-config
+            image: www-image
+            config:
+                platform: linux
+                run:
+                    path: /usr/sbin/nginx
+                    args: ["-t"]
+
           - put: www-image
             params:
                 image: image/image.tar
