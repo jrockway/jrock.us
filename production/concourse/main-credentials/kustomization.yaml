@@ -15,5 +15,8 @@ secretGenerator:
           - "bucket=jrockus-versions"
           - "region_name=nyc3"
           - "endpoint=https://nyc3.digitaloceanspaces.com"
+    - name: webhook
+      files:
+          - "token=webhook-token.secret.txt"
 generatorOptions:
     disableNameSuffixHash: true # because the exact name of the secret appears in CI configs
