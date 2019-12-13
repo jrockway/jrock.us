@@ -7,5 +7,13 @@ secretGenerator:
           - "username=jrockway"
       files:
           - "password=docker-password.secret.txt"
+    - name: versions
+      files:
+          - "secret_access_key=versions.secret.txt"
+      literals:
+          - "access_key_id=C6T2AXGG5F2CRDGVAACA"
+          - "bucket=jrockus-versions"
+          - "region_name=nyc3"
+          - "endpoint=https://nyc3.digitaloceanspaces.com"
 generatorOptions:
     disableNameSuffixHash: true # because the exact name of the secret appears in CI configs
