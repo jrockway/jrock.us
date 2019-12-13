@@ -13,4 +13,4 @@ secretGenerator:
 images:
     - name: www
       newName: registry.jrock.us/www
-      newTag: f6aeed227648364cc1cf1ac40869c35a5a8aa391
+      newTag: 0.0.10
