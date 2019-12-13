@@ -33,31 +33,17 @@ jobs:
       plan:
           - get: jrock-us-git
             trigger: true
-
           - get: www-version
             params:
                 bump: patch
           - put: www-version
             params:
                 file: www-version/version
-
           - task: build
             privileged: true
-            config:
-                platform: linux
-                image_resource:
-                    type: registry-image
-                    source:
-                        repository: vito/oci-build-task
-                params:
-                    CONTEXT: jrock-us-git/www
-                inputs:
-                    - name: jrock-us-git
-                outputs:
-                    - name: image
-                run:
-                    path: build
-
+            file: jrock-us-git/ci/build-container.yaml
+            vars:
+                context: www
           - put: www-image
             params:
                 image: image/image.tar
