@@ -43,6 +43,7 @@ jobs:
             privileged: true
             file: jrock-us-git/ci/build-container.yaml
             vars:
+                code: jrock-us-git
                 context: www
           - put: www-image
             params:
