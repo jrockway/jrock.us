@@ -97,7 +97,6 @@ jobs:
           - put: envoy-image
             params:
                 image: image/image.tar
-                additional_tags: envoy-version/version
           - put: envoy-version
             params:
                 file: envoy-version/version
