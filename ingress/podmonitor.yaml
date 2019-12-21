@@ -9,3 +9,15 @@ spec:
     podMetricsEndpoints:
         - port: envoy-admin
           path: /stats/prometheus
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: envoy-jsso
+spec:
+    selector:
+        matchLabels:
+            app: public-ingress
+    podMetricsEndpoints:
+        - port: jsso-admin
+          path: /metrics
