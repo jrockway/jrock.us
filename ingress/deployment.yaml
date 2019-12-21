@@ -45,10 +45,39 @@ spec:
                           memory: "100Mi"
                       limits:
                           memory: "100Mi"
+                - name: jsso
+                  image: jsso
+                  volumeMounts:
+                      - name: envoy-policy
+                        mountPath: /policy
+                  ports:
+                      - name: admin
+                        containerPort: 8081
+                      - name: grpc
+                        containerPort: 9000
+                  livenessProbe:
+                       httpGet:
+                           path: /metrics
+                           port: 8081
+                  readinessProbe:
+                      httpGet:
+                          path: /metrics
+                          port: 8081
+                  env:
+                      - name: POLICY_PATH
+                        value: "/policy/policy.rego"
+                  resources:
+                      requests:
+                          memory: "30Mi"
+                      limits:
+                          memory: "30Mi"
             volumes:
                 - name: envoy-config
                   configMap:
                       name: envoy-config
+                - name: envoy-policy
+                  configMap:
+                      name: envoy-policy
                 - name: jrock-us-certs
                   secret:
                       secretName: jrock-us-tls

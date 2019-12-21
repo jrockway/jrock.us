@@ -157,6 +157,14 @@ static_resources:
                                               body:
                                                   inline_string: "Not found!\n"
                           http_filters:
+                              - name: envoy.ext_authz
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.config.filter.http.ext_authz.v2.ExtAuthz
+                                    grpc_service:
+                                        envoy_grpc:
+                                            cluster_name: jsso-grpc
+                                        timeout: 0.1s
+                                    failure_mode_allow: true
                               - name: envoy.router
               - filters:
                     # port 443 traffic, but not TLS; redirect to https
@@ -258,6 +266,19 @@ static_resources:
                           http_filters:
                               - name: envoy.router
     clusters:
+        - name: jsso-grpc
+          type: static
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: jsso-grpc
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: 127.0.0.1
+                                      port_value: 9000
         - name: www-jrock-us
           type: strict_dns
           lb_policy: random
@@ -297,6 +318,7 @@ static_resources:
                                   socket_address:
                                       address: concourse-web.concourse.svc.cluster.local
                                       port_value: 8080
+
 tracing:
     http:
         name: envoy.dynamic.ot
