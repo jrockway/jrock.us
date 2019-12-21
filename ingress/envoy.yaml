@@ -163,8 +163,8 @@ static_resources:
                                     grpc_service:
                                         envoy_grpc:
                                             cluster_name: jsso-grpc
-                                        timeout: 0.1s
-                                    failure_mode_allow: true
+                                        timeout: 1s
+                                    failure_mode_allow: false
                               - name: envoy.router
               - filters:
                     # port 443 traffic, but not TLS; redirect to https
@@ -270,6 +270,13 @@ static_resources:
           type: static
           lb_policy: random
           connect_timeout: 1s
+          http2_protocol_options: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 1
+                grpc_health_check: {}
           load_assignment:
               cluster_name: jsso-grpc
               endpoints:

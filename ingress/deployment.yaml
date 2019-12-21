@@ -30,7 +30,7 @@ spec:
                           path: /server_info
                           port: 9901
                   ports:
-                      - name: admin
+                      - name: envoy-admin
                         containerPort: 9901
                       - name: http
                         containerPort: 80
@@ -51,7 +51,7 @@ spec:
                       - name: envoy-policy
                         mountPath: /policy
                   ports:
-                      - name: admin
+                      - name: jsso-admin
                         containerPort: 8081
                       - name: grpc
                         containerPort: 9000
@@ -66,6 +66,8 @@ spec:
                   env:
                       - name: POLICY_PATH
                         value: "/policy/policy.rego"
+                      - name: GRPC_ADDRESS
+                        value: "127.0.0.1:9000"
                   resources:
                       requests:
                           memory: "30Mi"
