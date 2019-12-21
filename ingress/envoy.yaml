@@ -148,6 +148,18 @@ static_resources:
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
+                                  - name: jaeger.jrock.us
+                                    domains: ["jaeger.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: jaeger
+                                  - name: prom.jrock.us
+                                    domains: ["prom.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: prom
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
@@ -325,6 +337,32 @@ static_resources:
                                   socket_address:
                                       address: concourse-web.concourse.svc.cluster.local
                                       port_value: 8080
+        - name: prom
+          type: logical_dns
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: prom
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: prometheus-k8s.monitoring.svc.cluster.local
+                                      port_value: 9090
+        - name: jaeger
+          type: logical_dns
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: jaeger
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: jaeger-query.observability.svc.cluster.local
+                                      port_value: 16686
 
 tracing:
     http:
