@@ -2,11 +2,8 @@ namespace: ingress
 commonLabels:
     app: public-ingress
 resources:
-    - namespace.yaml
     - service.yaml
-    - service-noproxy.yaml
     - deployment.yaml
-    - jrock.us-cert.yaml
     - podmonitor.yaml
 configMapGenerator:
     - name: envoy-config
