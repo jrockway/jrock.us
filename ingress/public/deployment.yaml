@@ -36,10 +36,6 @@ spec:
                         containerPort: 80
                       - name: https
                         containerPort: 443
-                      - name: http-noproxy
-                        containerPort: 81
-                      - name: https-noproxy
-                        containerPort: 444
                   resources:
                       requests:
                           memory: "100Mi"
@@ -56,9 +52,9 @@ spec:
                       - name: grpc
                         containerPort: 9000
                   livenessProbe:
-                       httpGet:
-                           path: /metrics
-                           port: 8081
+                      httpGet:
+                          path: /metrics
+                          port: 8081
                   readinessProbe:
                       httpGet:
                           path: /metrics
