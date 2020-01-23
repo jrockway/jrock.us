@@ -4,6 +4,7 @@ commonLabels:
 resources:
     - service.yaml
     - deployment.yaml
+    - podmonitor.yaml
 configMapGenerator:
     - name: noproxy-envoy-config
       files: ["envoy.yaml"]
