@@ -1,0 +1,13 @@
+namespace: ingress
+commonLabels:
+    app: noproxy-public-ingress
+resources:
+    - service.yaml
+    - deployment.yaml
+configMapGenerator:
+    - name: noproxy-envoy-config
+      files: ["envoy.yaml"]
+images:
+    - name: envoy
+      newName: envoyproxy/envoy
+      newTag: v1.13.0

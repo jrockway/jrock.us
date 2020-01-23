@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: noproxy-envoy
+spec:
+    replicas: 2
+    template:
+        spec:
+            containers:
+                - name: envoy
+                  image: envoy
+                  command:
+                      - "envoy"
+                  args:
+                      - "-c"
+                      - "/etc/envoy/envoy.yaml"
+                  volumeMounts:
+                      - name: envoy-config
+                        mountPath: /etc/envoy
+                      - name: jrock-us-certs
+                        mountPath: /jrock.us
+                  readinessProbe:
+                      httpGet:
+                          path: /server_info
+                          port: 9901
+                  livenessProbe:
+                      httpGet:
+                          path: /server_info
+                          port: 9901
+                  ports:
+                      - name: envoy-admin
+                        containerPort: 9901
+                      - name: http
+                        containerPort: 80
+                      - name: https
+                        containerPort: 443
+                  resources:
+                      requests:
+                          memory: "100Mi"
+                      limits:
+                          memory: "100Mi"
+            volumes:
+                - name: envoy-config
+                  configMap:
+                      name: noproxy-envoy-config
+                - name: jrock-us-certs
+                  secret:
+                      secretName: jrock-us-tls
