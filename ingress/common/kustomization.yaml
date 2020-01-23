@@ -1,0 +1,6 @@
+namespace: ingress
+commonLabels:
+    app: public-ingress
+resources:
+    - namespace.yaml
+    - jrock.us-cert.yaml
