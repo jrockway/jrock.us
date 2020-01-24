@@ -15,8 +15,10 @@ WORKDIR /src/jaeger-cpp-client/build
 COPY export.map .
 RUN cmake -DCMAKE_BUILD_TYPE=Release \
           -DJAEGERTRACING_PLUGIN=ON \
-          -DBUILD_TESTING=ON \
+          -DBUILD_TESTING=OFF \
           -DHUNTER_CONFIGURATION_TYPES=Release \
+          -DHUNTER_BUILD_SHARED_LIBS=OFF \
+          -DBUILD_SHARED_LIBS=OFF \
           ..
 RUN  make -j3
 RUN  mv libjaegertracing_plugin.so /libjaegertracing_plugin.so
