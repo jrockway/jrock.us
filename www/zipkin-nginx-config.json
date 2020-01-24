@@ -1,0 +1,5 @@
+{
+    "service_name": "nginx-www",
+    "collector_host": "jaeger-collector.observability.svc.cluster.local",
+    "collector_port": 9411
+}

@@ -7,14 +7,16 @@ RUN rm opentracing.tgz
 RUN chmod a+rx *.so
 
 WORKDIR /usr/local/lib
-ADD https://github.com/jaegertracing/jaeger-client-cpp/releases/download/v0.4.2/libjaegertracing_plugin.linux_amd64.so /usr/local/lib/libjaegertracing_plugin.so
+ADD https://github.com/rnburn/zipkin-cpp-opentracing/releases/download/v0.5.2/linux-amd64-libzipkin_opentracing_plugin.so.gz libzipkin_opentracing_plugin.so.gz
+RUN gunzip libzipkin_opentracing_plugin.so.gz
+
 RUN chmod a+rx *.so
 
 WORKDIR /
 RUN rm /etc/nginx/nginx.conf
 RUN mkdir -p /srv
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY jaeger-nginx-config.json /etc/jaeger-nginx-config.json
+COPY zipkin-nginx-config.json /etc/zipkin-nginx-config.json
 
 WORKDIR /srv
 COPY jrock.us .

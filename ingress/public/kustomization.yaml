@@ -17,8 +17,8 @@ secretGenerator:
       type: kubernetes.io/dockerconfigjson
 images:
     - name: envoy
-      newName: registry.jrock.us/envoy
-      newTag: 18a7a733df03def4eb3937b6cab780fb561b3584
+      newName: envoyproxy/envoy
+      newTag: v1.13.0
     - name: jsso
       newName: registry.jrock.us/jsso-envoy-plugin
       digest: sha256:6b0282898cc31f84b239ad1db5555ee11088a8f60f53d7cbf7299137c89b0eb2

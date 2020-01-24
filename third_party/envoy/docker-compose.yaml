@@ -1,9 +1,0 @@
-version: "3.4"
-services:
-    envoy:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        volumes:
-            - ./envoy.yaml:/etc/envoy/envoy.yaml
-        network_mode: "host"

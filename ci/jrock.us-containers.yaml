@@ -27,27 +27,6 @@ resources:
           username: ((registry.username))
           password: ((registry.password))
 
-    - name: envoy-version
-      type: semver
-      icon: counter
-      source:
-          driver: s3
-          bucket: ((versions.bucket))
-          access_key_id: ((versions.access_key_id))
-          secret_access_key: ((versions.secret_access_key))
-          region_name: ((versions.region_name))
-          endpoint: ((versions.endpoint))
-          key: envoy-version
-          initial_version: 0.0.1
-
-    - name: envoy-image
-      type: registry-image
-      icon: docker
-      source:
-          repository: registry.jrock.us/envoy
-          username: ((registry.username))
-          password: ((registry.password))
-
 jobs:
     - name: www
       public: true
@@ -80,24 +59,3 @@ jobs:
           - put: www-version
             params:
                 file: www-version/version
-    - name: envoy
-      public: true
-      plan:
-          - get: jrock-us-git
-            trigger: true
-          - get: envoy-version
-            params:
-                bump: patch
-          - task: build
-            privileged: true
-            file: jrock-us-git/ci/build-container.yaml
-            vars:
-                code: jrock-us-git
-                context: third_party/envoy
-          - put: envoy-image
-            params:
-                image: image/image.tar
-                additional_tags: envoy-version/version
-          - put: envoy-version
-            params:
-                file: envoy-version/version

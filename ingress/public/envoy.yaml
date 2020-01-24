@@ -240,24 +240,24 @@ static_resources:
                                   socket_address:
                                       address: jaeger-query.observability.svc.cluster.local
                                       port_value: 16686
-
+        - name: zipkin
+          type: strict_dns
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: zipkin
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: jaeger-collector-headless.observability.svc.cluster.local
+                                      port_value: 9411
 tracing:
     http:
-        name: envoy.dynamic.ot
+        name: envoy.zipkin
         typed_config:
-            "@type": type.googleapis.com/envoy.config.trace.v2.DynamicOtConfig
-            library: /usr/local/lib/libjaegertracing_plugin.so
-            config:
-                service_name: public-ingress
-                sampler:
-                    type: const
-                    param: 1
-                reporter:
-                    localAgentHostPort: localhost:6831
-                headers:
-                    jaegerDebugHeader: jaeger-debug-id
-                    jaegerBaggageHeader: jaeger-baggage
-                    traceBaggageHeaderPrefix: uberctx-
-                baggage_restrictions:
-                    denyBaggageOnInitializationFailure: false
-                    hostPort: ""
+            "@type": type.googleapis.com/envoy.config.trace.v2.ZipkinConfig
+            collector_cluster: zipkin
+            collector_endpoint: "/api/v2/spans"
+            collector_endpoint_version: HTTP_JSON
