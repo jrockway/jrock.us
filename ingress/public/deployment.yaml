@@ -64,6 +64,16 @@ spec:
                         value: "/policy/policy.rego"
                       - name: GRPC_ADDRESS
                         value: "127.0.0.1:9000"
+                      - name: DEBUG_ADDRESS
+                        value: "0.0.0.0:8081"
+                      - name: JAEGER_SERVICE_NAME
+                        value: "jsso"
+                      - name: JAEGER_REPORTER_LOG_SPANS
+                        value: "true"
+                      - name: LOG_METADATA
+                        value: "true"
+                      - name: LOG_PAYLOADS
+                        value: "true"
                   resources:
                       requests:
                           memory: "30Mi"
