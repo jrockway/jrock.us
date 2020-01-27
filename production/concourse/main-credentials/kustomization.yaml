@@ -18,5 +18,8 @@ secretGenerator:
     - name: webhook
       files:
           - "token=webhook-token.secret.txt"
+    - name: opinionated-server-codecov
+      files:
+          - "CODECOV_TOKEN=opinionated-server-codecov.secret.txt"
 generatorOptions:
     disableNameSuffixHash: true # because the exact name of the secret appears in CI configs
