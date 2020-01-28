@@ -192,6 +192,7 @@ static_resources:
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
+          http2_protocol_options: {}
           load_assignment:
               cluster_name: www-jrock-us
               endpoints:
@@ -200,7 +201,7 @@ static_resources:
                               address:
                                   socket_address:
                                       address: www-jrock-us.www.svc.cluster.local
-                                      port_value: 80
+                                      port_value: 81
         - name: concourse
           type: strict_dns
           lb_policy: random
