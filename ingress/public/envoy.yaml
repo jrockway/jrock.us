@@ -110,6 +110,12 @@ static_resources:
                                           per_filter_config:
                                               envoy.ext_authz:
                                                   disabled: true
+                                    retry_policy:
+                                        num_retries: 3
+                                        retry_on: "5xx,reset"
+                                        retry_host_predicate:
+                                            - name: "envoy.retry_host_predicates.previous_hosts"
+                                        host_selection_retry_max_attempts: 3
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
                                     routes:
@@ -196,6 +202,8 @@ static_resources:
           lb_policy: random
           connect_timeout: 1s
           http2_protocol_options: {}
+          circuit_breakers: {}
+          outlier_detection: {}
           health_checks:
               - timeout: 1s
                 interval: 10s
@@ -218,6 +226,8 @@ static_resources:
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
           load_assignment:
               cluster_name: concourse
               endpoints:
@@ -231,6 +241,8 @@ static_resources:
           type: logical_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
           load_assignment:
               cluster_name: prom
               endpoints:
@@ -244,6 +256,8 @@ static_resources:
           type: logical_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
           load_assignment:
               cluster_name: jaeger
               endpoints:
@@ -257,6 +271,8 @@ static_resources:
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
           load_assignment:
               cluster_name: zipkin
               endpoints:
