@@ -196,6 +196,15 @@ static_resources:
           lb_policy: random
           connect_timeout: 1s
           http2_protocol_options: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 2
+                http_health_check:
+                    host: "www.jrock.us"
+                    path: "/nginx-health-check"
+                    codec_client_type: HTTP2
           load_assignment:
               cluster_name: www-jrock-us
               endpoints:
