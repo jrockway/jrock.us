@@ -20,3 +20,5 @@ COPY zipkin-nginx-config.json /etc/zipkin-nginx-config.json
 
 WORKDIR /srv
 COPY jrock.us .
+
+STOPSIGNAL SIGQUIT
