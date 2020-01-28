@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: www-jrock-us-nginx
-    annotations:
-        "sidecar.jaegertracing.io/inject": "jaeger"
 spec:
     replicas: 2
     template:
@@ -12,14 +10,25 @@ spec:
                 - name: nginx
                   image: www
                   readinessProbe:
-                      httpGet:
-                          path: /nginx-health-check
-                          port: 80
+                      exec:
+                          command:
+                              - sh
+                              - -c
+                              - "curl --silent --fail --http2-prior-knowledge --max-time 1 http://localhost:81/nginx-health-check >/dev/null"
+                      initialDelaySeconds: 1
+                      periodSeconds: 10
                   livenessProbe:
-                      httpGet:
-                          path: /nginx-health-check
-                          port: 80
+                      exec:
+                          command:
+                              - sh
+                              - -c
+                              - "curl --silent --fail --http2-prior-knowledge --max-time 1 http://localhost:81/nginx-health-check >/dev/null"
+                      initialDelaySeconds: 10
+                      periodSeconds: 10
                   ports:
-                      - containerPort: 80
+                      - name: http
+                        containerPort: 80
+                      - name: h2
+                        containerPort: 81
             imagePullSecrets:
                 - name: registry-credentials
