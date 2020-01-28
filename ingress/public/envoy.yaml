@@ -107,6 +107,9 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: www-jrock-us
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
                                     routes:
