@@ -202,7 +202,11 @@ static_resources:
           lb_policy: random
           connect_timeout: 1s
           http2_protocol_options: {}
-          circuit_breakers: {}
+          max_requests_per_connection: 999
+          circuit_breakers:
+              thresholds:
+                  - retry_budget: {}
+                    track_remaining: true
           outlier_detection: {}
           health_checks:
               - timeout: 1s
