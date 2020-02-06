@@ -13,9 +13,24 @@ spec:
                   image: envoy
                   command:
                       - "envoy"
+                  env:
+                      - name: MY_NODE_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.nodeName
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
                   args:
                       - "-c"
                       - "/etc/envoy/envoy.yaml"
+                      - "--service-node"
+                      - "$(MY_POD_NAME)"
+                      - "--service-zone"
+                      - "$(MY_NODE_NAME)"
+                      - "--service-cluster"
+                      - "public-ingress"
                   volumeMounts:
                       - name: envoy-config
                         mountPath: /etc/envoy
@@ -69,7 +84,7 @@ spec:
                       - name: JAEGER_SERVICE_NAME
                         value: "jsso"
                       - name: JAEGER_REPORTER_LOG_SPANS
-                        value: "true"
+                        value: "false"
                       - name: LOG_METADATA
                         value: "true"
                       - name: LOG_PAYLOADS
