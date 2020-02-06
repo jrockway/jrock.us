@@ -1,6 +1,7 @@
 apiVersion: v1alpha
 cluster_config:
     base:
+        connect_timeout: 1s
         lb_policy: RANDOM
         circuit_breakers: {}
         outlier_detection: {}
