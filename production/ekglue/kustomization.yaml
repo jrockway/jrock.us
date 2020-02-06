@@ -1,0 +1,6 @@
+bases:
+    - github.com/jrockway/ekglue/deploy
+images:
+    - name: ekglue
+      newName: registry.jrock.us/ekglue
+      newTag: 0.0.3
