@@ -139,13 +139,13 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: monitoring:prometheus-k8s:web
+                                              cluster: monitoring:prometheus-operated:web
                                   - name: alertmanager.jrock.us
                                     domains: ["alertmanager.jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: monitoring:alertmanager-main:web
+                                              cluster: monitoring:alertmanager-operated:web
                                   - name: grafana.jrock.us
                                     domains: ["grafana.jrock.us"]
                                     routes:
