@@ -1,6 +1,17 @@
+namespace: discovery
 bases:
     - github.com/jrockway/ekglue/deploy
+patches:
+    - deployment.yaml
+secretGenerator:
+    - name: registry-credentials
+      files:
+          - ".dockerconfigjson=docker.secret.json"
+      type: kubernetes.io/dockerconfigjson
+configMapGenerator:
+    - name: ekglue-config
+      files: ["ekglue.yaml"]
 images:
     - name: ekglue
       newName: registry.jrock.us/ekglue
-      newTag: 0.0.3
+      newTag: 0.0.6

@@ -1,0 +1,25 @@
+apiVersion: v1alpha
+cluster_config:
+    base:
+        lb_policy: RANDOM
+        circuit_breakers: {}
+        outlier_detection: {}
+    overrides:
+        - match:
+              - cluster_name: www:www-jrock-us:h2
+          override:
+              http2_protocol_options: {}
+              max_requests_per_connection: 999
+              circuit_breakers:
+                  thresholds:
+                      - retry_budget: {}
+                        track_remaining: true
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "www.jrock.us"
+                        path: "/nginx-health-check"
+                        codec_client_type: HTTP2

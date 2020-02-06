@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ekglue
+spec:
+    template:
+        spec:
+            containers:
+                - name: ekglue
+                  env:
+                      - name: EKGLUE_CONFIG_FILE
+                        value: "/ekglue-config/ekglue.yaml"
+                  volumeMounts:
+                      - name: ekglue-config
+                        mountPath: /ekglue-config
+            volumes:
+                - name: ekglue-config
+                  configMap:
+                      name: ekglue-config
+            imagePullSecrets:
+                - name: registry-credentials
