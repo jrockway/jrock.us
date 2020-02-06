@@ -122,6 +122,8 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: concourse
+                                              timeout: 3600s
+                                              idle_timeout: 3600s
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
