@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+    name: main
+    namespace: monitoring
+    labels:
+        prometheus: main
+spec:
+    replicas: 1
+    externalUrl: "https://prom.jrock.us/"
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    podMonitorSelector: {}
+    podMonitorNamespaceSelector: {}
+    scrapeInterval: 15s
+    serviceAccountName: prometheus-operator
+    resources:
+        requests:
+            memory: 500Mi
