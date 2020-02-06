@@ -93,6 +93,7 @@ static_resources:
                               operation_name: ingress
                           stat_prefix: ingress_jrock-us
                           route_config:
+                              validate_clusters: false
                               virtual_hosts:
                                   - name: jrock.us
                                     domains: ["jrock.us"]
@@ -106,7 +107,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: www-jrock-us
+                                              cluster: www:www-jrock-us:h2
                                           per_filter_config:
                                               envoy.ext_authz:
                                                   disabled: true
@@ -121,7 +122,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: concourse
+                                              cluster: concourse:concourse-web:atc
                                               timeout: 3600s
                                               idle_timeout: 3600s
                                               upgrade_configs:
@@ -132,13 +133,13 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: jaeger
+                                              cluster: observability:jaeger-query:query
                                   - name: prom.jrock.us
                                     domains: ["prom.jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: prom
+                                              cluster: monitoring:prometheus-k8s:web
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
@@ -199,80 +200,6 @@ static_resources:
                                   socket_address:
                                       address: 127.0.0.1
                                       port_value: 9000
-        - name: www-jrock-us
-          type: strict_dns
-          lb_policy: random
-          connect_timeout: 1s
-          http2_protocol_options: {}
-          max_requests_per_connection: 999
-          circuit_breakers:
-              thresholds:
-                  - retry_budget: {}
-                    track_remaining: true
-          outlier_detection: {}
-          health_checks:
-              - timeout: 1s
-                interval: 10s
-                healthy_threshold: 1
-                unhealthy_threshold: 2
-                http_health_check:
-                    host: "www.jrock.us"
-                    path: "/nginx-health-check"
-                    codec_client_type: HTTP2
-          load_assignment:
-              cluster_name: www-jrock-us
-              endpoints:
-                  - lb_endpoints:
-                        - endpoint:
-                              address:
-                                  socket_address:
-                                      address: www-jrock-us.www.svc.cluster.local
-                                      port_value: 81
-        - name: concourse
-          type: strict_dns
-          lb_policy: random
-          connect_timeout: 1s
-          circuit_breakers: {}
-          outlier_detection: {}
-          load_assignment:
-              cluster_name: concourse
-              endpoints:
-                  - lb_endpoints:
-                        - endpoint:
-                              address:
-                                  socket_address:
-                                      address: concourse-web.concourse.svc.cluster.local
-                                      port_value: 8080
-        - name: prom
-          type: logical_dns
-          lb_policy: random
-          connect_timeout: 1s
-          circuit_breakers: {}
-          outlier_detection: {}
-          load_assignment:
-              cluster_name: prom
-              endpoints:
-                  - lb_endpoints:
-                        - endpoint:
-                              address:
-                                  socket_address:
-                                      address: prometheus-k8s.monitoring.svc.cluster.local
-                                      port_value: 9090
-        - name: jaeger
-          type: logical_dns
-          lb_policy: random
-          connect_timeout: 1s
-          circuit_breakers: {}
-          outlier_detection: {}
-          load_assignment:
-              cluster_name: jaeger
-              endpoints:
-                  - lb_endpoints:
-                        - endpoint:
-                              address:
-                                  socket_address:
-                                      address: jaeger-query.observability.svc.cluster.local
-                                      port_value: 16686
         - name: zipkin
           type: strict_dns
           lb_policy: random
