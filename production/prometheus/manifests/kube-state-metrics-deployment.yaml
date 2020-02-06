@@ -51,15 +51,12 @@ spec:
             cpu: 10m
             memory: 20Mi
       - args:
-        - --host=0.0.0.0
+        - --host=127.0.0.1
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: quay.io/coreos/kube-state-metrics:v1.8.0
+        image: quay.io/coreos/kube-state-metrics:v1.9.3
         name: kube-state-metrics
-        ports:
-        - containerPort: 8081
-          name: http-main
         resources:
           limits:
             cpu: 100m
