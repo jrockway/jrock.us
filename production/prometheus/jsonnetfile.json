@@ -1,14 +1,15 @@
 {
-    "dependencies": [
-        {
-            "name": "kube-prometheus",
-            "source": {
-                "git": {
-                    "remote": "https://github.com/coreos/kube-prometheus",
-                    "subdir": "jsonnet/kube-prometheus"
-                }
-            },
-            "version": "master"
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/coreos/kube-prometheus",
+          "subdir": "jsonnet/kube-prometheus"
         }
-    ]
+      },
+      "version": "master",
+      "name": "kube-prometheus"
+    }
+  ],
+  "legacyImports": true
 }
