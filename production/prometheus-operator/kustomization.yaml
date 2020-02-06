@@ -1,4 +1,11 @@
+secretGenerator:
+    - name: alertmanager-main
+      files:
+          - alertmanager.yaml
+generatorOptions:
+    disableNameSuffixHash: true
 resources:
     - bundle.yaml
-    - alertmanager.yaml
+    - prom-main-clusterrole.yaml
+    - alertmanager-spec.yaml
     - prometheus.yaml

@@ -1,0 +1,10 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+    name: main
+    namespace: monitoring
+    labels:
+        prometheus: main
+spec:
+    version: v0.20.0
+    externalUrl: "https://alertmanager.jrock.us/"

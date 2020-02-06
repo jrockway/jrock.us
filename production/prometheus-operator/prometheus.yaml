@@ -7,6 +7,7 @@ metadata:
         prometheus: main
 spec:
     replicas: 1
+    version: v2.15.2
     externalUrl: "https://prom.jrock.us/"
     serviceMonitorSelector: {}
     serviceMonitorNamespaceSelector: {}
@@ -17,3 +18,8 @@ spec:
     resources:
         requests:
             memory: 500Mi
+    alerting:
+        alertmanagers:
+            - namespace: monitoring
+              name: alertmanager-main
+              port: web
