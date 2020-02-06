@@ -1,0 +1,5 @@
+# helm install -f values.yaml stable/prometheus-node-exporter
+namespaceOverride: monitoring
+prometheus:
+    monitor:
+        enabled: true
