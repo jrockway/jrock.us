@@ -96,6 +96,10 @@ static_resources:
                                           route:
                                               timeout: 120s
                                               cluster: docker-registry
+                                    retry_policy:
+                                        num_retries: 3
+                                        retry_on: "5xx,reset"
+                                        per_try_timeout: 30s
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
