@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nodedns
+spec:
+    template:
+        spec:
+            containers:
+                - name: nodedns
+                  env:
+                      - name: DNS_ZONE
+                        value: "jrock.us"
+            imagePullSecrets:
+                - name: registry-credentials

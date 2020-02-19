@@ -1,0 +1,16 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: nodedns-digitalocean-token
+  namespace: kube-system
+spec:
+  encryptedData:
+    token: AgARmy6YLqbsG+i1UM+xfXpNj/4dKvcnSQz985AuLfImiR3RVDP7MTjy3QfTehT9dJ1FtlUjvop7uKAMgBSxaYcVqzvtJjnhog2aY0E5BoAjJ83d9/QHtm61tY0RJsVX2pk86z0DltYOqOzpw/DBsyk3wmEfqnTNI9DKQ7TgOFJD1HWQCRg1Oshk4yj1hVRJjuPxmMGbjU8Rp/3ClQnFJG9VKIQiHwY560G++dHSLsOZTMZZ28YHMgmddqg5wQ1dChg+0lDRifLG4btIcXDqkBdcmjwcnwu3dQNUgwuVvjHvdP8wsLIa47h1tVW5H+zHAqIKEQ4ct+8AfJvQXPHjroGbtQT+zcY/Zp5yLw5BqfiKi5DGNQkeWACICuRuMTknGkRPrLYW8hJsslW2OMyT6oLeuDTAoh/N5lETjv+G6S3NcPKLjTybq80CId0zIOnlWjz5L9mQkQPE5VCvG4FcoM61be5Lyz64Jfs1InyZdgdOW37pkAbh51//D1913hk5ZvhjuOD1x+r+OQrM1e25Ium3XL3Ry3ayS0m+CIjWNuI9jnmYTUkFtL3Xb9xuxMJRPx8rh/r9XuL6qdpC0K1T9gzUcMczRU26AHeRvaserTRWSnNSZngLnrJXPq0rYKpFgueqTgEKRovbt/Mw6xU4WY8PWf/YheIBsmzV6tZXSbRk4Ezi3EqNYlHJDb0yD9G8Wxqv6BVQlrMspRkoQPC6qdQcqAODh7vFpBBJKM4mWFUK3uij2hzt8z8KNg+FcBcAziLATUnRejXPVy0YTDdEzx7P
+  template:
+    metadata:
+      creationTimestamp: null
+      name: nodedns-digitalocean-token
+      namespace: kube-system
+status: {}
+

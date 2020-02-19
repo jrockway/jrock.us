@@ -1,0 +1,12 @@
+namespace: kube-system
+bases:
+    - github.com/jrockway/nodedns/deploy
+resources:
+    - token.yaml
+    - registry-creds.yaml
+patches:
+    - deployment.yaml
+images:
+    - name: nodedns
+      newName: registry.jrock.us/nodedns
+      newTag: 0.0.3
