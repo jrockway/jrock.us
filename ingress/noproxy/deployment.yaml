@@ -9,11 +9,26 @@ spec:
             containers:
                 - name: envoy
                   image: envoy
+                  env:
+                      - name: MY_NODE_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.nodeName
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
                   command:
                       - "envoy"
                   args:
                       - "-c"
                       - "/etc/envoy/envoy.yaml"
+                      - "--service-node"
+                      - "$(MY_POD_NAME)"
+                      - "--service-zone"
+                      - "$(MY_NODE_NAME)"
+                      - "--service-cluster"
+                      - "ingress:noproxy:https"
                   volumeMounts:
                       - name: envoy-config
                         mountPath: /etc/envoy

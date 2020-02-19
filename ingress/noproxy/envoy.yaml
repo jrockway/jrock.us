@@ -1,5 +1,6 @@
 node:
-    cluster: noproxy-public-ingress
+    locality:
+        region: do-nyc1
 overload_manager:
     refresh_interval: 0.25s
     resource_monitors:
