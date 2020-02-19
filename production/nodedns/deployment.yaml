@@ -10,5 +10,18 @@ spec:
                   env:
                       - name: DNS_ZONE
                         value: "jrock.us"
+                      - name: DNS_TTL
+                        value: "60s"
+                      - name: INTERNAL_DOMAIN
+                        value: "nodes-internal"
+                      - name: EXTERNAL_DOMAIN
+                        value: "nodes"
+                      - name: RESYNC_INTERVAL
+                        value: 300s
+                      - name: DIGITALOCEAN_TOKEN
+                        valueFrom:
+                            secretKeyRef:
+                                name: nodedns-digitalocean-token
+                                key: token
             imagePullSecrets:
                 - name: registry-credentials
