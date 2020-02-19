@@ -21,4 +21,4 @@ images:
       newTag: v1.13.0
     - name: jsso
       newName: registry.jrock.us/jsso-envoy-plugin
-      digest: sha256:e58b508ebcb6531b74757684a07131bab55969dfdf579419d4462006e14ed506
+      digest: sha256:d7443754b3c5a36d5f3615f5eb574d8309ac2d501d861ce08a5c592d73b2dd3b

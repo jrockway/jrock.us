@@ -30,12 +30,14 @@ spec:
                       - "--service-zone"
                       - "$(MY_NODE_NAME)"
                       - "--service-cluster"
-                      - "public-ingress"
+                      - "ingress:public:https"
                   volumeMounts:
                       - name: envoy-config
                         mountPath: /etc/envoy
                       - name: jrock-us-certs
                         mountPath: /jrock.us
+                      - name: sockets
+                        mountPath: /sockets
                   readinessProbe:
                       httpGet:
                           path: /server_info
@@ -61,11 +63,11 @@ spec:
                   volumeMounts:
                       - name: envoy-policy
                         mountPath: /policy
+                      - name: sockets
+                        mountPath: /sockets
                   ports:
                       - name: jsso-admin
                         containerPort: 8081
-                      - name: grpc
-                        containerPort: 9000
                   livenessProbe:
                       httpGet:
                           path: /metrics
@@ -78,7 +80,7 @@ spec:
                       - name: POLICY_PATH
                         value: "/policy/policy.rego"
                       - name: GRPC_ADDRESS
-                        value: "127.0.0.1:9000"
+                        value: "unix:/sockets/jsso"
                       - name: DEBUG_ADDRESS
                         value: "0.0.0.0:8081"
                       - name: JAEGER_SERVICE_NAME
@@ -104,5 +106,7 @@ spec:
                 - name: jrock-us-certs
                   secret:
                       secretName: jrock-us-tls
+                - name: sockets
+                  emptyDir: {}
             imagePullSecrets:
                 - name: registry-credentials
