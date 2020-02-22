@@ -6,7 +6,7 @@ metadata:
     labels:
         app: concourse-worker
 spec:
-    minAvailable: 1
+    minAvailable: 0
     selector:
         matchLabels:
             app: concourse-worker

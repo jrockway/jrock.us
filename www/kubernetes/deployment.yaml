@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     name: www-jrock-us-nginx
 spec:
-    replicas: 2
+    replicas: 3
     template:
         spec:
             containers:
@@ -14,7 +14,8 @@ spec:
                           command:
                               - sh
                               - -c
-                              - "curl --silent --fail --http2-prior-knowledge --max-time 1 http://localhost:81/nginx-health-check >/dev/null"
+                              - "curl --silent --fail --http2-prior-knowledge --max-time 1
+                                http://localhost:81/nginx-health-check >/dev/null"
                       initialDelaySeconds: 1
                       periodSeconds: 10
                   livenessProbe:
@@ -22,7 +23,8 @@ spec:
                           command:
                               - sh
                               - -c
-                              - "curl --silent --fail --http2-prior-knowledge --max-time 1 http://localhost:81/nginx-health-check >/dev/null"
+                              - "curl --silent --fail --http2-prior-knowledge --max-time 1
+                                http://localhost:81/nginx-health-check >/dev/null"
                       initialDelaySeconds: 10
                       periodSeconds: 10
                   ports:

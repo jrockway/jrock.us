@@ -5,6 +5,7 @@ resources:
     - service.yaml
     - deployment.yaml
     - podmonitor.yaml
+    - poddisruptionbudget.yaml
 configMapGenerator:
     - name: noproxy-envoy-config
       files: ["envoy.yaml"]

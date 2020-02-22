@@ -5,6 +5,7 @@ resources:
     - service.yaml
     - deployment.yaml
     - podmonitor.yaml
+    - poddisruptionbudget.yaml
 configMapGenerator:
     - name: envoy-config
       files: ["envoy.yaml"]
