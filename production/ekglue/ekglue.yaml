@@ -5,6 +5,22 @@ cluster_config:
         lb_policy: RANDOM
         circuit_breakers: {}
         outlier_detection: {}
+        type: EDS
+        upstream_connection_options:
+            tcp_keepalive: {}
+        common_lb_config:
+            zone_aware_lb_config:
+                routing_enabled:
+                    value: 90.0
+                min_cluster_size: 1
+        eds_cluster_config:
+            eds_config:
+                api_config_source:
+                    api_type: GRPC
+                    transport_api_version: V2
+                    grpc_services:
+                        - envoy_grpc:
+                              cluster_name: ekglue
     overrides:
         - match:
               - cluster_name: www:www-jrock-us:h2
