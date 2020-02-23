@@ -40,3 +40,14 @@ cluster_config:
                         host: "www.jrock.us"
                         path: "/nginx-health-check"
                         codec_client_type: HTTP2
+        - match:
+              - cluster_name: concourse:concourse-web:atc
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "ci.jrock.us"
+                        path: "/api/v1/info"
