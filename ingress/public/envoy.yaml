@@ -1,6 +1,9 @@
 node:
+    cluster: ingress:public:https
     locality:
         region: do-nyc1
+cluster_manager:
+    local_cluster_name: ingress:public:https
 overload_manager:
     refresh_interval: 0.25s
     resource_monitors:
@@ -212,14 +215,32 @@ static_resources:
                               address:
                                   pipe:
                                       path: "/sockets/jsso"
-        - name: zipkin
+        - name: ingress:public:https # self, for locality-aware balancing
+          type: EDS
+          connect_timeout: 1s
+          eds_cluster_config:
+              eds_config:
+                  api_config_source:
+                      api_type: GRPC
+                      grpc_services:
+                          - envoy_grpc:
+                                cluster_name: discovery:ekglue:grpc
+                      transport_api_version: V2
+        - name: observability:jaeger-collector-headless:zipkin
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
           circuit_breakers: {}
           outlier_detection: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 2
+                http_health_check:
+                    path: "/"
           load_assignment:
-              cluster_name: zipkin
+              cluster_name: observability:jaeger-collector-headless:zipkin
               endpoints:
                   - lb_endpoints:
                         - endpoint:
@@ -227,7 +248,9 @@ static_resources:
                                   socket_address:
                                       address: jaeger-collector-headless.observability.svc.cluster.local
                                       port_value: 9411
-        - name: ekglue
+                              health_check_config:
+                                  port_value: 14269
+        - name: discovery:ekglue:grpc
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
@@ -243,7 +266,7 @@ static_resources:
                 unhealthy_threshold: 1
                 grpc_health_check: {}
           load_assignment:
-              cluster_name: ekglue
+              cluster_name: discovery:ekglue:grpc
               endpoints:
                   - lb_endpoints:
                         - endpoint:
@@ -256,7 +279,7 @@ tracing:
         name: envoy.zipkin
         typed_config:
             "@type": type.googleapis.com/envoy.config.trace.v2.ZipkinConfig
-            collector_cluster: zipkin
+            collector_cluster: observability:jaeger-collector-headless:zipkin
             collector_endpoint: "/api/v2/spans"
             collector_endpoint_version: HTTP_JSON
             shared_span_context: false
@@ -269,4 +292,4 @@ dynamic_resources:
             transport_api_version: V2
             grpc_services:
                 envoy_grpc:
-                    cluster_name: ekglue
+                    cluster_name: discovery:ekglue:grpc
