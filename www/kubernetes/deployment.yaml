@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     name: www-jrock-us-nginx
 spec:
-    replicas: 3
+    replicas: 2
     template:
         spec:
             containers:
