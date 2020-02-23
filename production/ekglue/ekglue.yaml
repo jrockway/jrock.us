@@ -11,7 +11,7 @@ cluster_config:
         common_lb_config:
             zone_aware_lb_config:
                 routing_enabled:
-                    value: 90.0
+                    value: 100.0
                 min_cluster_size: 1
         eds_cluster_config:
             eds_config:
@@ -20,7 +20,7 @@ cluster_config:
                     transport_api_version: V2
                     grpc_services:
                         - envoy_grpc:
-                              cluster_name: ekglue
+                              cluster_name: discovery:ekglue:grpc
     overrides:
         - match:
               - cluster_name: www:www-jrock-us:h2
