@@ -239,6 +239,8 @@ static_resources:
                 unhealthy_threshold: 2
                 http_health_check:
                     path: "/"
+          upstream_connection_options:
+              tcp_keepalive: {}
           load_assignment:
               cluster_name: observability:jaeger-collector-headless:zipkin
               endpoints:
