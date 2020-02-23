@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
     name: ekglue
 spec:
+    replicas: 2
     template:
         spec:
             containers:

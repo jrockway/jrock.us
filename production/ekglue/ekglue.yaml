@@ -1,8 +1,13 @@
 apiVersion: v1alpha
+endpoint_config:
+    include_not_ready: true
+    locality:
+        region: do-nyc1
+        zone_from: host
 cluster_config:
     base:
         connect_timeout: 1s
-        lb_policy: RANDOM
+        lb_policy: ROUND_ROBIN
         circuit_breakers: {}
         outlier_detection: {}
         type: EDS
