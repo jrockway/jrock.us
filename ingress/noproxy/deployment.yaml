@@ -36,11 +36,11 @@ spec:
                         mountPath: /jrock.us
                   readinessProbe:
                       httpGet:
-                          path: /server_info
+                          path: /ready
                           port: 9901
                   livenessProbe:
                       httpGet:
-                          path: /server_info
+                          path: /ready
                           port: 9901
                   ports:
                       - name: envoy-admin

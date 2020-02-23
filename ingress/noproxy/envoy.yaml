@@ -137,6 +137,17 @@ static_resources:
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
+          upstream_connection_options:
+              tcp_keepalive: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 2
+                http_health_check:
+                    path: "/"
           load_assignment:
               cluster_name: docker-registry
               endpoints:
@@ -146,12 +157,23 @@ static_resources:
                                   socket_address:
                                       address: registry.docker-registry.svc.cluster.local
                                       port_value: 80
-        - name: zipkin
+        - name: observability:jaeger-collector-headless:zipkin
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
+          upstream_connection_options:
+              tcp_keepalive: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 2
+                http_health_check:
+                    path: "/"
           load_assignment:
-              cluster_name: zipkin
+              cluster_name: observability:jaeger-collector-headless:zipkin
               endpoints:
                   - lb_endpoints:
                         - endpoint:
@@ -159,12 +181,14 @@ static_resources:
                                   socket_address:
                                       address: jaeger-collector-headless.observability.svc.cluster.local
                                       port_value: 9411
+                              health_check_config:
+                                  port_value: 14269
 tracing:
     http:
         name: envoy.zipkin
         typed_config:
             "@type": type.googleapis.com/envoy.config.trace.v2.ZipkinConfig
-            collector_cluster: zipkin
+            collector_cluster: observability:jaeger-collector-headless:zipkin
             collector_endpoint: "/api/v2/spans"
             collector_endpoint_version: HTTP_JSON
             shared_span_context: false
