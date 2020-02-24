@@ -4,12 +4,13 @@ metadata:
     name: loki-canary
     labels:
         app: loki-canary
+        monitoring: loki
 spec:
     type: ClusterIP
     selector:
         app: loki-canary
     ports:
-        - name: metrics
+        - name: http-metrics
           protocol: TCP
           port: 3500
           targetPort: 3500

@@ -17,6 +17,7 @@ resources:
     - promtail-role.yaml
     - promtail-rolebinding.yaml
     - promtail-daemonset.yaml
+    - promtail-service.yaml
     - canary-daemonset.yaml
     - canary-service.yaml
 secretGenerator:

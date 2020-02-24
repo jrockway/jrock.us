@@ -8,4 +8,4 @@ spec:
     namespaceSelector: {}
     selector:
         matchLabels:
-            app: loki
+            monitoring: loki

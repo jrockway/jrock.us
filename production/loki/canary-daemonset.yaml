@@ -21,3 +21,6 @@ spec:
                   imagePullPolicy: IfNotPresent
                   name: loki-canary
                   resources: {}
+                  ports:
+                      - containerPort: 3500
+                        name: http-metrics
