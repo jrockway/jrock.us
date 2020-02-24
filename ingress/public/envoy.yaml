@@ -161,6 +161,17 @@ static_resources:
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
+                                  - name: loki.jrock.us
+                                    domains: ["loki.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: loki:loki-headless:http-metrics
+                                              timeout: 3600s
+                                              idle_timeout: 3600s
+                                              upgrade_configs:
+                                                  - upgrade_type: websocket
+                                                    enabled: true
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
