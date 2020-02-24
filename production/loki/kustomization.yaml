@@ -1,0 +1,17 @@
+namespace: loki
+resources:
+    - namespace.yaml
+    - podsecuritypolicy.yaml
+    - serviceaccount.yaml
+    - role.yaml
+    - rolebinding.yaml
+    - service-headless.yaml
+    - service.yaml
+    - statefulset.yaml
+    - servicemonitor.yaml
+secretGenerator:
+    - name: loki
+      files:
+          - loki.yaml
+generatorOptions:
+    disableNameSuffixHash: true
