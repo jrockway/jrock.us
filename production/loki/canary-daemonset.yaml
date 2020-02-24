@@ -15,11 +15,18 @@ spec:
                 app: loki-canary
         spec:
             containers:
-                - args:
+                - name: loki-canary
+                  env:
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
+                  args:
                       - -addr=loki:3100
+                      - -labelname=instance
+                      - -labelvalue=$(MY_POD_NAME)
                   image: grafana/loki-canary:latest
                   imagePullPolicy: IfNotPresent
-                  name: loki-canary
                   resources: {}
                   ports:
                       - containerPort: 3500
