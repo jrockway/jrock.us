@@ -1,0 +1,15 @@
+namespace: monitoring
+commonLabels:
+    app: grafana
+resources:
+    - deployment.yaml
+    - service.yaml
+    - admin-password.yaml
+    - database-password.yaml
+configMapGenerator:
+    - name: grafana-config
+      files: ["grafana.ini"]
+images:
+    - name: grafana
+      newName: docker.io/grafana/grafana
+      newTag: 6.6.2
