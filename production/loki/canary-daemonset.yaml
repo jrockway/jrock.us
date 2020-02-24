@@ -1,0 +1,23 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+    labels:
+        app: loki-canary
+    name: loki-canary
+spec:
+    selector:
+        matchLabels:
+            app: loki-canary
+    template:
+        metadata:
+            name: loki-canary
+            labels:
+                app: loki-canary
+        spec:
+            containers:
+                - args:
+                      - -addr=loki:3100
+                  image: grafana/loki-canary:latest
+                  imagePullPolicy: IfNotPresent
+                  name: loki-canary
+                  resources: {}

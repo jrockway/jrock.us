@@ -7,11 +7,25 @@ resources:
     - rolebinding.yaml
     - service-headless.yaml
     - service.yaml
+    - pvc.yaml
     - statefulset.yaml
     - servicemonitor.yaml
+    - promtail-podsecuritypolicy.yaml
+    - promtail-serviceaccount.yaml
+    - promtail-clusterrole.yaml
+    - promtail-clusterrolebinding.yaml
+    - promtail-role.yaml
+    - promtail-rolebinding.yaml
+    - promtail-daemonset.yaml
+    - canary-daemonset.yaml
+    - canary-service.yaml
 secretGenerator:
     - name: loki
       files:
           - loki.yaml
+configmapGenerator:
+    - name: promtail
+      files:
+          - promtail.yaml
 generatorOptions:
     disableNameSuffixHash: true
