@@ -23,3 +23,6 @@ spec:
             - namespace: monitoring
               name: alertmanager-main
               port: web
+    additionalScrapeConfigs:
+        name: prometheus-additional
+        key: additional-prom.yaml

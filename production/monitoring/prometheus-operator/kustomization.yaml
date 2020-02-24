@@ -1,7 +1,11 @@
+namespace: monitoring
 secretGenerator:
     - name: alertmanager-main
       files:
           - alertmanager.yaml
+    - name: prometheus-additional
+      files:
+          - additional-prom.yaml
 generatorOptions:
     disableNameSuffixHash: true
 resources:
