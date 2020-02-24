@@ -3,8 +3,22 @@ kind: Jaeger
 metadata:
     name: jaeger
 spec:
+    strategy: allinone
+    ui:
+        options:
+            dependencies:
+                menuEnabled: true
     storage:
         type: badger
     options:
         badger:
-            ephemeral: true
+            ephemeral: false
+            directory-key: /badger/key
+            directory-value: /badger/data
+    volumeMounts:
+        - name: data
+          mountPath: /badger
+    volumes:
+        - name: data
+          persistentVolumeClaim:
+              claimName: jaeger-badger
