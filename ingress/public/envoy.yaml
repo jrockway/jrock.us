@@ -265,6 +265,7 @@ static_resources:
                 unhealthy_threshold: 2
                 http_health_check:
                     path: "/"
+          dns_lookup_family: V4_ONLY
           upstream_connection_options:
               tcp_keepalive: {}
           load_assignment:
@@ -285,6 +286,7 @@ static_resources:
           circuit_breakers: {}
           outlier_detection: {}
           http2_protocol_options: {}
+          dns_lookup_family: V4_ONLY
           upstream_connection_options:
               tcp_keepalive: {}
           health_checks:
