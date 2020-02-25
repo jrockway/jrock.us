@@ -46,6 +46,17 @@ cluster_config:
                         path: "/nginx-health-check"
                         codec_client_type: HTTP2
         - match:
+              - cluster_name: observability:jaeger-query:http-query
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "jaeger.jrock.us"
+                        path: "/"
+        - match:
               - cluster_name: concourse:concourse-web:atc
           override:
               health_checks:
