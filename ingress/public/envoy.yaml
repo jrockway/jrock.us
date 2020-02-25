@@ -176,6 +176,12 @@ static_resources:
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
+                                  - name: pgadmin.jrock.us
+                                    domains: ["pgadmin.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: postgres:pgadmin:http
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
