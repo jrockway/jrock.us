@@ -13,6 +13,10 @@ spec:
     serviceMonitorNamespaceSelector: {}
     podMonitorSelector: {}
     podMonitorNamespaceSelector: {}
+    ruleNamespaceSelector: {}
+    ruleSelector:
+        matchLabels:
+            role: alert-rules
     scrapeInterval: 15s
     serviceAccountName: prometheus-operator
     retention: 30d
