@@ -141,7 +141,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: observability:jaeger-query:query
+                                              cluster: observability:jaeger-query:http-query
                                   - name: prom.jrock.us
                                     domains: ["prom.jrock.us"]
                                     routes:

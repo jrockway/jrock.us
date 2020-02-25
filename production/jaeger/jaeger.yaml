@@ -10,11 +10,11 @@ spec:
                 menuEnabled: true
     storage:
         type: badger
-    options:
-        badger:
-            ephemeral: false
-            directory-key: /badger/key
-            directory-value: /badger/data
+        options:
+            badger:
+                ephemeral: false
+                directory-key: /badger/key
+                directory-value: /badger/data
     volumeMounts:
         - name: data
           mountPath: /badger
