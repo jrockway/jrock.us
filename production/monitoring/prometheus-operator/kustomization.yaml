@@ -13,3 +13,4 @@ resources:
     - prom-main-clusterrole.yaml
     - alertmanager-spec.yaml
     - prometheus.yaml
+    - self-check.yaml

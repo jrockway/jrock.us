@@ -60,7 +60,7 @@ spec:
     alerting:
         alertmanagers:
             - namespace: monitoring
-              name: alertmanager-main
+              name: alertmanager-operated
               port: web
     additionalScrapeConfigs:
         name: prometheus-additional
