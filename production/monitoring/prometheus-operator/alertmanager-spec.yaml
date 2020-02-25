@@ -21,24 +21,24 @@ spec:
                     requests:
                         storage: 5Gi
                 storageClassName: do-block-storage-safe
-    # securityContext:
-    #     fsGroup: 489
-    #     runAsUser: 489
-    # initContainers:
-    #     - command:
-    #           - chown
-    #           - -R
-    #           - 489:489
-    #           - /alertmanager
-    #       image: busybox:1.30
-    #       imagePullPolicy: IfNotPresent
-    #       name: init-chown-data
-    #       resources: {}
-    #       securityContext:
-    #           runAsUser: 0
-    #       terminationMessagePath: /dev/termination-log
-    #       terminationMessagePolicy: File
-    #       volumeMounts:
-    #           - mountPath: /alertmanager
-    #             name: alertmanager-main-db
-    #             subPath: alertmanager-db
+    securityContext:
+        fsGroup: 489
+        runAsUser: 489
+    initContainers:
+        - command:
+              - chown
+              - -R
+              - 489:489
+              - /alertmanager
+          image: busybox:1.30
+          imagePullPolicy: IfNotPresent
+          name: init-chown-data
+          resources: {}
+          securityContext:
+              runAsUser: 0
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+              - mountPath: /alertmanager
+                name: alertmanager-main-db
+                subPath: alertmanager-db
