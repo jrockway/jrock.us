@@ -98,6 +98,10 @@ static_resources:
                           stat_prefix: ingress_jrock-us
                           route_config:
                               validate_clusters: false
+                              response_headers_to_add:
+                                  - header:
+                                        key: x-pod
+                                        value: "%HOSTNAME%"
                               virtual_hosts:
                                   - name: jrock.us
                                     domains: ["jrock.us"]
