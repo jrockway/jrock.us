@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: pgadmin
+spec:
+    replicas: 1
+    template:
+        spec:
+            containers:
+                - name: pgadmin
+                  image: pgadmin
+                  ports:
+                      - name: http
+                        containerPort: 80
+                  envFrom:
+                      - secretRef:
+                            name: pgadmin-password
+                  readinessProbe:
+                      httpGet:
+                          path: /misc/ping
+                          port: 80
+                  livenessProbe:
+                      httpGet:
+                          path: /misc/ping
+                          port: 80
+                  volumeMounts:
+                      - name: data
+                        mountPath: /var/lib/pgadmin
+            securityContext:
+                fsGroup: 5050
+                runAsUser: 5050
+            volumes:
+                - name: data
+                  persistentVolumeClaim:
+                      claimName: pgadmin

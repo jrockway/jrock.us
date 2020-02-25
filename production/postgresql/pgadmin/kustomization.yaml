@@ -1,0 +1,12 @@
+namespace: postgres
+commonLabels:
+    app: pgadmin
+resources:
+    - pgadmin-password.yaml
+    - pgadmin-service.yaml
+    - pgadmin-pvc.yaml
+    - pgadmin-deployment.yaml
+images:
+    - name: pgadmin
+      newName: docker.io/dpage/pgadmin4
+      newTag: "4.18"
