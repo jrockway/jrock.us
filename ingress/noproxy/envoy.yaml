@@ -95,12 +95,12 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              timeout: 120s
+                                              timeout: 360s
                                               cluster: docker-registry
                                     retry_policy:
                                         num_retries: 3
                                         retry_on: "5xx,reset"
-                                        per_try_timeout: 30s
+                                        per_try_timeout: 120s
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
