@@ -151,10 +151,17 @@ spec:
                             path: host_key.pub
                           - key: worker-key
                             path: worker_key
-
-                - name: concourse-work-dir
-                  emptyDir:
-                      sizeLimit: "20Gi"
+    volumeClaimTemplates:
+        - metadata:
+              name: concourse-work-dir
+          spec:
+              accessModes:
+                  - ReadWriteOnce
+              volumeMode: Filesystem
+              resources:
+                  requests:
+                      storage: 20Gi
+              storageClassName: do-block-storage-safe
     updateStrategy:
         type: RollingUpdate
     podManagementPolicy: Parallel
