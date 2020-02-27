@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: alertmanager-discord
+spec:
+    replicas: 1
+    template:
+        spec:
+            containers:
+                - name: alertmanager-discord
+                  image: alertmanager-discord
+                  env:
+                      - name: DEBUG_ADDRESS
+                        value: "0.0.0.0:8081"
+                      - name: DISCORD_WEBHOOK
+                        valueFrom:
+                            secretKeyRef:
+                                name: discord-webhook
+                                key: DISCORD_WEBHOOK
+                  readinessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: debug
+                  livenessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: debug
+                  ports:
+                      - name: webhook
+                        containerPort: 8080
+                      - name: debug
+                        containerPort: 8081
+                  resources:
+                      requests:
+                          cpu: 50m
+                          memory: "100Mi"
+                      limits:
+                          cpu: 1
+                          memory: "100Mi"

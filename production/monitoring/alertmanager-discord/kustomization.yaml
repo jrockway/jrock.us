@@ -1,0 +1,12 @@
+namespace: monitoring
+commonLabels:
+    app: alertmanager-discord
+resources:
+    - discord-webhook-secret.yaml
+    - deployment.yaml
+    - service.yaml
+    - servicemonitor.yaml
+images:
+    - name: alertmanager-discord
+      newName: docker.io/jrockway/alertmanager-discord
+      digest: sha256:09a25acf76c21a23429e85e411c46cf2d7a15bb86daa001d62c43902b7fe8e7f
