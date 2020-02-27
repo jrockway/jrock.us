@@ -140,15 +140,18 @@ spec:
                       - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.35.1
                   image: quay.io/coreos/prometheus-operator:v0.35.1
                   name: prometheus-operator
+                  env:
+                      - name: GOMAXPROCS
+                        value: "1"
                   ports:
                       - containerPort: 8080
                         name: http
                   resources:
                       limits:
-                          cpu: 200m
+                          cpu: 500m
                           memory: 200Mi
                       requests:
-                          cpu: 100m
+                          cpu: 200m
                           memory: 100Mi
                   securityContext:
                       allowPrivilegeEscalation: false
