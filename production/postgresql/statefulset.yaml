@@ -29,13 +29,12 @@ spec:
                   ports:
                       - name: postgres
                         containerPort: 5432
-                  # resources:
-                  #     requests:
-                  #         cpu: 300m
-                  #         memory: "512Mi"
-                  #     limits:
-                  #         cpu: 300m
-                  #         memory: "512Mi"
+                  resources:
+                      requests:
+                          cpu: 500m
+                          memory: 728Mi
+                      limits:
+                          memory: 2Gi
                 - name: exporter
                   image: exporter
                   readinessProbe:
