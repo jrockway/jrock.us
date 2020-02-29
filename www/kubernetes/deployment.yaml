@@ -6,6 +6,20 @@ spec:
     replicas: 2
     template:
         spec:
+            affinity:
+                podAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 100
+                          podAffinityTerm:
+                              namespaces:
+                                  - ingress
+                              labelSelector:
+                                  matchExpressions:
+                                      - key: app
+                                        operator: In
+                                        values:
+                                            - envoy
+                              topologyKey: "kubernetes.io/hostname"
             containers:
                 - name: nginx
                   image: www
