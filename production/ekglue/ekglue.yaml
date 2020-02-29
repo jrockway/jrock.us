@@ -69,3 +69,36 @@ cluster_config:
                     http_health_check:
                         host: "ci.jrock.us"
                         path: "/api/v1/info"
+        - match:
+              - cluster_name: monitoring:grafana:http
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "grafana.jrock.us"
+                        path: "/api/health"
+        - match:
+              - cluster_name: monitoring:prometheus-operated:web
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "prom.jrock.us"
+                        path: "/-/healthy"
+        - match:
+              - cluster_name: monitoring:alertmanager-operated:web
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        host: "prom.jrock.us"
+                        path: "/-/healthy"
