@@ -15,6 +15,13 @@ spec:
                       - "/nginx/nginx.conf"
                       - "-g"
                       - "daemon off;"
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 100Mi
+                      limits:
+                          cpu: 1
+                          memory: 100Mi
                   readinessProbe:
                       exec:
                           command:
