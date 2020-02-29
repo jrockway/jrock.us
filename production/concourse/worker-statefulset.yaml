@@ -139,7 +139,6 @@ spec:
                               labelSelector:
                                   matchLabels:
                                       app: concourse-worker
-                                      release: "concourse"
             volumes:
                 - name: pre-stop-hook
                   configMap:
