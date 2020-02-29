@@ -9,6 +9,12 @@ spec:
             containers:
                 - name: nginx
                   image: www
+                  args:
+                      - "nginx"
+                      - "-c"
+                      - "/nginx/nginx.conf"
+                      - "-g"
+                      - "daemon off;"
                   readinessProbe:
                       exec:
                           command:
@@ -30,5 +36,12 @@ spec:
                   ports:
                       - name: h2
                         containerPort: 81
+                  volumeMounts:
+                      - name: nginx-config
+                        mountPath: /nginx
             imagePullSecrets:
                 - name: registry-credentials
+            volumes:
+                - name: nginx-config
+                  configMap:
+                      name: www-jrock-us-nginx-config

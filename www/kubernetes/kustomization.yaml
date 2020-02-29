@@ -11,6 +11,11 @@ secretGenerator:
       files:
           - ".dockerconfigjson=docker.secret.json"
       type: kubernetes.io/dockerconfigjson
+configMapGenerator:
+    - name: www-jrock-us-nginx-config
+      files:
+          - nginx.conf
+          - zipkin-nginx-config.json
 images:
     - name: www
       newName: registry.jrock.us/www

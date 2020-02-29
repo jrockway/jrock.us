@@ -17,8 +17,6 @@ RUN chmod a+rx *.so
 WORKDIR /
 RUN rm /etc/nginx/nginx.conf
 RUN mkdir -p /srv
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY zipkin-nginx-config.json /etc/zipkin-nginx-config.json
 
 WORKDIR /srv
 COPY jrock.us .
