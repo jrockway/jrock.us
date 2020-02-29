@@ -2,8 +2,10 @@ apiVersion: v1alpha
 endpoint_config:
     include_not_ready: true
     locality:
-        region: do-nyc1
-        zone_from: host
+        region_from:
+            label: failure-domain.beta.kubernetes.io/region
+        zone_from:
+            use_hostname: true
 cluster_config:
     base:
         connect_timeout: 1s
