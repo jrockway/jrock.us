@@ -40,7 +40,7 @@ spec:
                           port: 9901
                   livenessProbe:
                       httpGet:
-                          path: /ready
+                          path: /server_info
                           port: 9901
                   ports:
                       - name: envoy-admin
@@ -51,6 +51,7 @@ spec:
                         containerPort: 443
                   resources:
                       requests:
+                          cpu: 100m
                           memory: "100Mi"
                       limits:
                           memory: "100Mi"
