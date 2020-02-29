@@ -6,6 +6,18 @@ spec:
     replicas: 2
     template:
         spec:
+            affinity:
+                podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 100
+                          podAffinityTerm:
+                              labelSelector:
+                                  matchExpressions:
+                                      - key: app
+                                        operator: In
+                                        values:
+                                            - noproxy-envoy
+                              topologyKey: "kubernetes.io/hostname"
             containers:
                 - name: envoy
                   image: envoy
@@ -51,7 +63,7 @@ spec:
                         containerPort: 443
                   resources:
                       requests:
-                          cpu: 100m
+                          cpu: 50m
                           memory: "100Mi"
                       limits:
                           memory: "100Mi"

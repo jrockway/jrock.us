@@ -5,9 +5,21 @@ metadata:
     annotations:
         "sidecar.jaegertracing.io/inject": "jaeger"
 spec:
-    replicas: 3
+    replicas: 2
     template:
         spec:
+            affinity:
+                podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                        - weight: 100
+                          podAffinityTerm:
+                              labelSelector:
+                                  matchExpressions:
+                                      - key: app
+                                        operator: In
+                                        values:
+                                            - envoy
+                              topologyKey: "kubernetes.io/hostname"
             containers:
                 - name: envoy
                   image: envoy
