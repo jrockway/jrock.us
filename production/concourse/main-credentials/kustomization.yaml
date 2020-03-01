@@ -2,6 +2,7 @@ namespace: concourse-main
 resources:
     - namespace.yaml
     - dockerhub-secret.yaml
+    - ekglue-secrets.yaml
 secretGenerator:
     - name: registry
       literals:
