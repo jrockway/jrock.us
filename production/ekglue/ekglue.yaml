@@ -34,9 +34,12 @@ cluster_config:
                               cluster_name: discovery:ekglue:grpc
     overrides:
         - match:
-              - cluster_name: www:www-jrock-us:h2
+              - port_name: h2
           override:
               http2_protocol_options: {}
+        - match:
+              - cluster_name: www:www-jrock-us:h2
+          override:
               max_requests_per_connection: 999
               health_checks:
                   - timeout: 1s
@@ -82,16 +85,6 @@ cluster_config:
                         path: "/api/health"
         - match:
               - cluster_name: monitoring:prometheus-operated:web
-          override:
-              health_checks:
-                  - timeout: 1s
-                    interval: 10s
-                    healthy_threshold: 1
-                    unhealthy_threshold: 2
-                    http_health_check:
-                        host: "prom.jrock.us"
-                        path: "/-/healthy"
-        - match:
               - cluster_name: monitoring:alertmanager-operated:web
           override:
               health_checks:
@@ -100,5 +93,4 @@ cluster_config:
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:
-                        host: "prom.jrock.us"
                         path: "/-/healthy"

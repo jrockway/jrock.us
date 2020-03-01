@@ -1,6 +1,6 @@
 namespace: discovery
 bases:
-    - github.com/jrockway/ekglue/deploy
+    - github.com/jrockway/ekglue/deploy/overlays/with-podmonitor
 patches:
     - deployment.yaml
 secretGenerator:
@@ -14,4 +14,4 @@ configMapGenerator:
 images:
     - name: ekglue
       newName: registry.jrock.us/ekglue
-      newTag: 0.0.31
+      newTag: 0.0.37
