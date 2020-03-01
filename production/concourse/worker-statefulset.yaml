@@ -56,8 +56,6 @@ spec:
                                   - "/bin/bash"
                                   - "/pre-stop-hook.sh"
                   env:
-                      - name: GOMAXPROCS
-                        value: "1"
                       - name: CONCOURSE_SWEEP_INTERVAL
                         value: "30s"
                       - name: CONCOURSE_CONNECTION_DRAIN_TIMEOUT
@@ -114,10 +112,10 @@ spec:
                         containerPort: 8888
                   resources:
                       requests:
-                          cpu: 1000m
-                          memory: 1024Mi
+                          cpu: 100m
+                          memory: 300Mi
                       limits:
-                          cpu: 1000m
+                          cpu: 1500m
                           memory: 2048Mi
                   securityContext:
                       privileged: true

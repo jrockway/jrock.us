@@ -131,6 +131,10 @@ spec:
                         value: "/concourse-keys/worker_key.pub"
                       - name: CONCOURSE_TSA_HEARTBEAT_INTERVAL
                         value: "30s"
+                      - name: CONCOURSE_DEFAULT_TASK_CPU_LIMIT
+                        value: "1"
+                      - name: CONCOURSE_DEFAULT_TASK_MEMORY_LIMIT
+                        value: "512000000"
                   ports:
                       - name: atc
                         containerPort: 8080
