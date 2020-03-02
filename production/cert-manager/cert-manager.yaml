@@ -6265,7 +6265,7 @@ spec:
       serviceAccountName: cert-manager-cainjector
       containers:
         - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-cainjector:v0.13.0"
+          image: "quay.io/jetstack/cert-manager-cainjector:v0.13.1"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
@@ -6277,7 +6277,7 @@ spec:
                 fieldPath: metadata.namespace
           resources:
             {}
-            
+
 
 ---
 # Source: cert-manager/templates/deployment.yaml
@@ -6316,7 +6316,7 @@ spec:
       serviceAccountName: cert-manager
       containers:
         - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-controller:v0.13.0"
+          image: "quay.io/jetstack/cert-manager-controller:v0.13.1"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
@@ -6338,7 +6338,7 @@ spec:
             requests:
               cpu: 10m
               memory: 32Mi
-            
+
 
 ---
 # Source: cert-manager/templates/webhook-deployment.yaml
@@ -6374,7 +6374,7 @@ spec:
       serviceAccountName: cert-manager-webhook
       containers:
         - name: cert-manager
-          image: "quay.io/jetstack/cert-manager-webhook:v0.13.0"
+          image: "quay.io/jetstack/cert-manager-webhook:v0.13.1"
           imagePullPolicy: IfNotPresent
           args:
           - --v=2
@@ -6398,7 +6398,7 @@ spec:
                 fieldPath: metadata.namespace
           resources:
             {}
-            
+
           volumeMounts:
           - name: certs
             mountPath: /certs
@@ -6470,7 +6470,7 @@ webhooks:
 
 ---
 # Source: cert-manager/templates/webhook-psp-clusterrole.yaml
- 
+
 
 ---
 # Source: cert-manager/templates/webhook-psp-clusterrolebinding.yaml
