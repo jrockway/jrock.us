@@ -75,6 +75,13 @@ cluster_config:
         - match:
               - cluster_name: monitoring:grafana:http
           override:
+              http2_protocol_options: {}
+              transport_socket:
+                  name: envoy.transport_sockets.tls
+                  typed_config:
+                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
+                      common_tls_context:
+                          alpn_protocols: ["h2"]
               health_checks:
                   - timeout: 1s
                     interval: 10s
@@ -83,6 +90,7 @@ cluster_config:
                     http_health_check:
                         host: "grafana.jrock.us"
                         path: "/api/health"
+                        codec_client_type: HTTP2
         - match:
               - cluster_name: monitoring:prometheus-operated:web
               - cluster_name: monitoring:alertmanager-operated:web

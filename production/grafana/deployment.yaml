@@ -32,10 +32,19 @@ spec:
                       httpGet:
                           path: /api/health
                           port: http
+                          scheme: HTTPS
+                          httpHeaders:
+                              - name: Host
+                                value: grafana.jrock.us
                   volumeMounts:
                       - name: grafana-config
                         mountPath: /etc/grafana
+                      - name: grafana-tls
+                        mountPath: /tls
             volumes:
                 - name: grafana-config
                   configMap:
                       name: grafana-config
+                - name: grafana-tls
+                  secret:
+                      secretName: grafana-tls
