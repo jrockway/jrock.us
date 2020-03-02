@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+    name: envoy
+spec:
+    secretName: envoy-client-tls
+    issuerRef:
+        name: ca-issuer
+        kind: ClusterIssuer
+    commonName: "ingress:public:https"

@@ -48,6 +48,8 @@ spec:
                         mountPath: /etc/envoy
                       - name: jrock-us-certs
                         mountPath: /jrock.us
+                      - name: envoy-client-certs
+                        mountPath: /tls
                       - name: sockets
                         mountPath: /sockets
                   readinessProbe:
@@ -120,6 +122,9 @@ spec:
                 - name: jrock-us-certs
                   secret:
                       secretName: jrock-us-tls
+                - name: envoy-client-certs
+                  secret:
+                      secretName: envoy-client-tls
                 - name: sockets
                   emptyDir: {}
             imagePullSecrets:
