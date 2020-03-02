@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+    name: master
+spec:
+    secretName: master-tls
+    issuerRef:
+        name: ca-issuer
+        kind: ClusterIssuer
+    dnsNames:
+        - master-0.master.postgres.svc.cluster.local
+        - master.postgres.svc.cluster.local

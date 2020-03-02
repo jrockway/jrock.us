@@ -3,6 +3,7 @@ commonLabels:
     app: postgres-master
 resources:
     - namespace.yaml
+    - cert.yaml
     - service.yaml
     - pvc.yaml
     - statefulset.yaml
