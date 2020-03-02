@@ -2,3 +2,4 @@ namespace: observability
 resources:
     - pvc.yaml
     - jaeger.yaml
+    - podmonitor.yaml
