@@ -173,7 +173,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: monitoring:grafana:http
+                                              cluster: monitoring:grafana:https2
                                               timeout: 3600s
                                               idle_timeout: 3600s
                                               upgrade_configs:

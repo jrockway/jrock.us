@@ -38,12 +38,32 @@ cluster_config:
           override:
               http2_protocol_options: {}
         - match:
+              - port_name: https2
+          override:
+              http2_protocol_options: {}
+              transport_socket:
+                  name: envoy.transport_sockets.tls
+                  typed_config:
+                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
+                      common_tls_context:
+                          alpn_protocols: ["h2"]
+                          tls_certificates:
+                              - certificate_chain:
+                                    filename: "/tls/tls.crt"
+                                private_key:
+                                    filename: "/tls/tls.key"
+                          validation_context:
+                              trusted_ca:
+                                  filename: "/tls/ca.crt"
+                              match_subject_alt_names:
+                                  - suffix: "cluster.local"
+        - match:
               - cluster_name: www:www-jrock-us:h2
           override:
               max_requests_per_connection: 999
               health_checks:
                   - timeout: 1s
-                    interval: 10s
+                    interval: 4s
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:
@@ -55,7 +75,7 @@ cluster_config:
           override:
               health_checks:
                   - timeout: 1s
-                    interval: 10s
+                    interval: 4s
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:
@@ -66,25 +86,18 @@ cluster_config:
           override:
               health_checks:
                   - timeout: 1s
-                    interval: 10s
+                    interval: 4s
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:
                         host: "ci.jrock.us"
                         path: "/api/v1/info"
         - match:
-              - cluster_name: monitoring:grafana:http
+              - cluster_name: monitoring:grafana:https2
           override:
-              http2_protocol_options: {}
-              transport_socket:
-                  name: envoy.transport_sockets.tls
-                  typed_config:
-                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
-                      common_tls_context:
-                          alpn_protocols: ["h2"]
               health_checks:
                   - timeout: 1s
-                    interval: 10s
+                    interval: 4s
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:
@@ -97,7 +110,7 @@ cluster_config:
           override:
               health_checks:
                   - timeout: 1s
-                    interval: 10s
+                    interval: 4s
                     healthy_threshold: 1
                     unhealthy_threshold: 2
                     http_health_check:

@@ -7,4 +7,8 @@ spec:
     issuerRef:
         name: ca-issuer
         kind: ClusterIssuer
-    commonName: "ingress:public:https"
+    dnsNames:
+        - public
+        - public.ingress
+        - public.ingress.svc
+        - public.ingress.svc.cluster.local

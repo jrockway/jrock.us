@@ -7,4 +7,8 @@ spec:
     issuerRef:
         name: ca-issuer
         kind: ClusterIssuer
-    commonName: "monitoring:grafana:https"
+    dnsNames:
+        - grafana
+        - grafana.monitoring
+        - granana.monitoring.svc
+        - granana.monitoring.svc.cluster.local
