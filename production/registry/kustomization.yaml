@@ -14,6 +14,9 @@ secretGenerator:
       files:
           - "config.yml=config.secret.yml"
 images:
+    #    - name: docker-registry
+    #      newName: docker.io/registry
+    #      newTag: 2.7.1
     - name: docker-registry
-      newName: docker.io/registry
-      newTag: 2.7.1
+      newName: jrockway/registry
+      newTag: 6b972e50feee79bbe1de9d18668e9e4e5e729355
