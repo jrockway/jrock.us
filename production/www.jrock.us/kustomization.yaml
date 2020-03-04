@@ -3,14 +3,10 @@ commonLabels:
     app: www.jrock.us
 resources:
     - namespace.yaml
+    - registry-creds.yaml
     - deployment.yaml
     - service.yaml
     - poddisruptionbudget.yaml
-secretGenerator:
-    - name: registry-credentials
-      files:
-          - ".dockerconfigjson=docker.secret.json"
-      type: kubernetes.io/dockerconfigjson
 configMapGenerator:
     - name: www-jrock-us-nginx-config
       files:
