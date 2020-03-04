@@ -63,7 +63,6 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           redirect:
-                                              path_redirect: "/"
                                               https_redirect: true
                           http_filters:
                               - name: envoy.router
@@ -117,15 +116,15 @@ static_resources:
                                         key: x-pod
                                         value: "%HOSTNAME%"
                               virtual_hosts:
-                                  - name: jrock.us
-                                    domains: ["jrock.us"]
+                                  - name: www.jrock.us
+                                    domains: ["www.jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           redirect:
-                                              host_redirect: "www.jrock.us"
-                                              response_code: TEMPORARY_REDIRECT
-                                  - name: www.jrock.us
-                                    domains: ["www.jrock.us"]
+                                              host_redirect: "jrock.us"
+                                              response_code: MOVED_PERMANENTLY
+                                  - name: jrock.us
+                                    domains: ["jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
@@ -242,7 +241,6 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           redirect:
-                                              path_redirect: "/"
                                               https_redirect: true
                           http_filters:
                               - name: envoy.router
