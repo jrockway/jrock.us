@@ -19,4 +19,4 @@ images:
     #      newTag: 2.7.1
     - name: docker-registry
       newName: jrockway/registry
-      newTag: 6b972e50feee79bbe1de9d18668e9e4e5e729355
+      digest: sha256:db75eefc57f0c3256f614275f4625e6e96f2a2a075654b327c3c2d14fc6cd0c7
