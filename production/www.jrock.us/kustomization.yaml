@@ -15,4 +15,4 @@ configMapGenerator:
 images:
     - name: www
       newName: registry.jrock.us/www
-      newTag: 0.0.54
+      newTag: 0.0.57
