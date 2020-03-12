@@ -14,4 +14,4 @@ configMapGenerator:
 images:
     - name: ekglue
       newName: registry.jrock.us/ekglue
-      newTag: 0.0.37
+      newTag: 0.0.40
