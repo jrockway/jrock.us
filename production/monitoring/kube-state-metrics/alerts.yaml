@@ -73,3 +73,23 @@ spec:
                     summary: "StatefulSet down (instance {{ $labels.instance }})"
                     description:
                         "A StatefulSet went down\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+              - alert: ContainersWaiting
+                expr: kube_pod_container_status_waiting > 0
+                for: 5m
+                labels:
+                    severity: error
+                annotations:
+                    summary: "Containers in waiting state (pod {{ $labels.exported_pod }})"
+                    description:
+                        "A pod cannot run because its containers cannot be created\n  VALUE = {{
+                        $value }}\n  LABELS: {{ $labels }}"
+              - alert: InitContainersWaiting
+                expr: kube_pod_init_container_status_waiting > 0
+                for: 5m
+                labels:
+                    severity: error
+                annotations:
+                    summary: "Init containers in waiting state (pod {{ $labels.exported_pod }})"
+                    description:
+                        "A pod cannot run because its init containers cannot be created\n  VALUE =
+                        {{ $value }}\n  LABELS: {{ $labels }}"
