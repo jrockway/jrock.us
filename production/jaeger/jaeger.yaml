@@ -4,29 +4,20 @@ metadata:
     name: jaeger
 spec:
     strategy: allinone
+    allInOne:
+        options:
+            log-level: info
     ui:
         options:
             dependencies:
                 menuEnabled: true
     storage:
-        type: badger
         options:
-            badger:
-                ephemeral: false
-                directory-key: /badger/key
-                directory-value: /badger/data
-                span-store-ttl: 168h0m0s
-                truncate: true
+            memory:
+                max-traces: 1000000
     resources:
         requests:
             cpu: 100m
             memory: 200Mi
         limits:
             memory: 1200Mi
-    volumeMounts:
-        - name: data
-          mountPath: /badger
-    volumes:
-        - name: data
-          persistentVolumeClaim:
-              claimName: jaeger-badger
