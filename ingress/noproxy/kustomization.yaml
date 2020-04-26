@@ -8,7 +8,7 @@ resources:
     - poddisruptionbudget.yaml
 configMapGenerator:
     - name: noproxy-envoy-config
-      files: ["envoy.yaml"]
+      files: ["envoy.yaml", "sds.yaml"]
 images:
     - name: envoy
       newName: envoyproxy/envoy
