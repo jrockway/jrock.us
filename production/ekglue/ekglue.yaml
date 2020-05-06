@@ -54,6 +54,21 @@ cluster_config:
                               sds_config:
                                   path: /etc/envoy/client-validation-sds.yaml
         - match:
+              - port_name: https
+          override:
+              transport_socket:
+                  name: envoy.transport_sockets.tls
+                  typed_config:
+                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
+                      common_tls_context:
+                          alpn_protocols: ["http/1.1"]
+                          tls_certificate_sds_secret_configs:
+                              - sds_config:
+                                    path: /etc/envoy/client-sds.yaml
+                          validation_context_sds_secret_config:
+                              sds_config:
+                                  path: /etc/envoy/client-validation-sds.yaml
+        - match:
               - cluster_name: www:www-jrock-us:h2
           override:
               max_requests_per_connection: 999
@@ -89,7 +104,7 @@ cluster_config:
                         host: "ci.jrock.us"
                         path: "/api/v1/info"
         - match:
-              - cluster_name: monitoring:grafana:https2
+              - cluster_name: monitoring:grafana:https
           override:
               health_checks:
                   - timeout: 1s

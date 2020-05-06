@@ -5,5 +5,5 @@ metadata:
 spec:
     clusterIP: "None"
     ports:
-        - name: https2
+        - name: https
           port: 3000
