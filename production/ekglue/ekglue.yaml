@@ -47,16 +47,12 @@ cluster_config:
                       "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
                       common_tls_context:
                           alpn_protocols: ["h2"]
-                          tls_certificates:
-                              - certificate_chain:
-                                    filename: "/tls/tls.crt"
-                                private_key:
-                                    filename: "/tls/tls.key"
-                          validation_context:
-                              trusted_ca:
-                                  filename: "/tls/ca.crt"
-                              match_subject_alt_names:
-                                  - suffix: "cluster.local"
+                          tls_certificate_sds_secret_configs:
+                              - sds_config:
+                                    path: /etc/envoy/client-sds.yaml
+                          validation_context_sds_secret_config:
+                              sds_config:
+                                  path: /etc/envoy/client-validation-sds.yaml
         - match:
               - cluster_name: www:www-jrock-us:h2
           override:
