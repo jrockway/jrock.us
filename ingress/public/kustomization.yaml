@@ -9,7 +9,7 @@ resources:
     - client-cert.yaml
 configMapGenerator:
     - name: envoy-config
-      files: ["envoy.yaml", "sds.yaml"]
+      files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
     - name: envoy-policy
       files: ["policy.rego=access/policy.rego"]
 secretGenerator:

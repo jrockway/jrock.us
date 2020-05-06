@@ -1,0 +1,7 @@
+resources:
+    - "@type": "type.googleapis.com/envoy.api.v2.auth.Secret"
+      validation_context:
+          trusted_ca:
+              filename: "/tls/ca.crt"
+          match_subject_alt_names:
+              - suffix: "cluster.local"
