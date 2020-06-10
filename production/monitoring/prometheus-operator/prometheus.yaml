@@ -20,18 +20,18 @@ spec:
     scrapeInterval: 15s
     serviceAccountName: prometheus-operator
     retention: 30d
-    retentionSize: 20GB
+    retentionSize: 26GB
     storage:
         volumeClaimTemplate:
             metadata:
-                name: prometheus
+                name: prometheus-main-db
             spec:
                 accessModes:
                     - ReadWriteOnce
                 volumeMode: Filesystem
                 resources:
                     requests:
-                        storage: 20Gi
+                        storage: 30Gi
                 storageClassName: do-block-storage-safe
     securityContext:
         fsGroup: 489

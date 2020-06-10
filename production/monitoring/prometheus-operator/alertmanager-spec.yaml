@@ -12,7 +12,7 @@ spec:
     storage:
         volumeClaimTemplate:
             metadata:
-                name: alertmanager
+                name: alertmanager-main-db
             spec:
                 accessModes:
                     - ReadWriteOnce
