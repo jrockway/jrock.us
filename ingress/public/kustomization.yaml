@@ -20,7 +20,7 @@ secretGenerator:
 images:
     - name: envoy
       newName: envoyproxy/envoy
-      newTag: v1.14.1
+      newTag: v1.14.2
     - name: jsso
       newName: registry.jrock.us/jsso-envoy-plugin
       digest: sha256:d7443754b3c5a36d5f3615f5eb574d8309ac2d501d861ce08a5c592d73b2dd3b
