@@ -1,8 +1,8 @@
 client:
     backoff_config:
-        maxbackoff: 5s
-        maxretries: 20
-        minbackoff: 100ms
+        max_retries: 20
+        min_period: 100ms
+        max_period: 5s
     batchsize: 102400
     batchwait: 1s
     external_labels: {}
