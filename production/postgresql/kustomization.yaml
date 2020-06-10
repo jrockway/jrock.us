@@ -18,7 +18,7 @@ secretGenerator:
 images:
     - name: postgres
       newName: docker.io/postgres
-      newTag: "12.2"
+      newTag: "12.3"
     - name: exporter
       newName: docker.io/wrouesnel/postgres_exporter
       newTag: v0.8.0
