@@ -146,3 +146,9 @@ tracing:
             collector_endpoint: "/api/v2/spans"
             collector_endpoint_version: HTTP_JSON
             shared_span_context: false
+layered_runtime:
+    layers:
+        - name: static_layer_0
+          static_layer:
+              overload:
+                  global_downstream_max_connections: 50000
