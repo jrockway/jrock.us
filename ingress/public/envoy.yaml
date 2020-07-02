@@ -43,6 +43,7 @@ static_resources:
                           codec_type: auto
                           common_http_protocol_options:
                               idle_timeout: 5s
+                              headers_with_underscores_action: REJECT_REQUEST
                           http_protocol_options:
                               accept_http_10: true
                               default_host_for_http_10: www.jrock.us
@@ -94,6 +95,7 @@ static_resources:
                           codec_type: auto
                           common_http_protocol_options:
                               idle_timeout: 3600s
+                              headers_with_underscores_action: REJECT_REQUEST
                           http_protocol_options:
                               accept_http_10: true
                               default_host_for_http_10: www.jrock.us
