@@ -115,6 +115,9 @@ static_resources:
                                   - header:
                                         key: x-pod
                                         value: "%HOSTNAME%"
+                                  - header:
+                                        key: strict-transport-security
+                                        value: "max-age=31536000; includeSubDomains"
                               virtual_hosts:
                                   - name: www.jrock.us
                                     domains: ["www.jrock.us"]
