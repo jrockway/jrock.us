@@ -124,7 +124,8 @@ static_resources:
                                         value: "%HOSTNAME%"
                                   - header:
                                         key: strict-transport-security
-                                        value: "max-age=31536000; includeSubDomains"
+                                        value: "max-age=63072000; includeSubDomains; preload"
+                                    append: false
                               virtual_hosts:
                                   - name: www.jrock.us
                                     domains: ["www.jrock.us"]
