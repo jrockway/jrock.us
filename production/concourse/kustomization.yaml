@@ -37,4 +37,4 @@ configMapGenerator:
 images:
     - name: concourse
       newName: concourse/concourse
-      newTag: "6.2.0"
+      newTag: "6.4.0"
