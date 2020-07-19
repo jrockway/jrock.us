@@ -12,4 +12,4 @@ configMapGenerator:
 images:
     - name: envoy
       newName: envoyproxy/envoy
-      newTag: v1.14.3
+      newTag: v1.15.0
