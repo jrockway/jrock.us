@@ -14,7 +14,7 @@ spec:
                       - --memcached-service=
                       - --ssh-keygen-dir=/var/fluxd/keygen
                       - --git-branch=master
-                      - --git-path=production/flux
+                      - --git-path=production/flux,production/concourse,production/concourse/main-credentials
                       - --git-user=jrockway
                       - --git-email=jrockway@users.noreply.github.com
                       - --git-url=git@github.com:jrockway/jrock.us
