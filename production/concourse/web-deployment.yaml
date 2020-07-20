@@ -132,9 +132,9 @@ spec:
                       - name: CONCOURSE_TSA_HEARTBEAT_INTERVAL
                         value: "30s"
                       - name: CONCOURSE_DEFAULT_TASK_CPU_LIMIT
-                        value: "512" # docker "cpu shares"
+                        value: "1024" # docker "cpu shares"
                       - name: CONCOURSE_DEFAULT_TASK_MEMORY_LIMIT
-                        value: "512000000"
+                        value: "1024000000"
                   ports:
                       - name: atc
                         containerPort: 8080

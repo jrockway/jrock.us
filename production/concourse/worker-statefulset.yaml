@@ -112,11 +112,11 @@ spec:
                         containerPort: 8888
                   resources:
                       requests:
-                          cpu: 100m
-                          memory: 300Mi
+                          cpu: 1000m
+                          memory: 600Mi
                       limits:
-                          cpu: 1500m
-                          memory: 2048Mi
+                          cpu: 3000m
+                          memory: 3200Mi
                   securityContext:
                       privileged: true
                   volumeMounts:
