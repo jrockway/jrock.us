@@ -106,8 +106,6 @@ spec:
                         value: "5"
                       - name: CONCOURSE_CONTAINER_SWEEPER_MAX_IN_FLIGHT
                         value: "5"
-                      - name: CONCOURSE_TRACING_JAEGER_ENDPOINT
-                        value: http://jaeger-collector.observability.svc.cluster.local:14268/api/traces
                   ports:
                       - name: worker-hc
                         containerPort: 8888
