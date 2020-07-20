@@ -135,6 +135,8 @@ spec:
                         value: "1024" # docker "cpu shares"
                       - name: CONCOURSE_DEFAULT_TASK_MEMORY_LIMIT
                         value: "1024000000"
+                      - name: CONCOURSE_TRACING_JAEGER_ENDPOINT
+                        value: http://jaeger-collector.observability.svc.cluster.local:14268/api/traces
                   ports:
                       - name: atc
                         containerPort: 8080
