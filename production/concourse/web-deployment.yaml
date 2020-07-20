@@ -132,9 +132,9 @@ spec:
                       - name: CONCOURSE_TSA_HEARTBEAT_INTERVAL
                         value: "30s"
                       - name: CONCOURSE_DEFAULT_TASK_CPU_LIMIT
-                        value: "1024" # docker "cpu shares"
+                        value: "2048" # docker "cpu shares"
                       - name: CONCOURSE_DEFAULT_TASK_MEMORY_LIMIT
-                        value: "1024000000"
+                        value: "2048000000"
                       - name: CONCOURSE_TRACING_JAEGER_ENDPOINT
                         value: http://jaeger-collector.observability.svc.cluster.local.:14268/api/traces
                       - name: CONCOURSE_TRACING_JAEGER_SERVICE
