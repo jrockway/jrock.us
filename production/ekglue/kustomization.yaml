@@ -1,6 +1,8 @@
 namespace: discovery
 bases:
     - github.com/jrockway/ekglue/deploy/base
+resources:
+    - podmonitor.yaml
 patches:
     - deployment.yaml
 secretGenerator:
