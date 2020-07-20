@@ -1,6 +1,6 @@
 namespace: discovery
 bases:
-    - github.com/jrockway/ekglue/deploy/overlays/with-podmonitor
+    - github.com/jrockway/ekglue/deploy/base
 patches:
     - deployment.yaml
 secretGenerator:
