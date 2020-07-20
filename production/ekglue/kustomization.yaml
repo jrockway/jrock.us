@@ -3,13 +3,9 @@ bases:
     - github.com/jrockway/ekglue/deploy/base
 resources:
     - podmonitor.yaml
+    - registry_credentials.yaml
 patches:
     - deployment.yaml
-secretGenerator:
-    - name: registry-credentials
-      files:
-          - ".dockerconfigjson=docker.secret.json"
-      type: kubernetes.io/dockerconfigjson
 configMapGenerator:
     - name: ekglue-config
       files: ["ekglue.yaml"]
