@@ -6,7 +6,7 @@ metadata:
     labels:
         prometheus: main
 spec:
-    version: v0.20.0
+    version: v0.21.0
     externalUrl: "https://alertmanager.jrock.us/"
     retention: 720h
     storage:

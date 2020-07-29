@@ -7,7 +7,7 @@ metadata:
         prometheus: main
 spec:
     replicas: 1
-    version: v2.15.2
+    version: v2.19.3
     externalUrl: "https://prom.jrock.us/"
     serviceMonitorSelector: {}
     serviceMonitorNamespaceSelector: {}
