@@ -172,6 +172,9 @@ static_resources:
                                                       The document has moved
                                                       <A HREF="https://mail.google.com/a/jrock.us">here</A>.
                                                       </BODY></HTML>
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                   - name: calendar.jrock.us
                                     domains: ["calendar.jrock.us"]
                                     routes:
@@ -195,6 +198,9 @@ static_resources:
                                                       The document has moved
                                                       <A HREF="https://www.google.com/calendar/hosted/jrock.us">here</A>.
                                                       </BODY></HTML>
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
                                     routes:
@@ -206,6 +212,9 @@ static_resources:
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                   - name: jaeger.jrock.us
                                     domains: ["jaeger.jrock.us"]
                                     routes:
@@ -262,11 +271,17 @@ static_resources:
                                               cluster: argocd:argocd-server:grpc
                                               timeout: 3600s
                                               idle_timeout: 3600s
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: argocd:argocd-server:http
                                               timeout: 3600s
                                               idle_timeout: 3600s
+                                          per_filter_config:
+                                              envoy.ext_authz:
+                                                  disabled: true
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
