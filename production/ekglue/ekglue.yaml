@@ -38,6 +38,16 @@ cluster_config:
           override:
               http2_protocol_options: {}
         - match:
+              - port_name: grpc
+          override:
+              http2_protocol_options: {}
+              health_checks:
+                  - timeout: 1s
+                    interval: 10s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 1
+                    grpc_health_check: {}
+        - match:
               - port_name: https2
           override:
               http2_protocol_options: {}
