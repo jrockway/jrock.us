@@ -260,9 +260,13 @@ static_resources:
                                               grpc: {}
                                           route:
                                               cluster: argocd:argocd-server:grpc
+                                              timeout: 3600s
+                                              idle_timeout: 3600s
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: argocd:argocd-server:http
+                                              timeout: 3600s
+                                              idle_timeout: 3600s
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
