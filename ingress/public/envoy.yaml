@@ -255,6 +255,11 @@ static_resources:
                                   - name: argocd.jrock.us
                                     domains: ["argocd.jrock.us"]
                                     routes:
+                                        - match:
+                                              prefix: "/"
+                                              grpc: {}
+                                          route:
+                                              cluster: argocd:argocd-server:grpc
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: argocd:argocd-server:http
