@@ -41,12 +41,6 @@ cluster_config:
               - port_name: grpc
           override:
               http2_protocol_options: {}
-              health_checks:
-                  - timeout: 1s
-                    interval: 10s
-                    healthy_threshold: 1
-                    unhealthy_threshold: 1
-                    grpc_health_check: {}
         - match:
               - port_name: https2
           override:
@@ -136,3 +130,13 @@ cluster_config:
                     unhealthy_threshold: 2
                     http_health_check:
                         path: "/-/healthy"
+        - match:
+              - cluster_name: argocd:argocd-server:http
+          override:
+              health_checks:
+                  - timeout: 1s
+                    interval: 4s
+                    healthy_threshold: 1
+                    unhealthy_threshold: 2
+                    http_health_check:
+                        path: "/healthz"
