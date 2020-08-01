@@ -252,6 +252,12 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: postgres:pgadmin:http
+                                  - name: argocd.jrock.us
+                                    domains: ["argocd.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: argocd:argocd-server:http
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
