@@ -13,4 +13,6 @@ resources:
     - controller-deployment.yaml
     - dex-deployment.yaml
     - redis-deployment.yaml
+    - repo-deployment.yaml
     - server-deployment.yaml
+    - application.yaml
