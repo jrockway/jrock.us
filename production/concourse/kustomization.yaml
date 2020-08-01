@@ -1,35 +1,18 @@
 namespace: concourse
 resources:
-    # note: secret-namespaces contains the namespaces and role bindings necessary to let web read
-    # secrets in those namespaces.
     - worker-service-account.yaml
     - worker-role.yaml
     - worker-rolebinding.yaml
     - worker-service.yaml
     - worker-disruption-budget.yaml
     - worker-statefulset.yaml
+    - worker-sealedsecret.yaml
     - web-service-account.yaml
     - web-role.yaml
     - web-service.yaml
     - web-deployment.yaml
     - web-servicemonitor.yaml
-secretGenerator:
-    - name: concourse-web
-      files:
-          - "host_key=host-key.secret.txt"
-          - "session_signing_key=session-signing-key.secret.txt"
-          - "worker_key.pub=worker-key.txt"
-          - "local-users=local-users.secret.txt"
-          - "postgresql-password=postgres-password.secret.txt"
-      literals:
-          - "postgresql-user=concourse"
-          - "postgresql-ca-cert="
-          - "postgresql-client-cert="
-          - "postgresql-client-key="
-    - name: concourse-worker
-      files:
-          - "host-key-pub=host-key.txt"
-          - "worker-key=worker-key.secret.txt"
+    - web-sealedsecret.yaml
 configMapGenerator:
     - name: concourse-worker
       files:
