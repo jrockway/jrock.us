@@ -9,12 +9,7 @@ resources:
     - statefulset.yaml
     - podmonitor.yaml
     - alerts.yaml
-secretGenerator:
-    - name: master-config
-      files:
-          - "POSTGRES_PASSWORD=password.secret.txt"
-      literals:
-          - "POSTGRES_INITDB_ARGS=--data-checksums --auth-local=md5 --auth=md5"
+    - master-config-sealedsecret.yaml
 images:
     - name: postgres
       newName: docker.io/postgres
