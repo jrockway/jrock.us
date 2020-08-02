@@ -1,6 +1,6 @@
 subscriptions:
     - recipients:
-          - webhook:discord
+          - webhook:discord-message
           - grafana:test
 triggers:
     - name: on-sync-succeeded
