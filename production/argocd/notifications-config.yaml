@@ -1,6 +1,6 @@
 subscriptions:
-    - recipients:
-          - grafana
+    - webhook:discord
+    - grafana:test
 triggers:
     - name: on-sync-succeeded
       enabled: true
@@ -12,3 +12,10 @@ triggers:
       enabled: true
     - name: on-health-degraded
       enabled: true
+templates:
+    - name: discord-message
+      webhook:
+          discord:
+              method: POST
+              body: |
+                  {"content":"Application {{.app.metadata.name}} sync is {{.app.status.sync.status}}.  {{.context.argocdUrl}}/applications/{{.app.metadata.name}}"}
