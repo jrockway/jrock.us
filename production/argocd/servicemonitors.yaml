@@ -39,6 +39,6 @@ spec:
     selector:
         matchLabels:
             app.kubernetes.io/name: argocd-notifications-controller
-    endpoints:
+    podMetricsEndpoints:
         - port: metrics
           path: /metrics
