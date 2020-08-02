@@ -1,10 +1,7 @@
 namespace: ingress
-secretGenerator:
-    - name: digitalocean-dns-token
-      files:
-          - token=token.secret.txt
 resources:
     - staging-issuer.yaml
     - production-issuer.yaml
+    - digitalocean-dns-token-sealedsecret.yaml
 generatorOptions:
     disableNameSuffixHash: true
