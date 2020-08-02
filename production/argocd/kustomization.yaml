@@ -16,3 +16,4 @@ resources:
     - repo-deployment.yaml
     - server-deployment.yaml
     - application.yaml
+    - servicemonitors.yaml
