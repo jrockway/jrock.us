@@ -262,7 +262,7 @@ static_resources:
                                           route:
                                               cluster: postgres:pgadmin:http
                                   - name: argocd.jrock.us
-                                    domains: ["argocd.jrock.us"]
+                                    domains: ["argocd.jrock.us", "argocd.jrock.us:443"]
                                     routes:
                                         - match:
                                               prefix: "/"
