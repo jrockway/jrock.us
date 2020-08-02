@@ -30,15 +30,3 @@ spec:
             app.kubernetes.io/name: argocd-repo-server
     endpoints:
         - port: metrics
----
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-    name: argocd-notifications-metrics
-spec:
-    selector:
-        matchLabels:
-            app.kubernetes.io/name: argocd-notifications-controller
-    podMetricsEndpoints:
-        - port: metrics
-          path: /metrics
