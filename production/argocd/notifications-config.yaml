@@ -1,6 +1,6 @@
 subscriptions:
     - recipients:
-          - webhook:discord-message
+          - webhook:discord
           - grafana:test
 triggers:
     - name: on-sync-succeeded
@@ -18,5 +18,6 @@ templates:
       webhook:
           discord:
               method: POST
+              path: ""
               body: |
-                  {"content":"Application {{.app.metadata.name}} sync is {{.app.status.sync.status}}.  {{.context.argocdUrl}}/applications/{{.app.metadata.name}}"}
+                  {"content":"hello from the webhook"}
