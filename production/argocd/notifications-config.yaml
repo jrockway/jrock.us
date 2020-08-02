@@ -25,4 +25,4 @@ templates:
               method: "POST"
               path: ""
               body: |
-                  {"content":"{{ .app.metadata.name }}: Phase {{ .app.status.operationState.phase }}\\n => {{ .app.status.sync.status }} "}
+                  {"content":"{{ .app.metadata.name }}: Phase {{ .app.status.operationState.phase }}"}
