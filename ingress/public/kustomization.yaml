@@ -2,6 +2,7 @@ namespace: ingress
 commonLabels:
     app: public-ingress
 resources:
+    - registry-credentials-sealedsecret.yaml
     - service.yaml
     - deployment.yaml
     - podmonitor.yaml
@@ -12,11 +13,6 @@ configMapGenerator:
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
     - name: envoy-policy
       files: ["policy.rego=access/policy.rego"]
-secretGenerator:
-    - name: registry-credentials
-      files:
-          - ".dockerconfigjson=docker.secret.json"
-      type: kubernetes.io/dockerconfigjson
 images:
     - name: envoy
       newName: envoyproxy/envoy
