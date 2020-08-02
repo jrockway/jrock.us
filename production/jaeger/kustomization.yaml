@@ -1,6 +1,8 @@
 namespace: observability
 resources:
     - jaegertracing.io_jaegers_crd.yaml
+    - cluster_role.yaml
+    - cluster_role_binding.yaml
     - service_account.yaml
     - role.yaml
     - role_binding.yaml
