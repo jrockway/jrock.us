@@ -14,7 +14,7 @@ spec:
     storage:
         options:
             memory:
-                max-traces: 1000000
+                max-traces: 1000001 # one more than the default to please argo?
     resources:
         requests:
             cpu: 100m
