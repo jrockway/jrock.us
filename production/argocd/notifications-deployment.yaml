@@ -18,8 +18,12 @@ spec:
                       - /app/argocd-notifications
                       - controller
                       - --loglevel=debug
+                      - --metrics-port=9001
                   image: argoprojlabs/argocd-notifications:v0.7.0
                   imagePullPolicy: Always
                   name: argocd-notifications-controller
                   workingDir: /app
+                  ports:
+                      - containerPort: 9001
+                        name: metrics
             serviceAccountName: argocd-notifications-controller
