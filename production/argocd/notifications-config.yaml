@@ -1,0 +1,14 @@
+subscriptions:
+    - recipients:
+          - grafana
+triggers:
+    - name: on-sync-succeeded
+      enabled: true
+    - name: on-sync-failed
+      enabled: true
+    - name: on-sync-status-unknown
+      enabled: true
+    - name: on-sync-running
+      enabled: true
+    - name: on-health-degraded
+      enabled: true

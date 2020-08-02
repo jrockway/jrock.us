@@ -17,3 +17,11 @@ resources:
     - server-deployment.yaml
     - application.yaml
     - servicemonitors.yaml
+    - argocd-notifications-rbac.yaml
+    - notifications-deployment.yaml
+generatorOptions:
+    disableNameSuffixHash: true
+configMapGenerator:
+    - name: argocd-notifications-cm
+      files:
+          - config.yaml=notifications-config.yaml
