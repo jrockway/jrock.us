@@ -2,7 +2,7 @@ subscriptions:
     - recipients:
           - webhook:discord
       condition: "true"
-      template: discord-basic
+      trigger: ping-discord
 triggers:
     - name: on-sync-succeeded
       enabled: false
@@ -14,6 +14,10 @@ triggers:
       enabled: false
     - name: on-health-degraded
       enabled: false
+    - name: ping-discord
+      enabled: true
+      condition: "true"
+      template: discord-basic
 templates:
     - name: discord-basic
       webhook:
