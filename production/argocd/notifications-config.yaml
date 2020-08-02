@@ -2,18 +2,18 @@ subscriptions:
     - recipients:
           - webhook:discord
       condition: "true"
-      templates: discord-basic
+      template: discord-basic
 triggers:
     - name: on-sync-succeeded
-      enabled: true
+      enabled: false
     - name: on-sync-failed
-      enabled: true
+      enabled: false
     - name: on-sync-status-unknown
-      enabled: true
+      enabled: false
     - name: on-sync-running
-      enabled: true
+      enabled: false
     - name: on-health-degraded
-      enabled: true
+      enabled: false
 templates:
     - name: discord-basic
       webhook:
