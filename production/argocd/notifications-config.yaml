@@ -1,7 +1,8 @@
 subscriptions:
     - recipients:
           - webhook:discord
-          - grafana:test
+      condition: "true"
+      templates: discord-basic
 triggers:
     - name: on-sync-succeeded
       enabled: true
@@ -14,10 +15,10 @@ triggers:
     - name: on-health-degraded
       enabled: true
 templates:
-    - name: discord-message
+    - name: discord-basic
       webhook:
           discord:
-              method: POST
+              method: "POST"
               path: ""
               body: |
-                  {"content":"hello from the webhook"}
+                  {"content":"{{ .app.metadata.name }} -> {{ .app.status.sync.status }}"}
