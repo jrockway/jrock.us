@@ -4,8 +4,8 @@ metadata:
     name: ca-root-certificate
 spec:
     secretName: ca-root-certificate-secret
-    duration: 87600h
-    renewBefore: 720h
+    duration: 87600h0m0s
+    renewBefore: 720h0m0s
     organization:
         - jrock.us
     uriSANs:
