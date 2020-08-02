@@ -12,9 +12,9 @@ spec:
             dependencies:
                 menuEnabled: true
     storage:
+        type: memory
         options:
-            memory:
-                max-traces: 1000001 # one more than the default to please argo?
+            memory.max-traces: "1000000"
     resources:
         requests:
             cpu: 100m
