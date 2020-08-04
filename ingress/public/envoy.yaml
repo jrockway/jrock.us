@@ -282,6 +282,13 @@ static_resources:
                                           per_filter_config:
                                               envoy.ext_authz:
                                                   disabled: true
+                                  - name: self-check
+                                    domains: ["self-check"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          direct_response:
+                                              status: 200
+                                              inline_string: "ok"
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
