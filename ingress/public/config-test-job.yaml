@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: envoy-config-test-
+    annotations:
+        argocd.argoproj.io/hook: PreSync
+spec:
+    completions: 1
+    ttlSecondsAfterFinished: 600
+    template:
+        spec:
+            restartPolicy: Never
+            containers:
+                - name: envoy
+                  command:
+                      - "envoy"
+                  env:
+                      - name: MY_NODE_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.nodeName
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
+                  args:
+                      - "-c"
+                      - "/etc/envoy/envoy.yaml"
+                      - "--service-node"
+                      - "$(MY_POD_NAME)"
+                      - "--service-zone"
+                      - "$(MY_NODE_NAME)"
+                      - "--service-cluster"
+                      - "ingress:public:https"
+                      - "--mode"
+                      - "validate"
+                  volumeMounts:
+                      - name: envoy-config
+                        mountPath: /etc/envoy
+                      - name: jrock-us-certs
+                        mountPath: /jrock.us
+                      - name: envoy-client-certs
+                        mountPath: /tls
+                      - name: sockets
+                        mountPath: /sockets
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: "100Mi"
+                      limits:
+                          memory: "100Mi"
+            volumes:
+                - name: envoy-config
+                  configMap:
+                      name: envoy-config
+                - name: jrock-us-certs
+                  secret:
+                      secretName: jrock-us-tls
+                - name: envoy-client-certs
+                  secret:
+                      secretName: envoy-client-tls
+                - name: sockets
+                  emptyDir: {}
