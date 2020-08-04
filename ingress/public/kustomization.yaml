@@ -16,11 +16,6 @@ patchesJson6902:
           version: v1
           kind: Job
           name: envoy-config-test-
-    - path: add-presync-hook.yaml
-      target:
-          version: v1
-          kind: ConfigMap
-          name: envoy-config
 configMapGenerator:
     - name: envoy-config
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
