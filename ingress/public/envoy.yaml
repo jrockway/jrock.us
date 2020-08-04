@@ -288,7 +288,8 @@ static_resources:
                                         - match: { prefix: "/" }
                                           direct_response:
                                               status: 200
-                                              inline_string: "ok"
+                                              body:
+                                                  inline_string: "ok"
                                   - name: fallback
                                     domains: ["*"]
                                     routes:
