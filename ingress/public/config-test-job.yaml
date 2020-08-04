@@ -12,6 +12,7 @@ spec:
             restartPolicy: Never
             containers:
                 - name: envoy
+                  image: envoy
                   command:
                       - "envoy"
                   env:
