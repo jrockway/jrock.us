@@ -14,6 +14,13 @@ configMapGenerator:
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
     - name: envoy-policy
       files: ["policy.rego=access/policy.rego"]
+patchesJson6902:
+    - target:
+          group: batch
+          version: v1
+          kind: Job
+          name: envoy-config-test
+      path: remove-app-label.yaml
 images:
     - name: envoy
       newName: envoyproxy/envoy
