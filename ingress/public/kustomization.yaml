@@ -9,13 +9,6 @@ resources:
     - poddisruptionbudget.yaml
     - client-cert.yaml
     - config-test-job.yaml
-patchesJson6902:
-    - path: job-generate-name.yaml
-      target:
-          group: batch
-          version: v1
-          kind: Job
-          name: envoy-config-test-
 configMapGenerator:
     - name: envoy-config
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
