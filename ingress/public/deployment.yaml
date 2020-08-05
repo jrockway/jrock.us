@@ -19,7 +19,7 @@ spec:
                                       - key: app
                                         operator: In
                                         values:
-                                            - envoy
+                                            - public-ingress
                               topologyKey: "kubernetes.io/hostname"
             containers:
                 - name: envoy
