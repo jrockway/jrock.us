@@ -4,6 +4,7 @@ metadata:
     name: envoy
     annotations:
         "sidecar.jaegertracing.io/inject": "jaeger"
+        argocd.argoproj.io/sync-wave: "5"
 spec:
     replicas: 2
     template:
