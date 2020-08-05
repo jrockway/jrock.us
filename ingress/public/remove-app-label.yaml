@@ -1,2 +1,4 @@
 - op: remove
+  path: /spec/template/metadata/labels/app
+- op: remove
   path: /metadata/labels/app
