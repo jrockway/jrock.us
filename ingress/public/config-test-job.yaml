@@ -6,6 +6,7 @@ metadata:
         argocd.argoproj.io/hook: Sync
 spec:
     completions: 1
+    backoffLimit: 1
     ttlSecondsAfterFinished: 600
     template:
         spec:
