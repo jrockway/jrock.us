@@ -29,7 +29,7 @@ static_resources:
           address:
               socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
-              - name: "envoy.listener.tls_inspector"
+              - name: "envoy.filters.listener.tls_inspector"
                 typed_config: {}
           per_connection_buffer_limit_bytes: 32768
           filter_chains:
@@ -83,7 +83,7 @@ static_resources:
                                               body:
                                                   inline_string: "Not found!\n"
                           http_filters:
-                              - name: envoy.router
+                              - name: envoy.filters.http.router
     clusters:
         - name: docker-registry
           type: strict_dns
