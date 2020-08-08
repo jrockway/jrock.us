@@ -32,7 +32,7 @@ static_resources:
           address:
               socket_address: { address: 0.0.0.0, port_value: 80 }
           listener_filters:
-              - name: "envoy.listener.proxy_protocol"
+              - name: "envoy.filters.listener.proxy_protocol"
                 typed_config: {}
           per_connection_buffer_limit_bytes: 32768
           filter_chains:
@@ -66,14 +66,14 @@ static_resources:
                                           redirect:
                                               https_redirect: true
                           http_filters:
-                              - name: envoy.router
+                              - name: envoy.filters.http.router
         - name: https_listener
           address:
               socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
-              - name: "envoy.listener.proxy_protocol"
+              - name: "envoy.filters.listener.proxy_protocol"
                 typed_config: {}
-              - name: "envoy.listener.tls_inspector"
+              - name: "envoy.filters.listener.tls_inspector"
                 typed_config: {}
           per_connection_buffer_limit_bytes: 32768
           filter_chains:
@@ -140,8 +140,9 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: www:www-jrock-us:h2
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                     retry_policy:
                                         num_retries: 3
@@ -172,8 +173,9 @@ static_resources:
                                                       The document has moved
                                                       <A HREF="https://mail.google.com/a/jrock.us">here</A>.
                                                       </BODY></HTML>
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                   - name: calendar.jrock.us
                                     domains: ["calendar.jrock.us"]
@@ -198,8 +200,9 @@ static_resources:
                                                       The document has moved
                                                       <A HREF="https://www.google.com/calendar/hosted/jrock.us">here</A>.
                                                       </BODY></HTML>
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
@@ -212,8 +215,9 @@ static_resources:
                                               upgrade_configs:
                                                   - upgrade_type: websocket
                                                     enabled: true
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                   - name: jaeger.jrock.us
                                     domains: ["jaeger.jrock.us"]
@@ -271,16 +275,18 @@ static_resources:
                                               cluster: argocd:argocd-server:grpc
                                               timeout: 3600s
                                               idle_timeout: 3600s
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: argocd:argocd-server:http
                                               timeout: 3600s
                                               idle_timeout: 3600s
-                                          per_filter_config:
-                                              envoy.ext_authz:
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
                                   - name: self-check
                                     domains: ["self-check"]
@@ -299,7 +305,7 @@ static_resources:
                                               body:
                                                   inline_string: "Not found!\n"
                           http_filters:
-                              - name: envoy.ext_authz
+                              - name: envoy.filters.http.ext_authz
                                 typed_config:
                                     "@type": type.googleapis.com/envoy.config.filter.http.ext_authz.v2.ExtAuthz
                                     grpc_service:
@@ -307,7 +313,7 @@ static_resources:
                                             cluster_name: jsso-grpc
                                         timeout: 1s
                                     failure_mode_allow: false
-                              - name: envoy.router
+                              - name: envoy.filters.http.router
               - filters:
                     # port 443 traffic, but not TLS; redirect to https
                     - name: envoy.http_connection_manager
@@ -338,7 +344,7 @@ static_resources:
                                           redirect:
                                               https_redirect: true
                           http_filters:
-                              - name: envoy.router
+                              - name: envoy.filters.http.router
     clusters:
         - name: jsso-grpc
           type: static
