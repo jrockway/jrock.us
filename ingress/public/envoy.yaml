@@ -375,7 +375,7 @@ static_resources:
                       grpc_services:
                           - envoy_grpc:
                                 cluster_name: discovery:ekglue:grpc
-                      transport_api_version: V2
+                      transport_api_version: V3
         - name: observability:jaeger-collector-headless:zipkin
           type: strict_dns
           lb_policy: random
@@ -443,7 +443,7 @@ dynamic_resources:
         resource_api_version: V2
         api_config_source:
             api_type: GRPC
-            transport_api_version: V2
+            transport_api_version: V3
             grpc_services:
                 envoy_grpc:
                     cluster_name: discovery:ekglue:grpc
