@@ -9,4 +9,4 @@ resources:
 images:
     - name: alertmanager-discord
       newName: docker.io/jrockway/alertmanager-discord
-      digest: sha256:09a25acf76c21a23429e85e411c46cf2d7a15bb86daa001d62c43902b7fe8e7f
+      digest: sha256:23be8739ac5ed2b3e1d0290ee9f93e7f461a94f43c754b4d8aed5cbb4efa3fe4
