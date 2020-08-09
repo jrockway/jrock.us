@@ -22,7 +22,7 @@ spec:
                       - argocd-repo-server
                       - --redis
                       - argocd-redis:6379
-                  image: argoproj/argocd:v1.6.1
+                  image: argocd
                   imagePullPolicy: Always
                   livenessProbe:
                       initialDelaySeconds: 5

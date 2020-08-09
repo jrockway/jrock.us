@@ -22,7 +22,7 @@ spec:
                       - --staticassets
                       - /shared/app
                       - --insecure
-                  image: argoproj/argocd:v1.6.1
+                  image: argocd
                   imagePullPolicy: Always
                   livenessProbe:
                       httpGet:

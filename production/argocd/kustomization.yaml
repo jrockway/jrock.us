@@ -17,3 +17,7 @@ resources:
     - server-deployment.yaml
     - application.yaml
     - servicemonitors.yaml
+images:
+    - name: argocd
+      newName: argoproj/argocd
+      newTag: v1.6.2
