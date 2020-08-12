@@ -118,7 +118,6 @@ cluster_config:
                     http_health_check:
                         host: "grafana.jrock.us"
                         path: "/api/health"
-                        codec_client_type: HTTP2
         - match:
               - cluster_name: monitoring:prometheus-operated:web
               - cluster_name: monitoring:alertmanager-operated:web
