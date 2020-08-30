@@ -237,6 +237,12 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: monitoring:alertmanager-operated:web
+                                  - name: alertmanager-status.jrock.us
+                                    domains: ["alertmanager-status.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: monitoring:alertmanager-status:public
                                   - name: grafana.jrock.us
                                     domains: ["grafana.jrock.us"]
                                     routes:
