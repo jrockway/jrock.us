@@ -243,6 +243,10 @@ static_resources:
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: monitoring:alertmanager-status:public
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                                                  disabled: true
                                   - name: grafana.jrock.us
                                     domains: ["grafana.jrock.us"]
                                     routes:
