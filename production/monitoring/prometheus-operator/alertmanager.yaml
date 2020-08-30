@@ -18,7 +18,7 @@ receivers:
     - name: "null"
     - name: "status"
       webhook_configs:
-          - url: "http://alertmanager-status.monitoring.svc.cluster.local.:8080/webhook"
+          - url: "http://alertmanager-status.monitoring.svc.cluster.local.:8081/webhook"
             send_resolved: false
     - name: "discord"
       webhook_configs:
