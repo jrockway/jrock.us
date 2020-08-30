@@ -1,3 +1,3 @@
 namespace: monitoring
 bases:
-    - github.com/jrockway/alertmanager-status/deploy?ref=cae39603d7a1f1a61f917a12a553e5548dc9763b
+    - github.com/jrockway/alertmanager-status/deploy?ref=406848add26305bb44ca5298ca7eef06c3d21366
