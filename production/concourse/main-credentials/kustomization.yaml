@@ -3,6 +3,7 @@ resources:
     - namespace.yaml
     - dockerhub-secret.yaml
     - ekglue-secrets.yaml
+    - alertmanager-status-secrets.yaml
 secretGenerator:
     - name: registry
       literals:
