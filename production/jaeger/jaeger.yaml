@@ -15,6 +15,8 @@ spec:
         type: memory
         options:
             memory.max-traces: "1000000"
+    ingress:
+        enabled: false
     resources:
         requests:
             cpu: 100m
