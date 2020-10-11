@@ -1,12 +1,12 @@
 namespace: concourse
 resources:
-    - worker-service-account.yaml
-    - worker-role.yaml
-    - worker-rolebinding.yaml
-    - worker-service.yaml
-    - worker-disruption-budget.yaml
-    - worker-statefulset.yaml
-    - worker-sealedsecret.yaml
+    # - worker-service-account.yaml
+    # - worker-role.yaml
+    # - worker-rolebinding.yaml
+    # - worker-service.yaml
+    # - worker-disruption-budget.yaml
+    # - worker-statefulset.yaml
+    # - worker-sealedsecret.yaml
     - web-service-account.yaml
     - web-role.yaml
     - web-service.yaml
