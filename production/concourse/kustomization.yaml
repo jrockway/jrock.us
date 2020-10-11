@@ -10,6 +10,7 @@ resources:
     - web-service-account.yaml
     - web-role.yaml
     - web-service.yaml
+    - web-tsa-nodeport-service.yaml
     - web-deployment.yaml
     - web-servicemonitor.yaml
     - web-sealedsecret.yaml
