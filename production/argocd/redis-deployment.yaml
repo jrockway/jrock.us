@@ -21,8 +21,13 @@ spec:
                       - ""
                       - --appendonly
                       - "no"
-                  image: redis:5.0.3
+                  image: redis
                   imagePullPolicy: Always
                   name: redis
                   ports:
                       - containerPort: 6379
+            securityContext:
+                fsGroup: 1000
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
