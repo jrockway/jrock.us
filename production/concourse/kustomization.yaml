@@ -14,11 +14,11 @@ resources:
     - web-deployment.yaml
     - web-servicemonitor.yaml
     - web-sealedsecret.yaml
-configMapGenerator:
-    - name: concourse-worker
-      files:
-          - "pre-stop-hook.sh"
+# configMapGenerator:
+#     - name: concourse-worker
+#       files:
+#           - "pre-stop-hook.sh"
 images:
     - name: concourse
       newName: concourse/concourse
-      newTag: "6.4.0"
+      newTag: "6.6.0"
