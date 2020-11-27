@@ -2,4 +2,4 @@ namespace: monitoring
 resources:
     - podmonitor.yaml
 bases:
-    - github.com/jrockway/alertmanager-status/deploy?ref=v0.0.5
+    - github.com/jrockway/alertmanager-status/deploy?ref=v0.0.7
