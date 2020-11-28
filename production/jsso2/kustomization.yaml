@@ -1,0 +1,15 @@
+namespace: jsso2
+commonLabels:
+    app: jsso2
+resources:
+    - namespace.yaml
+    - registry-credentials.yaml
+    - deployment.yaml
+    - service.yaml
+images:
+    - name: backend
+      newName: registry.jrock.us/jsso2-backend
+      newTag: 0.0.1
+    - name: frontend
+      newName: registry.jrock.us/jsso2-frontend
+      newTag: 0.0.1

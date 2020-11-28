@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: jsso2
+spec:
+    replicas: 1
+    template:
+        spec:
+            containers:
+                - name: frontend
+                  image: frontend
+                  ports:
+                      - name: http
+                        containerPort: 80
+                # - name: backend
+                #   image: backend
+                #   ports:
+                #       - name: grpc
+                #         containerPort: 9000
+                #       - name: debug
+                #         containerPort: 8081
+                #       - name: http
+                #         containerPort: 8080
+            imagePullSecrets:
+                - name: registry-credentials
