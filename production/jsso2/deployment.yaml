@@ -2,24 +2,82 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: jsso2
+    annotations:
+        "sidecar.jaegertracing.io/inject": "jaeger"
 spec:
     replicas: 1
     template:
         spec:
             containers:
+                - name: envoy
+                  image: envoy
+                  command:
+                      - "envoy"
+                  args:
+                      - "-c"
+                      - "/etc/envoy/envoy.yaml"
+                      - "--service-node"
+                      - "$(MY_POD_NAME)"
+                      - "--service-zone"
+                      - "$(MY_NODE_NAME)"
+                      - "--service-cluster"
+                      - "jsso2:jsso2:http"
+                  ports:
+                      - name: admin
+                        containerPort: 9901
+                      - name: http
+                        containerPort: 4000
+                  volumeMounts:
+                      - name: envoy-config
+                        mountPath: /etc/envoy
+                  env:
+                      - name: MY_NODE_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: spec.nodeName
+                      - name: MY_POD_NAME
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
                 - name: frontend
                   image: frontend
                   ports:
-                      - name: http
+                      - name: http-internal
                         containerPort: 80
-                # - name: backend
-                #   image: backend
-                #   ports:
-                #       - name: grpc
-                #         containerPort: 9000
-                #       - name: debug
-                #         containerPort: 8081
-                #       - name: http
-                #         containerPort: 8080
+                - name: backend
+                  image: backend
+                  ports:
+                      - name: grpc
+                        containerPort: 9000
+                      - name: debug
+                        containerPort: 8081
+                      - name: http
+                        containerPort: 8080
+                  envFrom:
+                      - secretRef:
+                            name: jsso2-secret
+                  env:
+                      - name: JAEGER_SERVICE_NAME
+                        value: jsso2
+                      - name: JAEGER_SAMPLER_TYPE
+                        value: const
+                      - name: JAEGER_SAMPLER_PARAM
+                        value: "1"
+                      - name: DEBUG_ADDRESS
+                        value: "0.0.0.0:8081"
+                      - name: RUN_MIGRATIONS
+                        value: "true"
+                      - name: LOG_PAYLOADS
+                        value: "true"
+                      - name: LOG_METADATA
+                        value: "true"
+                      - name: BASE_URL
+                        value: "https://sso.jrock.us"
+                      - name: COOKIE_DOMAIN
+                        value: jrock.us
+            volumes:
+                - name: envoy-config
+                  configMap:
+                      name: envoy-config
             imagePullSecrets:
                 - name: registry-credentials

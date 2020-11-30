@@ -1,0 +1,170 @@
+admin:
+    access_log_path: /dev/null
+    address:
+        socket_address: { address: 0.0.0.0, port_value: 9901 }
+static_resources:
+    listeners:
+        - name: http_listener
+          address:
+              socket_address: { address: 0.0.0.0, port_value: 4000 }
+          filter_chains:
+              - filters:
+                    - name: envoy.http_connection_manager
+                      typed_config:
+                          "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+                          stat_prefix: jsso2
+                          tracing:
+                              operation_name: ingress
+                          route_config:
+                              validate_clusters: true
+                              internal_only_headers:
+                                  - x-jsso2-username
+                              virtual_hosts:
+                                  - name: localhost
+                                    domains: ["*"]
+                                    retry_policy:
+                                        num_retries: 3
+                                        retry_on: "5xx,reset,connect-failure"
+                                    routes:
+                                        - match:
+                                              prefix: "/"
+                                              grpc: {}
+                                          route:
+                                              cluster: localhost:backend:grpc
+                                          typed_per_filter_config:
+                                              envoy.filters.http.csrf:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.csrf.v3.CsrfPolicy
+                                                  filter_enabled:
+                                                      default_value:
+                                                          numerator: 0
+                                                          denominator: HUNDRED
+                                        - match:
+                                              prefix: "/"
+                                              headers:
+                                                  - name: x-grpc-web
+                                                    exact_match: "1"
+                                          route:
+                                              cluster: localhost:backend:grpc
+                                        - match:
+                                              prefix: "/set-cookie"
+                                          route:
+                                              cluster: localhost:backend:public
+                                        - match:
+                                              prefix: "/logout"
+                                          route:
+                                              cluster: localhost:backend:public
+                                        - match:
+                                              prefix: "/"
+                                          route:
+                                              cluster: localhost:frontend:http
+                                    cors:
+                                        allow_origin_string_match:
+                                            - suffix: "jrock.us"
+                                        allow_methods: GET, PUT, DELETE, POST, OPTIONS
+                                        allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout
+                                        max_age: "1728000"
+                                        expose_headers: grpc-status,grpc-message
+                          http_filters:
+                              - name: envoy.filters.http.csrf
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.filters.http.csrf.v3.CsrfPolicy
+                                    additional_origins:
+                                        - suffix: "jrock.us"
+                                    filter_enabled:
+                                        default_value:
+                                            numerator: 100
+                                            denominator: HUNDRED
+                              - name: envoy.filters.http.grpc_web
+                              - name: envoy.filters.http.cors
+                              - name: envoy.filters.http.router
+    clusters:
+        - name: localhost:backend:grpc
+          type: static
+          lb_policy: random
+          connect_timeout: 1s
+          http2_protocol_options: {}
+          health_checks:
+              - timeout: 1s
+                interval: 1s
+                healthy_threshold: 1
+                unhealthy_threshold: 1
+                grpc_health_check: {}
+          load_assignment:
+              cluster_name: localhost:backend:grpc
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: 127.0.0.1
+                                      port_value: 9000
+        - name: localhost:backend:public
+          type: static
+          lb_policy: random
+          connect_timeout: 1s
+          load_assignment:
+              cluster_name: localhost:backend:public
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: 127.0.0.1
+                                      port_value: 8080
+
+        - name: localhost:frontend:http
+          type: static
+          lb_policy: random
+          connect_timeout: 1s
+          health_checks:
+          load_assignment:
+              cluster_name: localhost:frontend:http
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: 127.0.0.1
+                                      port_value: 80
+        - name: observability:jaeger-collector-headless:zipkin
+          type: strict_dns
+          lb_policy: random
+          connect_timeout: 1s
+          circuit_breakers: {}
+          outlier_detection: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 2
+                http_health_check:
+                    path: "/"
+          dns_lookup_family: V4_ONLY
+          upstream_connection_options:
+              tcp_keepalive: {}
+          load_assignment:
+              cluster_name: observability:jaeger-collector-headless:zipkin
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  socket_address:
+                                      address: jaeger-collector-headless.observability.svc.cluster.local
+                                      port_value: 9411
+                              health_check_config:
+                                  port_value: 14269
+tracing:
+    http:
+        name: envoy.zipkin
+        typed_config:
+            "@type": type.googleapis.com/envoy.config.trace.v2.ZipkinConfig
+            collector_cluster: observability:jaeger-collector-headless:zipkin
+            collector_endpoint: "/api/v2/spans"
+            collector_endpoint_version: HTTP_JSON
+            shared_span_context: false
+layered_runtime:
+    layers:
+        - name: static_layer_0
+          static_layer:
+              overload:
+                  global_downstream_max_connections: 50000

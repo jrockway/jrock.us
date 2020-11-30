@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: envoy-jsso2
+spec:
+    selector:
+        matchLabels:
+            app: jsso2
+    podMetricsEndpoints:
+        - port: admin
+          path: /stats/prometheus
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: jsso2
+spec:
+    selector:
+        matchLabels:
+            app: jsso2
+    podMetricsEndpoints:
+        - port: debug
+          path: /metrics

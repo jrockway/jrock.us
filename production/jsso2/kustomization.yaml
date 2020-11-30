@@ -4,12 +4,21 @@ commonLabels:
 resources:
     - namespace.yaml
     - registry-credentials.yaml
+    - sealed-secret.yaml
     - deployment.yaml
     - service.yaml
+    - podmonitor.yaml
+configMapGenerator:
+    - name: envoy-config
+      files:
+          - envoy.yaml
 images:
+    - name: envoy
+      newName: envoyproxy/envoy
+      newTag: v1.16.0
     - name: backend
       newName: registry.jrock.us/jsso2-backend
-      newTag: 0.0.1
+      newTag: 0.0.5
     - name: frontend
       newName: registry.jrock.us/jsso2-frontend
-      newTag: 0.0.1
+      newTag: 0.0.5
