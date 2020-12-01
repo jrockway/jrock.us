@@ -303,7 +303,7 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: jsso2:jsso2:http
+                                              cluster: jsso2:jsso2:h2
                                           typed_per_filter_config:
                                               envoy.filters.http.ext_authz:
                                                   "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
