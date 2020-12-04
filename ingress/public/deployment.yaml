@@ -113,6 +113,45 @@ spec:
                           memory: "30Mi"
                       limits:
                           memory: "30Mi"
+                - name: jsso2
+                  image: jsso2
+                  volumeMounts:
+                      - name: sockets
+                        mountPath: /sockets
+                  ports:
+                      - name: jsso2-admin
+                        containerPort: 8181
+                  livenessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: 8181
+                  readinessProbe:
+                      httpGet:
+                          path: /healthz
+                          port: 8181
+                  env:
+                      - name: GRPC_ADDRESS
+                        value: "unix:/sockets/jsso2"
+                      - name: HTTP_ADDRESS
+                        value: "127.0.0.1:8180"
+                      - name: DEBUG_ADDRESS
+                        value: "0.0.0.0:8181"
+                      - name: JAEGER_SERVICE_NAME
+                        value: "jsso"
+                      - name: LOG_METADATA
+                        value: "true"
+                      - name: LOG_PAYLOADS
+                        value: "true"
+                      - name: JSSO_SERVER_ADDRESS
+                        value: "dns:///jsso2.jsso2.svc.cluster.local:4000"
+                      - name: PLAINTEXT_USERNAME_HEADER
+                        value: x-remote-user
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: "30Mi"
+                      limits:
+                          memory: "30Mi"
             volumes:
                 - name: envoy-config
                   configMap:

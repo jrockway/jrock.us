@@ -333,6 +333,22 @@ static_resources:
                                             cluster_name: jsso-grpc
                                         timeout: 1s
                                     failure_mode_allow: false
+                              - name: envoy.filters.http.ext_authz
+                                typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                                    grpc_service:
+                                        envoy_grpc:
+                                            cluster_name: jsso2-grpc
+                                        timeout: 1s
+                                    failure_mode_allow: true
+                                    status_on_error:
+                                        code: 500
+                                    transport_api_version: V3
+                                    stat_prefix: jsso2
+                                    filter_enabled:
+                                        default_value:
+                                            numerator: 0
+                                            denominator: HUNDRED
                               - name: envoy.filters.http.router
               - filters:
                     # port 443 traffic, but not TLS; redirect to https
@@ -385,6 +401,25 @@ static_resources:
                               address:
                                   pipe:
                                       path: "/sockets/jsso"
+        - name: jsso2-grpc
+          type: static
+          lb_policy: random
+          connect_timeout: 1s
+          http2_protocol_options: {}
+          health_checks:
+              - timeout: 1s
+                interval: 10s
+                healthy_threshold: 1
+                unhealthy_threshold: 1
+                grpc_health_check: {}
+          load_assignment:
+              cluster_name: jsso2-grpc
+              endpoints:
+                  - lb_endpoints:
+                        - endpoint:
+                              address:
+                                  pipe:
+                                      path: "/sockets/jsso2"
         - name: ingress:public:https # self, for locality-aware balancing
           type: EDS
           connect_timeout: 1s

@@ -28,3 +28,6 @@ images:
     - name: jsso
       newName: registry.jrock.us/jsso-envoy-plugin
       digest: sha256:d7443754b3c5a36d5f3615f5eb574d8309ac2d501d861ce08a5c592d73b2dd3b
+    - name: jsso2
+      newName: registry.jrock.us/jsso2-backend
+      newTag: 0.0.8
