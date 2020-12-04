@@ -327,14 +327,6 @@ static_resources:
                           http_filters:
                               - name: envoy.filters.http.ext_authz
                                 typed_config:
-                                    "@type": type.googleapis.com/envoy.config.filter.http.ext_authz.v2.ExtAuthz
-                                    grpc_service:
-                                        envoy_grpc:
-                                            cluster_name: jsso-grpc
-                                        timeout: 1s
-                                    failure_mode_allow: false
-                              - name: envoy.filters.http.ext_authz
-                                typed_config:
                                     "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
                                     grpc_service:
                                         envoy_grpc:
@@ -382,25 +374,6 @@ static_resources:
                           http_filters:
                               - name: envoy.filters.http.router
     clusters:
-        - name: jsso-grpc
-          type: static
-          lb_policy: random
-          connect_timeout: 1s
-          http2_protocol_options: {}
-          health_checks:
-              - timeout: 1s
-                interval: 10s
-                healthy_threshold: 1
-                unhealthy_threshold: 1
-                grpc_health_check: {}
-          load_assignment:
-              cluster_name: jsso-grpc
-              endpoints:
-                  - lb_endpoints:
-                        - endpoint:
-                              address:
-                                  pipe:
-                                      path: "/sockets/jsso"
         - name: jsso2-grpc
           type: static
           lb_policy: random

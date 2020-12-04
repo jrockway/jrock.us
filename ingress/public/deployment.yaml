@@ -74,45 +74,6 @@ spec:
                           memory: "100Mi"
                       limits:
                           memory: "100Mi"
-                - name: jsso
-                  image: jsso
-                  volumeMounts:
-                      - name: envoy-policy
-                        mountPath: /policy
-                      - name: sockets
-                        mountPath: /sockets
-                  ports:
-                      - name: jsso-admin
-                        containerPort: 8081
-                  livenessProbe:
-                      httpGet:
-                          path: /metrics
-                          port: 8081
-                  readinessProbe:
-                      httpGet:
-                          path: /metrics
-                          port: 8081
-                  env:
-                      - name: POLICY_PATH
-                        value: "/policy/policy.rego"
-                      - name: GRPC_ADDRESS
-                        value: "unix:/sockets/jsso"
-                      - name: DEBUG_ADDRESS
-                        value: "0.0.0.0:8081"
-                      - name: JAEGER_SERVICE_NAME
-                        value: "jsso"
-                      - name: JAEGER_REPORTER_LOG_SPANS
-                        value: "false"
-                      - name: LOG_METADATA
-                        value: "true"
-                      - name: LOG_PAYLOADS
-                        value: "true"
-                  resources:
-                      requests:
-                          cpu: 100m
-                          memory: "30Mi"
-                      limits:
-                          memory: "30Mi"
                 - name: jsso2
                   image: jsso2
                   command:
