@@ -347,7 +347,7 @@ static_resources:
                                     stat_prefix: jsso2
                                     filter_enabled:
                                         default_value:
-                                            numerator: 0
+                                            numerator: 100
                                             denominator: HUNDRED
                               - name: envoy.filters.http.router
               - filters:
