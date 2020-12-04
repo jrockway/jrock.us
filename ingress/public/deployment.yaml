@@ -115,6 +115,8 @@ spec:
                           memory: "30Mi"
                 - name: jsso2
                   image: jsso2
+                  command:
+                      - "jsso2-envoy-authz"
                   volumeMounts:
                       - name: sockets
                         mountPath: /sockets
