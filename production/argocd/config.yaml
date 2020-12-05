@@ -29,6 +29,8 @@ metadata:
     name: argocd-rbac-cm
 data:
     policy.default: role:readonly
+    policy.csv: |
+        g, jrockway, role:admin
 ---
 apiVersion: v1
 data:
