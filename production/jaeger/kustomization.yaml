@@ -1,5 +1,6 @@
 namespace: observability
 resources:
+    - pvc.yaml
     - jaegertracing.io_jaegers_crd.yaml
     - cluster_role.yaml
     - cluster_role_binding.yaml
