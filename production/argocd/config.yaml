@@ -5,12 +5,20 @@ metadata:
         app.kubernetes.io/name: argocd-cm
         app.kubernetes.io/part-of: argocd
     name: argocd-cm
+data:
     dex.config: |
         connectors:
             - type: authproxy
               id: jsso2
               name: JSSO2
     url: https://argocd.jrock.us
+    repositories: |
+        - name: jrock.us
+          sshPrivateKeySecret:
+            key: sshPrivateKey
+            name: repo-1855132761
+          type: git
+          url: git@github.com:jrockway/jrock.us.git
 ---
 apiVersion: v1
 kind: ConfigMap
