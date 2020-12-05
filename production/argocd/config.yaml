@@ -59,6 +59,8 @@ data:
         p, role:admin, accounts, update, *, allow
         p, role:admin, gpgkeys, create, *, allow
         p, role:admin, gpgkeys, delete, *, allow
+
+        g, role:admin, role:readonly
         g, jrockway, role:admin
 ---
 apiVersion: v1
