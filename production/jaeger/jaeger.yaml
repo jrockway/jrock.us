@@ -12,9 +12,12 @@ spec:
             dependencies:
                 menuEnabled: true
     storage:
-        type: memory
+        type: badger
         options:
-            memory.max-traces: "1000000"
+            badger:
+                ephemeral: false
+                directory-key: /badger/key
+                directory-value: /badger/data
     ingress:
         enabled: false
     resources:
@@ -22,4 +25,4 @@ spec:
             cpu: 100m
             memory: 200Mi
         limits:
-            memory: 1200Mi
+            memory: 200Mi
