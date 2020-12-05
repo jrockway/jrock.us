@@ -4,6 +4,7 @@ resources:
     - application-crd.yaml
     - appproject-crd.yaml
     - rbac.yaml
+    - argocd-cm.yaml
     - argocd-gpg-keys-cm.yaml
     - config.yaml
     - dex-service.yaml
