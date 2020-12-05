@@ -291,7 +291,7 @@ static_resources:
                                               envoy.filters.http.ext_authz:
                                                   "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
-                                        - match: { prefix: "/api/dex/auth" }
+                                        - match: { prefix: "/api/dex" }
                                           route:
                                               cluster: argocd:argocd-server:http
                                               timeout: 3600s
