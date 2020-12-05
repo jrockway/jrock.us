@@ -5,6 +5,12 @@ metadata:
         app.kubernetes.io/name: argocd-cm
         app.kubernetes.io/part-of: argocd
     name: argocd-cm
+    dex.config: |
+        connectors:
+            - type: authproxy
+              id: jsso2
+              name: JSSO2
+    url: https://argocd.jrock.us
 ---
 apiVersion: v1
 kind: ConfigMap
