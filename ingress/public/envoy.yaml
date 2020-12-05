@@ -118,6 +118,8 @@ static_resources:
                           stat_prefix: ingress_jrock-us
                           route_config:
                               validate_clusters: false
+                              internal_only_headers:
+                                  - x-remote-user
                               response_headers_to_add:
                                   - header:
                                         key: x-pod
@@ -285,19 +287,11 @@ static_resources:
                                               cluster: argocd:argocd-server:grpc
                                               timeout: 3600s
                                               idle_timeout: 3600s
-                                          typed_per_filter_config:
-                                              envoy.filters.http.ext_authz:
-                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                                  disabled: true
                                         - match: { prefix: "/" }
                                           route:
                                               cluster: argocd:argocd-server:http
                                               timeout: 3600s
                                               idle_timeout: 3600s
-                                          typed_per_filter_config:
-                                              envoy.filters.http.ext_authz:
-                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                                  disabled: true
                                   - name: sso.jrock.us
                                     domains: ["sso.jrock.us", "sso.jrock.us:443"]
                                     routes:
