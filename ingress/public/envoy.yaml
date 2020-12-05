@@ -293,7 +293,7 @@ static_resources:
                                                   disabled: true
                                         - match: { prefix: "/api/dex" }
                                           route:
-                                              cluster: argocd:argocd-server:grpc
+                                              cluster: argocd:argocd-server:http
                                               timeout: 3600s
                                               idle_timeout: 3600s
                                         - match: { prefix: "/" }
