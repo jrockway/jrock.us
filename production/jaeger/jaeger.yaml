@@ -12,7 +12,7 @@ spec:
             dependencies:
                 menuEnabled: true
     storage:
-        type: inmemory
+        type: memory
         options:
             memory:
                 max-traces: 130000 # ~15k per trace based on data
@@ -21,6 +21,6 @@ spec:
     resources:
         requests:
             cpu: 100m
-            memory: 2048Mi
+            memory: 2Gi
         limits:
-            memory: 2048Mi
+            memory: 2Gi
