@@ -29,6 +29,7 @@ metadata:
     name: argocd-rbac-cm
 data:
     policy.default: role:readonly
+    scopes: "[email]"
     policy.csv: |
         p, role:readonly, applications, get, */*, allow
         p, role:readonly, certificates, get, *, allow
