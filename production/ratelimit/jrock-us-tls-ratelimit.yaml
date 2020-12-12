@@ -1,34 +1,34 @@
 domain: jrock-us-tls
 descriptors:
-    - key: site
+    - key: generic_key
       value: www
       descriptors:
           - key: remote_address
             rate_limit:
                 unit: minute
                 requests_per_unit: 120
-    - key: site
+    - key: generic_key
       value: ci
       descriptors:
           - key: remote_address
             rate_limit:
                 unit: minute
                 requests_per_unit: 120
-    - key: site
+    - key: generic_key
       value: alertmanager-status
       descriptors:
           - key: remote_address
             rate_limit:
                 unit: second
                 requests_per_unit: 5
-    - key: site
+    - key: generic_key
       value: argocd
       descriptors:
           - key: remote_address
             rate_limit:
                 unit: minute
                 requests_per_unit: 1000
-    - key: site
+    - key: generic_key
       value: sso
       descriptors:
           - key: remote_address

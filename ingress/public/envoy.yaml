@@ -148,7 +148,9 @@ static_resources:
                                                   disabled: true
                                     rate_limits:
                                         - actions:
-                                              remote_address: {}
+                                              - remote_address: {}
+                                              - generic_key:
+                                                    descriptor_value: www
                                     retry_policy:
                                         num_retries: 3
                                         retry_on: "5xx,reset"
@@ -211,6 +213,11 @@ static_resources:
                                                   disabled: true
                                   - name: ci.jrock.us
                                     domains: ["ci.jrock.us"]
+                                    rate_limits:
+                                        - actions:
+                                              - remote_address: {}
+                                              - generic_key:
+                                                    descriptor_value: ci
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
@@ -244,6 +251,11 @@ static_resources:
                                               cluster: monitoring:alertmanager-operated:web
                                   - name: alertmanager-status.jrock.us
                                     domains: ["alertmanager-status.jrock.us"]
+                                    rate_limits:
+                                        - actions:
+                                              - remote_address: {}
+                                              - generic_key:
+                                                    descriptor_value: alertmanager-status
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
@@ -282,6 +294,11 @@ static_resources:
                                               cluster: postgres:pgadmin:http
                                   - name: argocd.jrock.us
                                     domains: ["argocd.jrock.us", "argocd.jrock.us:443"]
+                                    rate_limits:
+                                        - actions:
+                                              - remote_address: {}
+                                              - generic_key:
+                                                    descriptor_value: argocd
                                     routes:
                                         - match:
                                               prefix: "/"
@@ -310,6 +327,11 @@ static_resources:
                                                   disabled: true
                                   - name: sso.jrock.us
                                     domains: ["sso.jrock.us", "sso.jrock.us:443"]
+                                    rate_limits:
+                                        - actions:
+                                              - remote_address: {}
+                                              - generic_key:
+                                                    descriptor_value: sso
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
