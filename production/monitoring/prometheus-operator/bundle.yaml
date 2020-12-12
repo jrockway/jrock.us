@@ -29,12 +29,14 @@ rules:
       resources:
           - alertmanagers
           - alertmanagers/finalizers
+          - alertmanagerconfigs
           - prometheuses
           - prometheuses/finalizers
           - thanosrulers
           - thanosrulers/finalizers
           - servicemonitors
           - podmonitors
+          - probes
           - prometheusrules
       verbs:
           - "*"
@@ -84,6 +86,14 @@ rules:
           - get
           - list
           - watch
+    - apiGroups:
+          - networking.k8s.io
+      resources:
+          - ingresses
+      verbs:
+          - get
+          - list
+          - watch
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -110,10 +120,8 @@ spec:
             containers:
                 - args:
                       - --kubelet-service=kube-system/kubelet
-                      - --logtostderr=true
-                      - --config-reloader-image=jimmidyson/configmap-reload:v0.4.0
-                      - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.44.1
-                  image: quay.io/coreos/prometheus-operator:v0.44.1
+                      - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.44.1
+                  image: quay.io/prometheus-operator/prometheus-operator:v0.44.1
                   name: prometheus-operator
                   ports:
                       - containerPort: 8080
