@@ -1,0 +1,3 @@
+[submodule "Charts/prometheus-community"]
+	path = Charts/prometheus-community
+	url = https://github.com/prometheus-community/helm-charts
