@@ -56,7 +56,10 @@ spec:
                 subPath: prometheus-db
     resources:
         requests:
-            memory: 500Mi
+            memory: 4Gi
+            cpu: 1
+        limits:
+            memory: 4Gi
     alerting:
         alertmanagers:
             - namespace: monitoring
