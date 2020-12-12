@@ -9,3 +9,5 @@ resources:
     - operator.yaml
     - jaeger.yaml
     - podmonitor.yaml
+patchesStrategicMerge:
+    - operator-patch.yaml
