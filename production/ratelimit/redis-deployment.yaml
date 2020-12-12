@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: redis
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: redis
+    template:
+        metadata:
+            labels:
+                component: redis
+        spec:
+            containers:
+                - name: redis
+                  args:
+                      - --save
+                      - ""
+                      - --appendonly
+                      - "no"
+                  image: redis
+                  imagePullPolicy: Always
+                  ports:
+                      - name: redis
+                        containerPort: 6379
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 256Mi
+                      limits:
+                          memory: 256Mi
+                - name: redis-exporter
+                  image: redis_exporter
+                  resources:
+                      requests:
+                          cpu: 10m
+                          memory: 64Mi
+                      limits:
+                          memory: 64Mi
+                  ports:
+                      - name: metrics
+                        containerPort: 9121
+            securityContext:
+                fsGroup: 1000
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000

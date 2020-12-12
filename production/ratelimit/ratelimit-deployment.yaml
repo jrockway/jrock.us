@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ratelimit
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            component: ratelimit
+    template:
+        metadata:
+            labels:
+                component: ratelimit
+        spec:
+            containers:
+                - name: ratelimit
+                  image: ratelimit
+                  command:
+                      - /bin/ratelimit
+                  ports:
+                      - name: http
+                        containerPort: 8080
+                      - name: debug
+                        containerPort: 6070
+                      - name: grpc
+                        containerPort: 8081
+                  env:
+                      - name: USE_STATSD
+                        value: "true"
+                      - name: STATSD_HOST
+                        value: localhost
+                      - name: STATSD_PORT
+                        value: "9125"
+                      - name: LOG_LEVEL
+                        value: debug
+                      - name: LOG_FORMAT
+                        value: json
+                      - name: REDIS_SOCKET_TYPE
+                        value: tcp
+                      - name: REDIS_TYPE
+                        value: single
+                      - name: REDIS_URL
+                        value: redis.ratelimit.svc.cluster.local.:6379
+                      - name: RUNTIME_ROOT
+                        value: /data
+                      - name: RUNTIME_SUBDIRECTORY
+                        value: ratelimit
+                      - name: RUNTIME_WATCH_ROOT
+                        value: "false"
+                      - name: RUNTIME_IGNOREDOTFILES
+                        value: "True"
+                      - name: LOCAL_CACHE_SIZE_IN_BYTES
+                        value: "100000000"
+                  readinessProbe:
+                      httpGet:
+                          path: /healthcheck
+                          port: 8080
+                  livenessProbe:
+                      httpGet:
+                          path: /healthcheck
+                          port: 8080
+                  volumeMounts:
+                      - name: ratelimit-config
+                        mountPath: /data/ratelimit/config
+                  resources:
+                      requests:
+                          cpu: 100m
+                          memory: 256Mi
+                      limits:
+                          memory: 256Mi
+                - name: statsd
+                  image: statsd-exporter
+                  args:
+                      - "--statsd.mapping-config=/config/statsd-exporter.yaml"
+                  resources:
+                      requests:
+                          cpu: 10m
+                          memory: 64Mi
+                      limits:
+                          memory: 64Mi
+                  ports:
+                      - name: statsd
+                        containerPort: 9125
+                      - name: metrics
+                        containerPort: 9102
+                  volumeMounts:
+                      - name: statsd-config
+                        mountPath: /config
+            volumes:
+                - name: statsd-config
+                  configMap:
+                      name: statsd-config
+                - name: ratelimit-config
+                  configMap:
+                      name: ratelimit-config

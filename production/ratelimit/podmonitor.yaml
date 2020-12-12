@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: redis
+spec:
+    selector:
+        matchLabels:
+            app: ratelimit
+            component: redis
+    podMetricsEndpoints:
+        - port: metrics
+          path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: ratelimit
+spec:
+    selector:
+        matchLabels:
+            app: ratelimit
+            component: ratelimit
+    podMetricsEndpoints:
+        - port: metrics
+          path: /metrics

@@ -1,0 +1,30 @@
+namespace: ratelimit
+commonLabels:
+    app: ratelimit
+resources:
+    - namespace.yaml
+    - redis-deployment.yaml
+    - redis-service.yaml
+    - redis-disruption.yaml
+    - ratelimit-deployment.yaml
+    - ratelimit-service.yaml
+    - ratelimit-disruption.yaml
+    - podmonitor.yaml
+configMapGenerator:
+    - name: statsd-config
+      files: ["statsd-exporter.yaml"]
+    - name: ratelimit-config
+      files: ["jrock-us-tls-ratelimit.yaml"]
+images:
+    - name: redis
+      newName: redis
+      newTag: 6.0.9-alpine
+    - name: redis_exporter
+      newName: oliver006/redis_exporter
+      newTag: v1.14.0-alpine
+    - name: ratelimit
+      newName: envoyproxy/ratelimit
+      newTag: v1.4.0
+    - name: statsd-exporter
+      newName: prom/statsd-exporter
+      newTag: v0.18.0
