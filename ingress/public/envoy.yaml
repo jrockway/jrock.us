@@ -148,9 +148,9 @@ static_resources:
                                                   disabled: true
                                     rate_limits:
                                         - actions:
-                                              - remote_address: {}
                                               - generic_key:
                                                     descriptor_value: www
+                                              - remote_address: {}
                                     retry_policy:
                                         num_retries: 3
                                         retry_on: "5xx,reset"
@@ -215,9 +215,9 @@ static_resources:
                                     domains: ["ci.jrock.us"]
                                     rate_limits:
                                         - actions:
-                                              - remote_address: {}
                                               - generic_key:
                                                     descriptor_value: ci
+                                              - remote_address: {}
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
@@ -253,9 +253,9 @@ static_resources:
                                     domains: ["alertmanager-status.jrock.us"]
                                     rate_limits:
                                         - actions:
-                                              - remote_address: {}
                                               - generic_key:
                                                     descriptor_value: alertmanager-status
+                                              - remote_address: {}
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
@@ -296,9 +296,9 @@ static_resources:
                                     domains: ["argocd.jrock.us", "argocd.jrock.us:443"]
                                     rate_limits:
                                         - actions:
-                                              - remote_address: {}
                                               - generic_key:
                                                     descriptor_value: argocd
+                                              - remote_address: {}
                                     routes:
                                         - match:
                                               prefix: "/"
@@ -329,9 +329,9 @@ static_resources:
                                     domains: ["sso.jrock.us", "sso.jrock.us:443"]
                                     rate_limits:
                                         - actions:
-                                              - remote_address: {}
                                               - generic_key:
                                                     descriptor_value: sso
+                                              - remote_address: {}
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
