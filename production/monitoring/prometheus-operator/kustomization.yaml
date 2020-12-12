@@ -9,6 +9,7 @@ secretGenerator:
 generatorOptions:
     disableNameSuffixHash: true
 resources:
+    - crds.yaml
     - bundle.yaml
     - prom-main-clusterrole.yaml
     - alertmanager-spec.yaml
