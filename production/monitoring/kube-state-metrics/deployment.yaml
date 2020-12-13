@@ -37,6 +37,12 @@ spec:
                       timeoutSeconds: 5
                   securityContext:
                       runAsUser: 65534
+                  resources:
+                      requests:
+                          memory: 40Mi
+                          cpu: 10m
+                      limits:
+                          memory: 40Mi
             nodeSelector:
                 kubernetes.io/os: linux
             serviceAccountName: kube-state-metrics
