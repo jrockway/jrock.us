@@ -39,11 +39,23 @@ spec:
                         valueFrom:
                             fieldRef:
                                 fieldPath: metadata.name
+                  resources:
+                      requests:
+                          memory: 40Mi
+                          cpu: 10m
+                      limits:
+                          memory: 40Mi
                 - name: frontend
                   image: frontend
                   ports:
                       - name: http-internal
                         containerPort: 80
+                  resources:
+                      requests:
+                          memory: 32Mi
+                          cpu: 10m
+                      limits:
+                          memory: 32Mi
                 - name: backend
                   image: backend
                   ports:
@@ -75,6 +87,12 @@ spec:
                         value: "https://sso.jrock.us"
                       - name: COOKIE_DOMAIN
                         value: jrock.us
+                  resources:
+                      requests:
+                          memory: 64Mi
+                          cpu: 10m
+                      limits:
+                          memory: 64Mi
             volumes:
                 - name: envoy-config
                   configMap:
