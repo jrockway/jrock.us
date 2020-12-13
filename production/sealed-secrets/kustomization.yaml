@@ -1,0 +1,5 @@
+namespace: kube-system
+resources:
+    - controller.yaml
+patchesStrategicMerge:
+    - controller-resources.yaml
