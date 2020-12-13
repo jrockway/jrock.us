@@ -28,7 +28,7 @@ spec:
                         mountPath: /var/lib/pgadmin
                   resources:
                       requests:
-                          cpu: 10m
+                          cpu: 200m
                           memory: 256Mi
                       limits:
                           memory: 256Mi
