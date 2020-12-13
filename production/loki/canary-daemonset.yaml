@@ -27,7 +27,12 @@ spec:
                       - -labelvalue=$(MY_POD_NAME)
                   image: grafana/loki-canary:1.5.0
                   imagePullPolicy: IfNotPresent
-                  resources: {}
+                  resources:
+                      requests:
+                          cpu: 1m
+                          memory: 32Mi
+                      limits:
+                          memory: 32Mi
                   ports:
                       - containerPort: 3500
                         name: http-metrics

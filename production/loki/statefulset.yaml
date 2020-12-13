@@ -62,7 +62,12 @@ spec:
                           path: /ready
                           port: http-metrics
                       initialDelaySeconds: 45
-                  resources: {}
+                  resources:
+                      requests:
+                          cpu: 10m
+                          memory: 300Mi
+                      limits:
+                          memory: 300Mi
                   securityContext:
                       readOnlyRootFilesystem: true
                   env:
@@ -75,7 +80,7 @@ spec:
                 - name: jaeger-agent
                   args:
                       - --reporter.grpc.host-port=dns:///jaeger-collector-headless.observability.svc.cluster.local:14250
-                  image: jaegertracing/jaeger-agent:1.16.0
+                  image: jaegertracing/jaeger-agent:1.21.0
                   ports:
                       - containerPort: 6831
                         name: jg-compact-trft
