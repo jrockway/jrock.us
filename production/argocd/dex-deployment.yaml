@@ -29,6 +29,12 @@ spec:
                   volumeMounts:
                       - mountPath: /shared
                         name: static-files
+                  resources:
+                      requests:
+                          memory: 50Mi
+                          cpu: 1m
+                      limits:
+                          memory: 50Mi
             initContainers:
                 - command:
                       - cp

@@ -45,6 +45,12 @@ spec:
                         name: ssh-known-hosts
                       - mountPath: /app/config/tls
                         name: tls-certs
+                  resources:
+                      requests:
+                          memory: 200Mi
+                          cpu: 100m
+                      limits:
+                          memory: 200Mi
             serviceAccountName: argocd-server
             volumes:
                 - emptyDir: {}

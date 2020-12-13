@@ -7,6 +7,7 @@ metadata:
         app.kubernetes.io/part-of: argocd
     name: argocd-repo-server
 spec:
+    replicas: 1
     selector:
         matchLabels:
             app.kubernetes.io/name: argocd-repo-server
@@ -47,6 +48,12 @@ spec:
                         name: gpg-keys
                       - mountPath: /app/config/gpg/keys
                         name: gpg-keyring
+                  resources:
+                      requests:
+                          memory: 256Mi
+                          cpu: 100m
+                      limits:
+                          memory: 256Mi
             volumes:
                 - configMap:
                       name: argocd-ssh-known-hosts-cm
