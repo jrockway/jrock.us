@@ -37,8 +37,8 @@ spec:
                         containerPort: 5432
                   resources:
                       requests:
-                          cpu: 500m
-                          memory: 728Mi
+                          cpu: 1
+                          memory: 2Gi
                       limits:
                           memory: 2Gi
                 - name: exporter

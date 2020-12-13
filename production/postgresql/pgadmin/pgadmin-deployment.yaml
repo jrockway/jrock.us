@@ -26,6 +26,12 @@ spec:
                   volumeMounts:
                       - name: data
                         mountPath: /var/lib/pgadmin
+                  resources:
+                      requests:
+                          cpu: 10m
+                          memory: 256Mi
+                      limits:
+                          memory: 256Mi
             securityContext:
                 fsGroup: 5050
                 runAsUser: 5050
