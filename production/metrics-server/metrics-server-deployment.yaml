@@ -37,3 +37,9 @@ spec:
                   volumeMounts:
                       - name: tmp-dir
                         mountPath: /tmp
+                  resources:
+                      requests:
+                          cpu: 10m
+                          memory: 32Mi
+                      limits:
+                          memory: 32Mi
