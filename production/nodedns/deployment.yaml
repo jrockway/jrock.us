@@ -23,5 +23,11 @@ spec:
                             secretKeyRef:
                                 name: nodedns-digitalocean-token
                                 key: token
+                  resources:
+                      requests:
+                          cpu: 1m
+                          memory: 30Mi
+                      limits:
+                          memory: 30Mi
             imagePullSecrets:
                 - name: registry-credentials
