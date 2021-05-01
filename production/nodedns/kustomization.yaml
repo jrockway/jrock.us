@@ -9,4 +9,4 @@ patches:
 images:
     - name: nodedns
       newName: registry.jrock.us/nodedns
-      newTag: 0.0.13
+      newTag: 0.0.14
