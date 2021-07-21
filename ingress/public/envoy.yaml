@@ -528,7 +528,7 @@ static_resources:
                               address:
                                   socket_address:
                                       address: ekglue.discovery.svc.cluster.local.
-                                      port_value: 443
+                                      port_value: 9000
 dynamic_resources:
     cds_config:
         resource_api_version: V3
