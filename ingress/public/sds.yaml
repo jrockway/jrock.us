@@ -3,6 +3,6 @@ resources:
       name: "jrock.us"
       tls_certificate:
           certificate_chain:
-              filename: "/tmp/cert"
+              filename: "/jrock.us/tls.crt"
           private_key:
-              filename: "/tmp/key"
+              filename: "/jrock.us/tls.key"
