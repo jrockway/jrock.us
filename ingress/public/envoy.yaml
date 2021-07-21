@@ -448,7 +448,7 @@ static_resources:
                       api_type: GRPC
                       grpc_services:
                           - envoy_grpc:
-                                cluster_name: discovery:ekglue:grpc
+                                cluster_name: discovery:ekglue3:grpc
                       transport_api_version: V3
         - name: observability:jaeger-collector-headless:zipkin
           type: strict_dns
@@ -477,7 +477,7 @@ static_resources:
                                       port_value: 9411
                               health_check_config:
                                   port_value: 14269
-        - name: discovery:ekglue:grpc
+        - name: discovery:ekglue3:grpc
           type: strict_dns
           lb_policy: random
           connect_timeout: 1s
@@ -494,13 +494,13 @@ static_resources:
                 unhealthy_threshold: 1
                 grpc_health_check: {}
           load_assignment:
-              cluster_name: discovery:ekglue:grpc
+              cluster_name: discovery:ekglue3:grpc
               endpoints:
                   - lb_endpoints:
                         - endpoint:
                               address:
                                   socket_address:
-                                      address: ekglue.discovery.svc.cluster.local.
+                                      address: ekglue3.discovery.svc.cluster.local.
                                       port_value: 9000
 tracing:
     http:
@@ -514,13 +514,13 @@ tracing:
 
 dynamic_resources:
     cds_config:
-        resource_api_version: V2
+        resource_api_version: V3
         api_config_source:
             api_type: GRPC
             transport_api_version: V3
             grpc_services:
                 envoy_grpc:
-                    cluster_name: discovery:ekglue:grpc
+                    cluster_name: discovery:ekglue3:grpc
 layered_runtime:
     layers:
         - name: static_layer_0
