@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+    name: ekglue3
+spec:
+    selector:
+        matchLabels:
+            app: ekglue3
+    podMetricsEndpoints:
+        - port: debug
+          path: /metrics

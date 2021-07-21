@@ -1,0 +1,13 @@
+namespace: discovery
+commonLabels:
+    app: ekglue3
+resources:
+    - deployment.yaml
+    - service.yaml
+configMapGenerator:
+    - name: ekglue3-config
+      files: ["ekglue.yaml"]
+images:
+    - name: ekglue
+      newName: registry.jrock.us/ekglue
+      newTag: 0.0.61
