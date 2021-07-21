@@ -117,9 +117,6 @@ spec:
                 - name: envoy-config
                   configMap:
                       name: envoy-config
-                - name: envoy-policy
-                  configMap:
-                      name: envoy-policy
                 - name: jrock-us-certs
                   secret:
                       secretName: jrock-us-tls

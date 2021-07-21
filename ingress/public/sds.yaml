@@ -1,7 +1,8 @@
 resources:
-    - "@type": "type.googleapis.com/envoy.api.v2.auth.Secret"
+    - "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.Secret
+      name: "jrock.us"
       tls_certificate:
           certificate_chain:
-              filename: "/jrock.us/tls.crt"
+              filename: "/tmp/cert"
           private_key:
-              filename: "/jrock.us/tls.key"
+              filename: "/tmp/key"

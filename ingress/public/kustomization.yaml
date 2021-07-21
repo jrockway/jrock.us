@@ -8,12 +8,12 @@ resources:
     - podmonitor.yaml
     - poddisruptionbudget.yaml
     - client-cert.yaml
-    - config-test-job.yaml
+    # envoy --mode validate crashes on the config, but loads it ok:
+    # https://github.com/envoyproxy/envoy/issues/17344
+    # - config-test-job.yaml
 configMapGenerator:
     - name: envoy-config
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
-    - name: envoy-policy
-      files: ["policy.rego=access/policy.rego"]
 patchesJson6902:
     - target:
           group: batch
@@ -24,7 +24,7 @@ patchesJson6902:
 images:
     - name: envoy
       newName: envoyproxy/envoy
-      newTag: v1.16.0
+      newTag: v1.19.0
     - name: jsso2
       newName: registry.jrock.us/jsso2-backend
       newTag: 0.0.8
