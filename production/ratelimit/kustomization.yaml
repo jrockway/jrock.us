@@ -24,7 +24,7 @@ images:
       newTag: v1.14.0-alpine
     - name: ratelimit
       newName: envoyproxy/ratelimit
-      newTag: v1.4.0
+      newTag: edab0ecf
     - name: statsd-exporter
       newName: prom/statsd-exporter
       newTag: v0.18.0
