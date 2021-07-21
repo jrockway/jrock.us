@@ -3,13 +3,13 @@ endpoint_config:
     include_not_ready: true
     locality:
         region_from:
-            label: failure-domain.beta.kubernetes.io/region
+            label: topology.kubernetes.io/region
         zone_from:
             use_hostname: true
 cluster_config:
     base:
         connect_timeout: 1s
-        lb_policy: ROUND_ROBIN
+        lb_policy: RANDOM
         circuit_breakers:
             thresholds:
                 - track_remaining: true
@@ -26,6 +26,7 @@ cluster_config:
                 min_cluster_size: 1
         eds_cluster_config:
             eds_config:
+                resource_api_version: V3
                 api_config_source:
                     api_type: GRPC
                     transport_api_version: V3
@@ -48,7 +49,7 @@ cluster_config:
               transport_socket:
                   name: envoy.transport_sockets.tls
                   typed_config:
-                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
+                      "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
                       common_tls_context:
                           alpn_protocols: ["h2"]
                           tls_certificate_sds_secret_configs:
@@ -63,7 +64,7 @@ cluster_config:
               transport_socket:
                   name: envoy.transport_sockets.tls
                   typed_config:
-                      "@type": type.googleapis.com/envoy.api.v2.auth.UpstreamTlsContext
+                      "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
                       common_tls_context:
                           alpn_protocols: ["http/1.1"]
                           tls_certificate_sds_secret_configs:
