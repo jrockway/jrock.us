@@ -4,6 +4,7 @@ commonLabels:
 resources:
     - registry-credentials-sealedsecret.yaml
     - service.yaml
+    - udp-service.yaml
     - deployment.yaml
     - podmonitor.yaml
     - poddisruptionbudget.yaml
