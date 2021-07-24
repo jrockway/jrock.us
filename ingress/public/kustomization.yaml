@@ -20,14 +20,7 @@ resources:
 #       path: remove-app-label.yaml
 configMapGenerator:
     - name: envoy-config
-      files:
-          [
-              "envoy.yaml",
-              "sds.yaml",
-              "client-sds.yaml",
-              "client-validation-sds.yaml",
-              "jrockus_vhosts.yaml",
-          ]
+      files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
 images:
     - name: envoy
       newName: envoyproxy/envoy
