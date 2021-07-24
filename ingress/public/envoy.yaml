@@ -445,6 +445,64 @@ static_resources:
                                               https_redirect: true
                           http_filters:
                               - name: envoy.filters.http.router
+        - name: http3
+          address:
+              socket_address:
+                  protocol: UDP
+                  address: 0.0.0.0
+                  port_value: 31313
+          reuse_port: true
+          udp_listener_config:
+              quic_options: {}
+              downstream_socket_config:
+                  prefer_gro: true
+          per_connection_buffer_limit_bytes: 32768
+          traffic_direction: INBOUND
+          filter_chains:
+              - transport_socket:
+                    name: envoy.transport_sockets.quic
+                    typed_config:
+                        "@type": type.googleapis.com/envoy.extensions.transport_sockets.quic.v3.QuicDownstreamTransport
+                        downstream_tls_context:
+                            common_tls_context:
+                                tls_params:
+                                tls_certificate_sds_secret_configs:
+                                    name: "jrock.us"
+                                    sds_config:
+                                        resource_api_version: V3
+                                        path: /etc/envoy/sds.yaml
+                filters:
+                    - name: envoy.http_connection_manager
+                      typed_config:
+                          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                          use_remote_address: true
+                          codec_type: HTTP3
+                          tracing:
+                              provider:
+                                  name: envoy.tracers.zipkin
+                                  typed_config:
+                                      "@type": type.googleapis.com/envoy.config.trace.v3.ZipkinConfig
+                                      collector_cluster: observability:jaeger-collector-headless:zipkin
+                                      collector_endpoint: "/api/v2/spans"
+                                      collector_endpoint_version: HTTP_JSON
+                                      shared_span_context: false
+                          stat_prefix: ingress_http3
+                          route_config:
+                              name: route
+                              virtual_hosts:
+                                  - name: all
+                                    domains: ["*"]
+                                    routes:
+                                        - match:
+                                              prefix: "/"
+                                          route:
+                                          direct_response:
+                                              status: 200
+                                              body:
+                                                  inline_string: "Hi from H3!"
+                          http3_protocol_options: {}
+                          http_filters:
+                              - name: envoy.filters.http.router
     clusters:
         - name: jsso2-grpc
           type: static
