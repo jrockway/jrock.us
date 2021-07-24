@@ -515,7 +515,18 @@ static_resources:
                                       shared_span_context: false
                           stat_prefix: ingress_http3
                           route_config:
-                              name: route
+                              name: h3_route
+                              validate_clusters: false
+                              internal_only_headers:
+                                  - x-remote-user
+                              response_headers_to_add:
+                                  - header:
+                                        key: x-pod
+                                        value: "%HOSTNAME%"
+                                  - header:
+                                        key: strict-transport-security
+                                        value: "max-age=63072000; includeSubDomains; preload"
+                                    append: false
                               virtual_hosts:
                                   - name: h3.jrock.us
                                     domains: ["h3.jrock.us"]
