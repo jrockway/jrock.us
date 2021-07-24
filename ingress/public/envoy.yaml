@@ -148,7 +148,6 @@ static_resources:
                                     append: false
                               vhds:
                                   config_source:
-                                      resource_api_version: V3
                                       path: /etc/envoy/jrockus_vhosts.yaml
                           http_filters:
                               - name: envoy.filters.http.ratelimit
