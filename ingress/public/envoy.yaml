@@ -175,6 +175,33 @@ static_resources:
                                         retry_host_predicate:
                                             - name: "envoy.retry_host_predicates.previous_hosts"
                                         host_selection_retry_max_attempts: 3
+                                  - name: h3.jrock.us
+                                    domains: ["h3.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: www:www-jrock-us:h2
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                                                  disabled: true
+                                    rate_limits:
+                                        - actions:
+                                              - generic_key:
+                                                    descriptor_value: www
+                                              - remote_address: {}
+                                    retry_policy:
+                                        num_retries: 3
+                                        retry_on: "5xx,reset"
+                                        retry_host_predicate:
+                                            - name: "envoy.retry_host_predicates.previous_hosts"
+                                        host_selection_retry_max_attempts: 3
+                                    response_headers_to_add:
+                                        - header:
+                                              key: alt-svc
+                                              value:
+                                                  h3="nodes.jrock.us:31313"; ma=300,
+                                                  h3-29="nodes.jrock.us:31313"; ma=300
                                   - name: mail.jrock.us
                                     domains: ["mail.jrock.us"]
                                     routes:
@@ -490,6 +517,18 @@ static_resources:
                           route_config:
                               name: route
                               virtual_hosts:
+                                  - name: h3.jrock.us
+                                    domains: ["h3.jrock.us"]
+                                    routes:
+                                        - match: { prefix: "/" }
+                                          route:
+                                              cluster: www:www-jrock-us:h2
+                                    retry_policy:
+                                        num_retries: 3
+                                        retry_on: "5xx,reset"
+                                        retry_host_predicate:
+                                            - name: "envoy.retry_host_predicates.previous_hosts"
+                                        host_selection_retry_max_attempts: 3
                                   - name: all
                                     domains: ["*"]
                                     routes:
@@ -497,9 +536,11 @@ static_resources:
                                               prefix: "/"
                                           route:
                                           direct_response:
-                                              status: 200
+                                              status: 404
                                               body:
-                                                  inline_string: "Hi from H3!"
+                                                  inline_string:
+                                                      "You used HTTP/3 to connect, but probably
+                                                      shouldn't have."
                           http3_protocol_options: {}
                           http_filters:
                               - name: envoy.filters.http.router
