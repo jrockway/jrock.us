@@ -1,0 +1,11 @@
+namespace: influxdb
+commonLabels:
+    app: influxdb
+resources:
+    - namespace.yaml
+    - service.yaml
+    - statefulset.yaml
+images:
+    - name: influxdb
+      newName: docker.io/influxdb
+      newTag: 2.0.8

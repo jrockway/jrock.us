@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: influxdb
+spec:
+    replicas: 1
+    serviceName: influxdb
+    template:
+        spec:
+            containers:
+                - name: influxdb
+                  image: influxdb
+                  ports:
+                      - containerPort: 8086
+                        name: influxdb
+                  volumeMounts:
+                      - mountPath: /var/lib/influxdb2
+                        name: data
+    volumeClaimTemplates:
+        - metadata:
+              name: data
+              namespace: influxdb
+          spec:
+              storageClassName: do-block-storage-safe
+              accessModes:
+                  - ReadWriteOnce
+              resources:
+                  requests:
+                      storage: 30G
