@@ -18,13 +18,13 @@ spec:
                       - name: INFLUXD_LOG_LEVEL
                         value: "debug"
                       - name: INFLUXD_QUERY_MEMORY_BYTES
-                        value: "150000000"
+                        value: "800000000"
                       - name: INFLUXD_QUERY_CONCURRENCY
-                        value: "10"
+                        value: "5"
                       - name: INFLUXD_QUERY_INITIAL_MEMORY_BYTES
-                        value: "50000000"
+                        value: "100000000"
                       - name: INFLUXD_QUERY_MAX_MEMORY_BYTES
-                        value: "1500000000"
+                        value: "4000000000"
                   ports:
                       - containerPort: 8086
                         name: influxdb
@@ -33,10 +33,10 @@ spec:
                         name: data
                   resources:
                       requests:
-                          cpu: 100m
-                          memory: 2Gi
+                          cpu: 500m
+                          memory: 4Gi
                       limits:
-                          memory: 3Gi
+                          memory: 4Gi
     volumeClaimTemplates:
         - metadata:
               name: data
