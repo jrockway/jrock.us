@@ -34,9 +34,9 @@ spec:
                   resources:
                       requests:
                           cpu: 500m
-                          memory: 6Gi
+                          memory: 8Gi
                       limits:
-                          memory: 6Gi
+                          memory: 8Gi
     volumeClaimTemplates:
         - metadata:
               name: data
