@@ -10,12 +10,33 @@ spec:
             containers:
                 - name: influxdb
                   image: influxdb
+                  env:
+                      - name: INFLUXD_HTTP_READ_TIMEOUT
+                        value: "60s"
+                      - name: INFLUXD_HTTP_WRITE_TIMEOUT
+                        value: "60s"
+                      - name: INFLUXD_LOG_LEVEL
+                        value: "debug"
+                      - name: INFLUXD_QUERY_MEMORY_BYTES
+                        value: "150000000"
+                      - name: INFLUXD_QUERY_CONCURRENCY
+                        value: "10"
+                      - name: INFLUXD_QUERY_INITIAL_MEMORY_BYTES
+                        value: "50000000"
+                      - name: INFLUXD_QUERY_MAX_MEMORY_BYTES
+                        value: "1500000000"
                   ports:
                       - containerPort: 8086
                         name: influxdb
                   volumeMounts:
                       - mountPath: /var/lib/influxdb2
                         name: data
+                  resources:
+                      requests:
+                          cpu: 500m
+                          memory: 2Gi
+                      limits:
+                          memory: 3Gi
     volumeClaimTemplates:
         - metadata:
               name: data
