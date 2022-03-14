@@ -1,18 +1,22 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: ca-root-certificate
+  creationTimestamp: null
+  name: ca-root-certificate
 spec:
-    secretName: ca-root-certificate-secret
-    duration: 87600h0m0s
-    renewBefore: 720h0m0s
-    organization:
-        - jrock.us
-    uriSANs:
-        - spiffe://jrock.us/
-    isCA: true
-    keySize: 521
-    keyAlgorithm: ecdsa
-    issuerRef:
-        name: selfsigning-issuer
-        kind: Issuer
+  duration: 87600h0m0s
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: selfsigning-issuer
+  privateKey:
+    algorithm: ECDSA
+    size: 521
+  renewBefore: 720h0m0s
+  secretName: ca-root-certificate-secret
+  subject:
+    organizations:
+    - jrock.us
+  uris:
+  - spiffe://jrock.us/
+status: {}

@@ -1,14 +1,16 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: grafana
+  creationTimestamp: null
+  name: grafana
 spec:
-    secretName: grafana-tls
-    issuerRef:
-        name: ca-issuer
-        kind: ClusterIssuer
-    dnsNames:
-        - grafana
-        - grafana.monitoring
-        - granana.monitoring.svc
-        - granana.monitoring.svc.cluster.local
+  dnsNames:
+  - grafana
+  - grafana.monitoring
+  - granana.monitoring.svc
+  - granana.monitoring.svc.cluster.local
+  issuerRef:
+    kind: ClusterIssuer
+    name: ca-issuer
+  secretName: grafana-tls
+status: {}
