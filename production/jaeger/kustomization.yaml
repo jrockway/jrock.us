@@ -1,13 +1,5 @@
 namespace: observability
 resources:
-    - jaegertracing.io_jaegers_crd.yaml
-    - cluster_role.yaml
-    - cluster_role_binding.yaml
-    - service_account.yaml
-    - role.yaml
-    - role_binding.yaml
-    - operator.yaml
+    - jaeger-operator.yaml
     - jaeger.yaml
     - podmonitor.yaml
-patchesStrategicMerge:
-    - operator-patch.yaml
