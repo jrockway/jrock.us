@@ -1,13 +1,15 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-    name: jrock-us
+  creationTimestamp: null
+  name: jrock-us
 spec:
-    secretName: jrock-us-tls
-    issuerRef:
-        name: letsencrypt-issuer
-        kind: Issuer
-    commonName: "*.jrock.us"
-    dnsNames:
-        - "*.jrock.us"
-        - jrock.us
+  commonName: '*.jrock.us'
+  dnsNames:
+  - '*.jrock.us'
+  - jrock.us
+  issuerRef:
+    kind: Issuer
+    name: letsencrypt-issuer
+  secretName: jrock-us-tls
+status: {}
