@@ -1,16 +1,19 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-    name: letsencrypt-issuer
+  creationTimestamp: null
+  name: letsencrypt-issuer
 spec:
-    acme:
-        email: jon@jrock.us
-        server: https://acme-v02.api.letsencrypt.org/directory
-        privateKeySecretRef:
-            name: letsencrypt-issuer-account-key
-        solvers:
-            - dns01:
-                  digitalocean:
-                      tokenSecretRef:
-                          name: digitalocean-dns-token
-                          key: token
+  acme:
+    email: jon@jrock.us
+    preferredChain: ""
+    privateKeySecretRef:
+      name: letsencrypt-issuer-account-key
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        digitalocean:
+          tokenSecretRef:
+            key: token
+            name: digitalocean-dns-token
+status: {}
