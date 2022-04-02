@@ -20,7 +20,7 @@ spec:
     storage:
         type: memory
         options:
-            memory.max-traces: 130000 # ~15k per trace based on data
+            memory.max-traces: "130000" # ~15k per trace based on data
     ingress:
         enabled: false
     agent:
