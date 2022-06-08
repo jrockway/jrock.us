@@ -9,6 +9,7 @@ resources:
     - podmonitor.yaml
     - poddisruptionbudget.yaml
     - client-cert.yaml
+    - config-test-job.yaml
 patchesJson6902:
     - target:
           group: batch
