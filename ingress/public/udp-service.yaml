@@ -2,11 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
     name: public-udp
+    annotations:
+        service.beta.kubernetes.io/do-loadbalancer-protocol: "udp"
+        service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "false"
 spec:
-    type: NodePort
+    type: LoadBalancer
     ports:
         - name: h3
-          nodePort: 31313
           port: 31313
-          targetPort: 31313
+          targetPort: h3
           protocol: UDP
