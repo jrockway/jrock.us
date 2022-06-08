@@ -10,11 +10,7 @@ spec:
     ports:
         - name: http
           port: 80
-          targetPort: http
+          targetPort: 80
         - name: https
           port: 443
-          targetPort: https
-        - name: h3
-          port: 31313
-          targetPort: h3
-          protocol: UDP
+          targetPort: 443
