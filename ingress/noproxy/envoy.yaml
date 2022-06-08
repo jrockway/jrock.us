@@ -20,7 +20,10 @@ overload_manager:
                 threshold:
                     value: 0.98
 admin:
-    access_log_path: /tmp/admin_access.log
+    access_log:
+        - name: "envoy.access_loggers.stderr"
+          typed_config:
+              "@type": "type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StderrAccessLog"
     address:
         socket_address: { address: 0.0.0.0, port_value: 9901 }
 static_resources:
@@ -30,7 +33,8 @@ static_resources:
               socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
               - name: "envoy.filters.listener.tls_inspector"
-                typed_config: {}
+                typed_config:
+                    "@type": "type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector"
           per_connection_buffer_limit_bytes: 32768
           traffic_direction: INBOUND
           filter_chains:
@@ -53,7 +57,10 @@ static_resources:
                                 name: "jrock.us"
                                 sds_config:
                                     resource_api_version: V3
-                                    path: /etc/envoy/sds.yaml
+                                    path_config_source:
+                                        path: /etc/envoy/sds.yaml
+                                        watched_directory:
+                                            path: /etc/envoy
                 filters:
                     - name: envoy.http_connection_manager
                       typed_config:
@@ -101,6 +108,8 @@ static_resources:
                                                   inline_string: "Not found!\n"
                           http_filters:
                               - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
     clusters:
         - name: docker-registry
           type: strict_dns
