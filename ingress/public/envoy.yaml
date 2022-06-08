@@ -23,7 +23,10 @@ overload_manager:
                 threshold:
                     value: 0.98
 admin:
-    access_log_path: /tmp/admin_access.log
+    access_log:
+        - name: "envoy.access_loggers.stderr"
+          typed_config:
+              "@type": "type.googleapis.com/envoy.extensions.access_loggers.stream.v3.StderrAccessLog"
     address:
         socket_address: { address: 0.0.0.0, port_value: 9901 }
 static_resources:
@@ -33,7 +36,8 @@ static_resources:
               socket_address: { address: 0.0.0.0, port_value: 80 }
           listener_filters:
               - name: "envoy.filters.listener.proxy_protocol"
-                typed_config: {}
+                typed_config:
+                    "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
           per_connection_buffer_limit_bytes: 32768
           traffic_direction: INBOUND
           filter_chains:
@@ -75,14 +79,18 @@ static_resources:
                                               https_redirect: true
                           http_filters:
                               - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
         - name: https_listener
           address:
               socket_address: { address: 0.0.0.0, port_value: 443 }
           listener_filters:
               - name: "envoy.filters.listener.proxy_protocol"
-                typed_config: {}
+                typed_config:
+                    "@type": "type.googleapis.com/envoy.extensions.filters.listener.proxy_protocol.v3.ProxyProtocol"
               - name: "envoy.filters.listener.tls_inspector"
-                typed_config: {}
+                typed_config:
+                    "@type": "type.googleapis.com/envoy.extensions.filters.listener.tls_inspector.v3.TlsInspector"
           per_connection_buffer_limit_bytes: 32768
           traffic_direction: INBOUND
           filter_chains:
@@ -105,7 +113,10 @@ static_resources:
                                 name: "jrock.us"
                                 sds_config:
                                     resource_api_version: V3
-                                    path: /etc/envoy/sds.yaml
+                                    path_config_source:
+                                        path: /etc/envoy/sds.yaml
+                                        watched_directory:
+                                            path: /etc/envoy
                 filters:
                     - name: envoy.http_connection_manager
                       typed_config:
@@ -174,6 +185,8 @@ static_resources:
                                         retry_on: "5xx,reset"
                                         retry_host_predicate:
                                             - name: "envoy.retry_host_predicates.previous_hosts"
+                                              typed_config:
+                                                  "@type": "type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate"
                                         host_selection_retry_max_attempts: 3
                                     cors:
                                         allow_origin_string_match:
@@ -201,6 +214,8 @@ static_resources:
                                         retry_on: "5xx,reset"
                                         retry_host_predicate:
                                             - name: "envoy.retry_host_predicates.previous_hosts"
+                                              typed_config:
+                                                  "@type": "type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate"
                                         host_selection_retry_max_attempts: 3
                                     response_headers_to_add:
                                         - header:
@@ -452,7 +467,12 @@ static_resources:
                                             numerator: 100
                                             denominator: HUNDRED
                               - name: envoy.filters.http.cors
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors"
                               - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
+
               - filters:
                     # port 443 traffic, but not TLS; redirect to https
                     - name: envoy.http_connection_manager
@@ -491,13 +511,16 @@ static_resources:
                                               https_redirect: true
                           http_filters:
                               - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
+
         - name: http3
           address:
               socket_address:
                   protocol: UDP
                   address: 0.0.0.0
                   port_value: 31313
-          reuse_port: true
+          enable_reuse_port: true
           udp_listener_config:
               quic_options: {}
               downstream_socket_config:
@@ -511,12 +534,15 @@ static_resources:
                         "@type": type.googleapis.com/envoy.extensions.transport_sockets.quic.v3.QuicDownstreamTransport
                         downstream_tls_context:
                             common_tls_context:
-                                tls_params:
+                                tls_params: {}
                                 tls_certificate_sds_secret_configs:
                                     name: "jrock.us"
                                     sds_config:
                                         resource_api_version: V3
-                                        path: /etc/envoy/sds.yaml
+                                        path_config_source:
+                                            path: /etc/envoy/sds.yaml
+                                            watched_directory:
+                                                path: /etc/envoy
                 filters:
                     - name: envoy.http_connection_manager
                       typed_config:
@@ -558,6 +584,8 @@ static_resources:
                                         retry_on: "5xx,reset"
                                         retry_host_predicate:
                                             - name: "envoy.retry_host_predicates.previous_hosts"
+                                              typed_config:
+                                                  "@type": "type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate"
                                         host_selection_retry_max_attempts: 3
                                   - name: all
                                     domains: ["*"]
@@ -574,6 +602,8 @@ static_resources:
                           http3_protocol_options: {}
                           http_filters:
                               - name: envoy.filters.http.router
+                                typed_config:
+                                    "@type": "type.googleapis.com/envoy.extensions.filters.http.router.v3.Router"
     clusters:
         - name: jsso2-grpc
           type: static
