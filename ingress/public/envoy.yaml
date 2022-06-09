@@ -220,9 +220,7 @@ static_resources:
                                     response_headers_to_add:
                                         - header:
                                               key: alt-svc
-                                              value:
-                                                  h3="nodes.jrock.us:31313"; ma=300,
-                                                  h3-29="nodes.jrock.us:31313"; ma=300
+                                              value: h3=":31313"; ma=300, h3-29=":31313"; ma=300
                                   - name: mail.jrock.us
                                     domains: ["mail.jrock.us"]
                                     routes:
