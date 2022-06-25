@@ -15,6 +15,6 @@ spec:
           port: 443
           targetPort: https
         - name: h3
-          port: 443
+          port: 31313
           targetPort: h3
           protocol: UDP
