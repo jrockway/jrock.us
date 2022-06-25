@@ -67,7 +67,7 @@ spec:
                       - name: https
                         containerPort: 443
                       - name: h3
-                        containerPort: 31313
+                        containerPort: 443
                         protocol: UDP
                   resources:
                       requests:
