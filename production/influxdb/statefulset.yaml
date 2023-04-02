@@ -24,7 +24,7 @@ spec:
                       - name: INFLUXD_QUERY_INITIAL_MEMORY_BYTES
                         value: "100000000"
                       - name: INFLUXD_QUERY_MAX_MEMORY_BYTES
-                        value: "4000000000"
+                        value: "3 000 000 000"
                   ports:
                       - containerPort: 8086
                         name: influxdb
@@ -33,10 +33,10 @@ spec:
                         name: data
                   resources:
                       requests:
-                          cpu: 500m
-                          memory: 8Gi
+                          cpu: 1
+                          memory: 4Gi
                       limits:
-                          memory: 8Gi
+                          memory: 4Gi
     volumeClaimTemplates:
         - metadata:
               name: data
