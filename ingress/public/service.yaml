@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
     name: public
-    loadBalancerIP: 206.189.254.193
     annotations:
         service.beta.kubernetes.io/do-loadbalancer-protocol: "tcp"
         service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
 spec:
     type: LoadBalancer
+    loadBalancerIP: 206.189.254.193
     ports:
         - name: http
           port: 80
