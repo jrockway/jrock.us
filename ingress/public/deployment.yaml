@@ -153,4 +153,4 @@ spec:
                 - name: sockets
                   emptyDir: {}
             imagePullSecrets:
-                - name: registry-credentials
+                - name: jrockus
