@@ -14,4 +14,4 @@ configMapGenerator:
 images:
     - name: www
       newName: registry.digitalocean.com/jrockus/www
-      newTag: f2e5f53a19de969c9ad75a0de221e71a2c1d6236
+      newTag: aa4775ffeca19641756262289f7bd31439648a26
