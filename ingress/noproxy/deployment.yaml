@@ -57,10 +57,8 @@ spec:
                   ports:
                       - name: envoy-admin
                         containerPort: 9901
-                      - name: http
-                        containerPort: 80
                       - name: https
-                        containerPort: 443
+                        containerPort: 8443
                   resources:
                       requests:
                           cpu: 50m

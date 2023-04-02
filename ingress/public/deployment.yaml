@@ -63,9 +63,9 @@ spec:
                       - name: envoy-admin
                         containerPort: 9901
                       - name: http
-                        containerPort: 80
+                        containerPort: 8080
                       - name: https
-                        containerPort: 443
+                        containerPort: 8443
                       - name: h3
                         containerPort: 31313
                         protocol: UDP
