@@ -11,5 +11,5 @@ configMapGenerator:
       files: ["envoy.yaml", "sds.yaml"]
 images:
     - name: envoy
-      newName: envoyproxy/envoy
-      newTag: v1.22.0
+      newName: envoyproxy/envoy-distroless
+      newTag: v1.25.1

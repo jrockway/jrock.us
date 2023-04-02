@@ -21,8 +21,8 @@ configMapGenerator:
       files: ["envoy.yaml", "sds.yaml", "client-sds.yaml", "client-validation-sds.yaml"]
 images:
     - name: envoy
-      newName: envoyproxy/envoy
-      newTag: v1.22.0
+      newName: envoyproxy/envoy-distroless
+      newTag: v1.25.1
     - name: jsso2
       newName: registry.jrock.us/jsso2-backend
       newTag: 0.0.8

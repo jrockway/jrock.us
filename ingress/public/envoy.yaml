@@ -156,7 +156,7 @@ static_resources:
                                   - header:
                                         key: strict-transport-security
                                         value: "max-age=63072000; includeSubDomains; preload"
-                                    append: false
+                                    append_action: OVERWRITE_IF_EXISTS_OR_ADD
                               virtual_hosts:
                                   - name: www.jrock.us
                                     domains: ["www.jrock.us"]
@@ -188,12 +188,14 @@ static_resources:
                                               typed_config:
                                                   "@type": "type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate"
                                         host_selection_retry_max_attempts: 3
-                                    cors:
-                                        allow_origin_string_match:
-                                            - suffix: "jrock.us"
-                                        allow_methods: GET
-                                        allow_credentials: false
-                                        max_age: "1728000"
+                                    typed_per_filter_config:
+                                        envoy.filter.http.cors:
+                                            "@type": "type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy"
+                                            allow_origin_string_match:
+                                                - suffix: "jrock.us"
+                                            allow_methods: GET
+                                            allow_credentials: false
+                                            max_age: "1728000"
                                   - name: h3.jrock.us
                                     domains: ["h3.jrock.us"]
                                     routes:
@@ -229,11 +231,11 @@ static_resources:
                                               - header:
                                                     key: location
                                                     value: "https://mail.google.com/a/jrock.us"
-                                                append: false
+                                                append_action: OVERWRITE_IF_EXISTS_OR_ADD
                                               - header:
                                                     key: content-type
                                                     value: "text/html; charset=UTF-8"
-                                                append: false
+                                                append_action: OVERWRITE_IF_EXISTS_OR_ADD
                                           direct_response:
                                               status: 301
                                               body:
@@ -256,11 +258,11 @@ static_resources:
                                               - header:
                                                     key: location
                                                     value: "https://www.google.com/calendar/hosted/jrock.us"
-                                                append: false
+                                                append_action: OVERWRITE_IF_EXISTS_OR_ADD
                                               - header:
                                                     key: content-type
                                                     value: "text/html; charset=UTF-8"
-                                                append: false
+                                                append_action: OVERWRITE_IF_EXISTS_OR_ADD
                                           direct_response:
                                               status: 302
                                               body:
@@ -569,7 +571,7 @@ static_resources:
                                   - header:
                                         key: strict-transport-security
                                         value: "max-age=63072000; includeSubDomains; preload"
-                                    append: false
+                                    append_action: OVERWRITE_IF_EXISTS_OR_ADD
                               virtual_hosts:
                                   - name: h3.jrock.us
                                     domains: ["h3.jrock.us"]
