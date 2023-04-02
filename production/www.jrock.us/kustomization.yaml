@@ -14,5 +14,5 @@ configMapGenerator:
           - zipkin-nginx-config.json
 images:
     - name: www
-      newName: registry.jrock.us/www
-      newTag: 0.0.71
+      newName: registry.digitalocean.com/jrockus/www
+      newTag: f2e5f53a19de969c9ad75a0de221e71a2c1d6236
