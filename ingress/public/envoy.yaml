@@ -254,26 +254,6 @@ static_resources:
                                               envoy.filters.http.ext_authz:
                                                   "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                                                   disabled: true
-                                  - name: ci.jrock.us
-                                    domains: ["ci.jrock.us"]
-                                    rate_limits:
-                                        - actions:
-                                              - generic_key:
-                                                    descriptor_value: ci
-                                              - remote_address: {}
-                                    routes:
-                                        - match: { prefix: "/" }
-                                          route:
-                                              cluster: concourse:concourse-web:atc
-                                              timeout: 3600s
-                                              idle_timeout: 3600s
-                                              upgrade_configs:
-                                                  - upgrade_type: websocket
-                                                    enabled: true
-                                          typed_per_filter_config:
-                                              envoy.filters.http.ext_authz:
-                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
-                                                  disabled: true
                                   - name: jaeger.jrock.us
                                     domains: ["jaeger.jrock.us"]
                                     routes:
