@@ -17,8 +17,8 @@ images:
       newName: envoyproxy/envoy
       newTag: v1.16.0
     - name: backend
-      newName: registry.jrock.us/jsso2-backend
+      newName: registry.digitalocean.com/jrockus/jsso2-backend
       newTag: 0.0.8
     - name: frontend
-      newName: registry.jrock.us/jsso2-frontend
+      newName: registry.digitalocean.com/jrockus/jsso2-frontend
       newTag: 0.0.8
