@@ -414,7 +414,7 @@ static_resources:
                                         envoy_grpc:
                                             cluster_name: jsso2-grpc
                                         timeout: 1s
-                                    failure_mode_allow: true
+                                    failure_mode_allow: false
                                     status_on_error:
                                         code: 500
                                     transport_api_version: V3
