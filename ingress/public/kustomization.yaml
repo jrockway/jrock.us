@@ -24,5 +24,5 @@ images:
       newName: envoyproxy/envoy-distroless
       newTag: v1.25.1
     - name: jsso2
-      newName: registry.jrock.us/jsso2-backend
+      newName: registry.digitalocean.com/jrockus/jsso2-backend
       newTag: 0.0.8
