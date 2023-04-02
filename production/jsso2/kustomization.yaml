@@ -3,7 +3,6 @@ commonLabels:
     app: jsso2
 resources:
     - namespace.yaml
-    - registry-credentials.yaml
     - sealed-secret.yaml
     - deployment.yaml
     - service.yaml

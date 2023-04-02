@@ -98,4 +98,4 @@ spec:
                   configMap:
                       name: envoy-config
             imagePullSecrets:
-                - name: registry-credentials
+                - name: jrockus
