@@ -19,6 +19,14 @@ spec:
                                     values:
                                         - public-ingress
                           topologyKey: "kubernetes.io/hostname"
+            securityContext:
+                runAsUser: 65532
+                runAsGroup: 65532
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                    drop:
+                        - all
             containers:
                 - name: envoy
                   image: envoy
@@ -75,6 +83,14 @@ spec:
                           memory: "100Mi"
                       limits:
                           memory: "100Mi"
+                  securityContext:
+                      runAsUser: 65532
+                      runAsGroup: 65532
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                      capabilities:
+                          drop:
+                              - all
                 - name: jsso2
                   image: jsso2
                   command:
@@ -116,6 +132,15 @@ spec:
                           memory: "30Mi"
                       limits:
                           memory: "30Mi"
+                  securityContext:
+                      runAsUser: 65532
+                      runAsGroup: 65532
+                      allowPrivilegeEscalation: false
+                      readOnlyRootFilesystem: true
+                      capabilities:
+                          drop:
+                              - all
+
             volumes:
                 - name: envoy-config
                   configMap:
