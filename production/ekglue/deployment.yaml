@@ -21,4 +21,4 @@ spec:
                   configMap:
                       name: ekglue-config
             imagePullSecrets:
-                - name: registry-credentials
+                - name: jrockus

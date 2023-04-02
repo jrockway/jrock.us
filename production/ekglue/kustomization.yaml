@@ -3,7 +3,6 @@ bases:
     - github.com/jrockway/ekglue/deploy/base
 resources:
     - podmonitor.yaml
-    - registry_credentials.yaml
 patches:
     - deployment.yaml
 configMapGenerator:
@@ -11,5 +10,5 @@ configMapGenerator:
       files: ["ekglue.yaml"]
 images:
     - name: ekglue
-      newName: registry.jrock.us/ekglue
+      newName: registry.digitalocean.com/jrockus/ekglue
       newTag: 0.0.67
