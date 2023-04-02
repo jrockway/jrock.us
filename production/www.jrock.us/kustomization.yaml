@@ -3,7 +3,6 @@ commonLabels:
     app: www.jrock.us
 resources:
     - namespace.yaml
-    - registry-creds.yaml
     - deployment.yaml
     - service.yaml
     - poddisruptionbudget.yaml
