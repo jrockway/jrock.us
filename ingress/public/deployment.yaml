@@ -22,11 +22,10 @@ spec:
             securityContext:
                 runAsUser: 65532
                 runAsGroup: 65532
-                allowPrivilegeEscalation: false
-                readOnlyRootFilesystem: true
-                capabilities:
-                    drop:
-                        - all
+                fsGroup: 65532
+                runAsNonRoot: true
+                seccompProfile:
+                    type: RuntimeDefault
             containers:
                 - name: envoy
                   image: envoy
