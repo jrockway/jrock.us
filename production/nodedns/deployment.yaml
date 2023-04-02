@@ -30,4 +30,4 @@ spec:
                       limits:
                           memory: 30Mi
             imagePullSecrets:
-                - name: registry-credentials
+                - name: jrockus
