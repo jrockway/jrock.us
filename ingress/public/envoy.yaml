@@ -165,6 +165,10 @@ static_resources:
                                           redirect:
                                               host_redirect: "jrock.us"
                                               response_code: MOVED_PERMANENTLY
+                                          typed_per_filter_config:
+                                              envoy.filters.http.ext_authz:
+                                                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                                                  disabled: true
                                   - name: jrock.us
                                     domains: ["jrock.us"]
                                     routes:
