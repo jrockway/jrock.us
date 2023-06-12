@@ -12,7 +12,7 @@ spec:
                       - name: EKGLUE_CONFIG_FILE
                         value: "/ekglue-config/ekglue.yaml"
                       - name: GRPC_GO_LOG_SEVERITY_LEVEL
-                        value: warn
+                        value: info
                   volumeMounts:
                       - name: ekglue-config
                         mountPath: /ekglue-config
