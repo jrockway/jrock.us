@@ -7,3 +7,10 @@ metadata:
     name: argocd-cm
 data:
     exec.enabled: "true"
+    resource.exclusions: |
+        - apiGroups:
+          - "cilium.io/v2"
+          kinds:
+          - "CiliumIdentity"
+          clusters:
+          - "*"
