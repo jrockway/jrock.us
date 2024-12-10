@@ -8,9 +8,5 @@ metadata:
 data:
     exec.enabled: "true"
     resource.exclusions: |
-        - apiGroups:
-          - "cilium.io/v2"
-          kinds:
+        - kinds:
           - "CiliumIdentity"
-          clusters:
-          - "*"
