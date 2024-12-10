@@ -1,5 +1,7 @@
 namespace: kube-system
 resources:
     - controller.yaml
-patchesStrategicMerge:
-    - controller-resources.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+    - path: controller-resources.yaml
