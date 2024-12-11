@@ -9,4 +9,4 @@ resources:
 images:
     - name: pgadmin
       newName: docker.io/dpage/pgadmin4
-      newTag: "4.29"
+      newTag: "8.13"
