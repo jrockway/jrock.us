@@ -75,7 +75,7 @@ spec:
             volumes:
                 - name: data
                   persistentVolumeClaim:
-                      claimName: master-volume
+                      claimName: master-volume-17
                 - name: master-tls
                   secret:
                       secretName: master-tls

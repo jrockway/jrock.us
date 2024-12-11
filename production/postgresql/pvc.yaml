@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-    name: master-volume
+    name: master-volume-17
 spec:
     accessModes:
         - ReadWriteOnce
@@ -10,4 +10,3 @@ spec:
         requests:
             storage: 20Gi
     storageClassName: do-block-storage-safe
-    # storageClassName: local-path
