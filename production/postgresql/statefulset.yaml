@@ -22,9 +22,12 @@ spec:
                       - name: PGDATA
                         value: /var/lib/postgresql/data/pgdata
                   args:
-                      - -c ssl=on
-                      - -c ssl_cert_file=/tls/tls.crt
-                      - -c ssl_key_file=/tls/tls.key
+                      - -c
+                      - ssl=on
+                      - -c
+                      - ssl_cert_file=/tls/tls.crt
+                      - -c
+                      - ssl_key_file=/tls/tls.key
                   volumeMounts:
                       - name: data
                         mountPath: /var/lib/postgresql/data
