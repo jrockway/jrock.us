@@ -13,7 +13,7 @@ resources:
 images:
     - name: postgres
       newName: docker.io/postgres
-      newTag: "12.3"
+      newTag: "17"
     - name: exporter
       newName: docker.io/wrouesnel/postgres_exporter
-      newTag: v0.8.0
+      newTag: v0.16.0
