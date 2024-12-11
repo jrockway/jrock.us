@@ -15,5 +15,5 @@ images:
       newName: docker.io/postgres
       newTag: "17"
     - name: exporter
-      newName: docker.io/wrouesnel/postgres_exporter
+      newName: quay.io/prometheuscommunity/postgres-exporter
       newTag: v0.16.0
