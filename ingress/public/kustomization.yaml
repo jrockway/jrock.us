@@ -22,7 +22,7 @@ configMapGenerator:
 images:
     - name: envoy
       newName: envoyproxy/envoy-distroless
-      newTag: v1.27.1
+      newTag: v1.32.2
     - name: jsso2
       newName: registry.digitalocean.com/jrockus/jsso2-backend
       newTag: 0.0.8

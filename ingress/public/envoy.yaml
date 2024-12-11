@@ -69,6 +69,10 @@ static_resources:
                                       collector_endpoint_version: HTTP_JSON
                                       shared_span_context: false
                           stat_prefix: ingress_http
+                          internal_address_config:
+                              cidr_ranges:
+                                  - address_prefix: 10.0.0.0
+                                    prefix_len: 8
                           route_config:
                               virtual_hosts:
                                   - name: all
@@ -145,6 +149,10 @@ static_resources:
                                       collector_endpoint_version: HTTP_JSON
                                       shared_span_context: false
                           stat_prefix: ingress_jrock-us
+                          internal_address_config:
+                              cidr_ranges:
+                                  - address_prefix: 10.0.0.0
+                                    prefix_len: 8
                           route_config:
                               validate_clusters: false
                               internal_only_headers:
@@ -462,6 +470,10 @@ static_resources:
                                       collector_endpoint_version: HTTP_JSON
                                       shared_span_context: false
                           stat_prefix: ingress_https_no_tls
+                          internal_address_config:
+                              cidr_ranges:
+                                  - address_prefix: 10.0.0.0
+                                    prefix_len: 8
                           route_config:
                               virtual_hosts:
                                   - name: all
@@ -520,6 +532,10 @@ static_resources:
                                       collector_endpoint_version: HTTP_JSON
                                       shared_span_context: false
                           stat_prefix: ingress_http3
+                          internal_address_config:
+                              cidr_ranges:
+                                  - address_prefix: 10.0.0.0
+                                    prefix_len: 8
                           route_config:
                               name: h3_route
                               validate_clusters: false
