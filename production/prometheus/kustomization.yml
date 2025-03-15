@@ -4,6 +4,8 @@ resources:
     - tailscale.sealed-secret.json
 configMapGenerator:
     - name: prom-rules
-      files: ["prometheus.yml"]
+      files:
+          - prometheus.yml
+          - legacy.yml
       options:
           disableNameSuffixHash: true

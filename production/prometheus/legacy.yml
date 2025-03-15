@@ -1,0 +1,1274 @@
+scrape_configs:
+    - job_name: monitoring/alertmanager-discord/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_monitoring]
+            separator: ;
+            regex: alertmanager-discord
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Node;(.*)
+            target_label: node
+            replacement: ${1}
+            action: replace
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Pod;(.*)
+            target_label: pod
+            replacement: ${1}
+            action: replace
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: service
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ${1}
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+                names:
+                    - monitoring
+    - job_name: monitoring/coredns/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_k8s_app]
+            separator: ;
+            regex: kube-dns
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            separator: ;
+            regex: metrics
+            replacement: $1
+            action: keep
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Node;(.*)
+            target_label: node
+            replacement: ${1}
+            action: replace
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Pod;(.*)
+            target_label: pod
+            replacement: ${1}
+            action: replace
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: service
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ${1}
+            action: replace
+          - source_labels: [__meta_kubernetes_service_label_k8s_app]
+            separator: ;
+            regex: (.+)
+            target_label: job
+            replacement: ${1}
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+                names:
+                    - kube-system
+    - job_name: observability/jaeger-operator-metrics/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_name]
+            separator: ;
+            regex: jaeger-operator
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            separator: ;
+            regex: http-metrics
+            replacement: $1
+            action: keep
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Node;(.*)
+            target_label: node
+            replacement: ${1}
+            action: replace
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Pod;(.*)
+            target_label: pod
+            replacement: ${1}
+            action: replace
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: service
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ${1}
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: http-metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+                names:
+                    - observability
+    - job_name: observability/jaeger-operator-metrics/1
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_service_label_name]
+            separator: ;
+            regex: jaeger-operator
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_endpoint_port_name]
+            separator: ;
+            regex: cr-metrics
+            replacement: $1
+            action: keep
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Node;(.*)
+            target_label: node
+            replacement: ${1}
+            action: replace
+          - source_labels:
+                [
+                    __meta_kubernetes_endpoint_address_target_kind,
+                    __meta_kubernetes_endpoint_address_target_name,
+                ]
+            separator: ;
+            regex: Pod;(.*)
+            target_label: pod
+            replacement: ${1}
+            action: replace
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: service
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_service_name]
+            separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ${1}
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: cr-metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+                names:
+                    - observability
+    - job_name: discovery/ekglue/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: ekglue
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: discovery/ekglue
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - discovery
+    - job_name: ingress/envoy/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /stats/prometheus
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: public-ingress
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: envoy-admin
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ingress/envoy
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: envoy-admin
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - ingress
+    - job_name: ingress/envoy-jsso/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: public-ingress
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: jsso-admin
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ingress/envoy-jsso
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: jsso-admin
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - ingress
+    - job_name: ingress/envoy-jsso2/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: public-ingress
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: jsso2-admin
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ingress/envoy-jsso2
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: jsso2-admin
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - ingress
+    - job_name: jsso2/envoy-jsso2/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /stats/prometheus
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: jsso2
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: admin
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: jsso2/envoy-jsso2
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: admin
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - jsso2
+    - job_name: jsso2/jsso2/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: jsso2
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: jsso2/jsso2
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - jsso2
+    - job_name: kube-system/cilium/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_k8s_app]
+            separator: ;
+            regex: cilium
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            separator: ;
+            regex: "9090"
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: kube-system/cilium
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: "9090"
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - kube-system
+    - job_name: kube-system/kube-event-tail/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: kube-event-tail
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: kube-system/kube-event-tail
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - kube-system
+    - job_name: kube-system/nodedns/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: nodedns
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: kube-system/nodedns
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - kube-system
+    - job_name: monitoring/alertmanager-status/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: alertmanager-status
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: debug
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: monitoring/alertmanager-status
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: debug
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - monitoring
+    - job_name: observability/jaeger/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: jaeger
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: admin-http
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: observability/jaeger
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: admin-http
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - observability
+    - job_name: postgres/master/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: postgres-master
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: http-metrics
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: postgres/master
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: http-metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - postgres
+    - job_name: ratelimit/ratelimit/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: ratelimit
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_label_component]
+            separator: ;
+            regex: ratelimit
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: metrics
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ratelimit/ratelimit
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - ratelimit
+    - job_name: ratelimit/redis/0
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            separator: ;
+            regex: ratelimit
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_label_component]
+            separator: ;
+            regex: redis
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_name]
+            separator: ;
+            regex: metrics
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: (.*)
+            target_label: container
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: job
+            replacement: ratelimit/redis
+            action: replace
+          - separator: ;
+            regex: (.*)
+            target_label: endpoint
+            replacement: metrics
+            action: replace
+          - source_labels: [__address__]
+            separator: ;
+            regex: (.*)
+            modulus: 1
+            target_label: __tmp_hash
+            replacement: $1
+            action: hashmod
+          - source_labels: [__tmp_hash]
+            separator: ;
+            regex: "0"
+            replacement: $1
+            action: keep
+      kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+                names:
+                    - ratelimit
+    - job_name: jaeger-agents
+      honor_timestamps: true
+      scrape_interval: 15s
+      scrape_timeout: 10s
+      metrics_path: /metrics
+      scheme: http
+      relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            separator: ;
+            regex: jaeger-agent
+            target_label: container
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            separator: ;
+            regex: "14271"
+            replacement: $1
+            action: keep
+          - source_labels: [__meta_kubernetes_namespace]
+            separator: ;
+            regex: (.*)
+            target_label: namespace
+            replacement: $1
+            action: replace
+          - source_labels: [__meta_kubernetes_pod_name]
+            separator: ;
+            regex: (.*)
+            target_label: pod
+            replacement: $1
+            action: replace
+      kubernetes_sd_configs:
+          - role: pod
