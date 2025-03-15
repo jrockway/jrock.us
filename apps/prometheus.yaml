@@ -1,0 +1,107 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: prometheus
+    namespace: argocd
+spec:
+    project: default
+    destination:
+        namespace: prometheus
+        server: https://kubernetes.default.svc
+    source:
+        repoURL: "https://prometheus-community.github.io/helm-charts"
+        targetRevision: 27.5.1
+        chart: prometheus
+        helm:
+            values: |
+                configmapReload:
+                    prometheus:
+                        extraConfigmapMounts:
+                            - name: prom-rules
+                              mountPath: /prom-rules.d
+                              configMap: prom-rules
+                              readOnly: true
+                        extraVolumeDirs:
+                            - /prom-rules.d
+                scrapeConfigFiles:
+                    - /prom-rules.d/*.yml
+                alertmanager:
+                    persistence:
+                        storageClass: do-block-storage-retain
+                server:
+                    persistentVolume:
+                        size: 128G
+                        storageClass: do-block-storage-retain
+                    statefulset:
+                        enabled: true
+                    retention: 730d
+                    retentionSize: 127GB
+                    extraFlags:
+                        - web.enable-lifecycle
+                        - web.enable-admin-api
+                    extraConfigmapMounts:
+                        - name: prom-rules
+                          mountPath: /prom-rules.d
+                          configMap: prom-rules
+                          readOnly: true
+                    sidecarContainers:
+                        ts-sidecar:
+                            imagePullPolicy: Always
+                            image: "ghcr.io/tailscale/tailscale:latest"
+                            env:
+                                - name: TS_KUBE_SECRET
+                                  value: tailscale-prometheus
+                                - name: TS_USERSPACE
+                                  value: "true"
+                                - name: TS_OUTBOUND_HTTP_PROXY_LISTEN
+                                  value: localhost:1055
+                                - name: TS_DEBUG_FIREWALL_MODE
+                                  value: auto
+                                - name: TS_HOSTNAME
+                                  value: prometheus
+                                - name: TS_AUTHKEY
+                                  valueFrom:
+                                      secretKeyRef:
+                                          name: tailscale-auth
+                                          key: TS_AUTHKEY
+                                          optional: true
+                                - name: POD_NAME
+                                  valueFrom:
+                                      fieldRef:
+                                          fieldPath: metadata.name
+                                - name: POD_UID
+                                  valueFrom:
+                                      fieldRef:
+                                          fieldPath: metadata.uid
+                prometheus-pushgateway:
+                    extraContainers:
+                        - name: ts-sidecar
+                          imagePullPolicy: Always
+                          image: "ghcr.io/tailscale/tailscale:latest"
+                          env:
+                              - name: TS_KUBE_SECRET
+                                value: tailscale-prometheus-pushgateway
+                              - name: TS_USERSPACE
+                                value: "true"
+                              - name: TS_DEBUG_FIREWALL_MODE
+                                value: auto
+                              - name: TS_HOSTNAME
+                                value: prometheus-pushgateway
+                              - name: TS_AUTHKEY
+                                valueFrom:
+                                    secretKeyRef:
+                                        name: tailscale-auth
+                                        key: TS_AUTHKEY
+                                        optional: true
+                              - name: POD_NAME
+                                valueFrom:
+                                    fieldRef:
+                                        fieldPath: metadata.name
+                              - name: POD_UID
+                                valueFrom:
+                                    fieldRef:
+                                        fieldPath: metadata.uid
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
