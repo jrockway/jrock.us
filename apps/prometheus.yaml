@@ -36,10 +36,6 @@ spec:
                             - /etc/config/recording_rules.yml
                             - /etc/config/alerting_rules.yml
                             - /alert-rules.d/*.yml
-                global:
-                    evaluation_interval: 15s
-                    scrape_interval: 15s
-                    scrape_timeout: 10s
                 alertmanager:
                     persistence:
                         storageClass: do-block-storage-retain
@@ -70,6 +66,10 @@ spec:
                                 - receiver: discord
                                   group_wait: 30s
                 server:
+                    global:
+                        evaluation_interval: 15s
+                        scrape_interval: 15s
+                        scrape_timeout: 10s
                     persistentVolume:
                         size: 128G
                         storageClass: do-block-storage-retain
