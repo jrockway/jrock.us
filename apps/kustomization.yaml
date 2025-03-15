@@ -2,3 +2,4 @@ namespace: argocd
 resources:
     - root-app.yaml # apply manually when bootstrapping
     - prometheus.yaml
+    - prometheus-extras.yaml

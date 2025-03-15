@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: prometheus-extras
+    namespace: argocd
+spec:
+    destination:
+        namespace: prometheus
+        server: https://kubernetes.default.svc
+    project: default
+    source:
+        path: production/prometheus
+        repoURL: ssh://git@github.com/jrockway/jrock.us
+        targetRevision: HEAD
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
