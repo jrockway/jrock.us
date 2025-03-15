@@ -277,13 +277,13 @@ static_resources:
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: monitoring:prometheus-operated:web
+                                              cluster: prometheus:prometheus-server:http
                                   - name: alertmanager.jrock.us
                                     domains: ["alertmanager.jrock.us"]
                                     routes:
                                         - match: { prefix: "/" }
                                           route:
-                                              cluster: monitoring:alertmanager-operated:web
+                                              cluster: prometheus:prometheus-alertmanager-headless:http
                                   - name: alertmanager-status.jrock.us
                                     domains: ["alertmanager-status.jrock.us"]
                                     rate_limits:

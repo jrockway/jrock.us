@@ -1,5 +1,0 @@
-resources:
-    - apiserver.yaml
-    - coredns.yaml
-    - kubelet.yaml
-    - kube-state-metrics.yaml

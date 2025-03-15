@@ -140,8 +140,8 @@ cluster_config:
                         host: "grafana.jrock.us"
                         path: "/api/health"
         - match:
-              - cluster_name: monitoring:prometheus-operated:web
-              - cluster_name: monitoring:alertmanager-operated:web
+              - cluster_name: prometheus:prometheus-server:http
+              - cluster_name: prometheus:prometheus-alertmanager-headless:http
           override:
               health_checks:
                   - timeout: 1s
