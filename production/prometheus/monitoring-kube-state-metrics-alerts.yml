@@ -1,0 +1,91 @@
+groups:
+- name: kube-state-metrics
+  rules:
+  - alert: KubernetesMemorypressure
+    annotations:
+      description: |-
+        {{ $labels.node }} has MemoryPressure condition
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Kubernetes MemoryPressure (instance {{ $labels.instance }})
+    expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+    for: 5m
+    labels:
+      severity: error
+  - alert: KubernetesDiskpressure
+    annotations:
+      description: |-
+        {{ $labels.node }} has DiskPressure condition
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Kubernetes DiskPressure (instance {{ $labels.instance }})
+    expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
+    for: 5m
+    labels:
+      severity: error
+  - alert: KubernetesOutofdisk
+    annotations:
+      description: |-
+        {{ $labels.node }} has OutOfDisk condition
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Kubernetes OutOfDisk (instance {{ $labels.instance }})
+    expr: kube_node_status_condition{condition="OutOfDisk",status="true"} == 1
+    for: 5m
+    labels:
+      severity: error
+  - alert: KubernetesPersistentvolumeclaimPending
+    annotations:
+      description: |-
+        PersistentVolumeClaim {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is pending
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Kubernetes PersistentVolumeClaim pending (instance {{ $labels.instance }})
+    expr: kube_persistentvolumeclaim_status_phase{phase="Pending"} == 1
+    for: 5m
+    labels:
+      severity: warning
+  - alert: VolumeOutOfDiskSpace
+    annotations:
+      description: |-
+        Volume is almost full (< 10% left)
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Volume out of disk space (instance {{ $labels.instance }})
+    expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 10
+    for: 5m
+    labels:
+      severity: warning
+  - alert: StatefulsetDown
+    annotations:
+      description: |-
+        A StatefulSet went down
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: StatefulSet down (instance {{ $labels.instance }})
+    expr: (kube_statefulset_status_replicas_ready / kube_statefulset_status_replicas_current) != 1
+    for: 5m
+    labels:
+      severity: error
+  - alert: ContainersWaiting
+    annotations:
+      description: |-
+        A pod cannot run because its containers cannot be created
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Containers in waiting state (pod {{ $labels.exported_pod }})
+    expr: kube_pod_container_status_waiting > 0
+    for: 5m
+    labels:
+      severity: error
+  - alert: InitContainersWaiting
+    annotations:
+      description: |-
+        A pod cannot run because its init containers cannot be created
+          VALUE = {{ $value }}
+          LABELS: {{ $labels }}
+      summary: Init containers in waiting state (pod {{ $labels.exported_pod }})
+    expr: kube_pod_init_container_status_waiting > 0
+    for: 5m
+    labels:
+      severity: error

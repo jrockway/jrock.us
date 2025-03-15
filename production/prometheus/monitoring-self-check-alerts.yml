@@ -1,0 +1,13 @@
+groups:
+- name: Watchdog
+  rules:
+  - alert: AlwaysFiring
+    annotations:
+      description: |
+        This is an alert meant to ensure that the entire alerting pipeline is functional.
+        This alert is always firing, therefore it should always be firing in Alertmanager.
+      summary: AlwaysFiring
+    expr: vector(1)
+    for: 1s
+    labels:
+      severity: none

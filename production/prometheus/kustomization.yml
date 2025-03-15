@@ -9,3 +9,10 @@ configMapGenerator:
           - legacy.yml
       options:
           disableNameSuffixHash: true
+    - name: alert-rules
+      files:
+          - monitoring-kube-state-metrics-alerts.yml
+          - monitoring-self-check-alerts.yml
+          - postgres-postgres-alerts.yml
+      options:
+          disableNameSuffixHash: true

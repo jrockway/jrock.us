@@ -21,13 +21,50 @@ spec:
                               mountPath: /prom-rules.d
                               configMap: prom-rules
                               readOnly: true
+                            - name: alert-rules
+                              mountPath: /alert-rules.d
+                              configMap: alert-rules
+                              readOnly: true
                         extraVolumeDirs:
                             - /prom-rules.d
+                            - /alert-rules.d
                 scrapeConfigFiles:
                     - /prom-rules.d/*.yml
+                serverFiles:
+                    prometheus.yml:
+                        rule_files:
+                            - /etc/config/recording_rules.yml
+                            - /etc/config/alerting_rules.yml
+                            - /alert-rules.d/*.yml
                 alertmanager:
                     persistence:
                         storageClass: do-block-storage-retain
+                    config:
+                        receivers:
+                            - name: "null"
+                            - name: status
+                              webhook_configs:
+                              - send_resolved: false
+                                url: http://alertmanager-status.monitoring.svc.cluster.local.:8081/webhook
+                                max_alerts: 0
+                            - name: discord
+                              webhook_configs:
+                              - send_resolved: true
+                                url: http://alertmanager-discord.monitoring.svc.cluster.local.:8080/
+                                max_alerts: 0
+                        route:
+                            receiver: "null"
+                            group_by:
+                                - job
+                            routes:
+                                - receiver: status
+                                  match:
+                                    alertname: AlwaysFiring
+                                  group_wait: 0s
+                                  group_interval: 5s
+                                  repeat_interval: 5s
+                                - receiver: discord
+                                  group_wait: 30s
                 server:
                     persistentVolume:
                         size: 128G
@@ -43,6 +80,10 @@ spec:
                         - name: prom-rules
                           mountPath: /prom-rules.d
                           configMap: prom-rules
+                          readOnly: true
+                        - name: alert-rules
+                          mountPath: /alert-rules.d
+                          configMap: alert-rules
                           readOnly: true
                     sidecarContainers:
                         ts-sidecar:
