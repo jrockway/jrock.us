@@ -7,6 +7,7 @@ scrape_configs:
                 - vm:9100
                 - octopi:9100
                 - orangepi5max:9100
+                - juniper:9100
     - job_name: "kubernetes-apiservers-fixed"
       kubernetes_sd_configs:
           - role: endpoints
