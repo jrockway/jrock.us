@@ -71,7 +71,7 @@ spec:
                         scrape_interval: 15s
                         scrape_timeout: 10s
                     persistentVolume:
-                        size: 128G
+                        size: 150G
                         storageClass: do-block-storage-retain
                     statefulset:
                         enabled: true
